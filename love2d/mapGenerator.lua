@@ -5,6 +5,8 @@ MapGenerator = {}
 MAP_UNDEFINED = 0
 MAP_PLAIN = 1
 MAP_MOUNTAIN = 2
+MAP_PLAIN_DESERT = 3
+MAP_MOUNTAIN_DARK = 2
 
 MAP_OBJ_NOTHING = 0
 MAP_OBJ_WATER = 1
@@ -20,16 +22,20 @@ function MapGenerator.newMap(width, height)
 	local map = {}
 	local plain = {}
 	local mountain = {}
+	local plainTypes = {MAP_PLAIN, MAP_PLAIN_DESERT}
+	local mountainTypes = {MAP_MOUNTAIN, MAP_MOUNTAIN_DARK}
 	local countPlain = 0
 	for x = 1, width do
 		map[x] = {}
 		for y = 1, height do
 			if y/width < 0.5 * math.cos((x / height) * 2 * math.pi - 2*math.pi/3)  -math.abs(0.5 * math.cos((x / height) * 4 * math.pi - 2*math.pi/3)) + 0.5 then
-				map[x][y] = {MAP_PLAIN, MAP_OBJ_NOTHING}
+				local ttype = math.random(#plainTypes)
+				map[x][y] = {plainTypes[ttype], MAP_OBJ_NOTHING}
 				countPlain = countPlain + 1
 				plain[#plain + 1] = {x, y}
 			else
-				map[x][y] = {MAP_MOUNTAIN, MAP_OBJ_NOTHING}
+				local ttype = math.random(#mountainTypes)
+				map[x][y] = {mountainTypes[ttype], MAP_OBJ_NOTHING}
 				mountain[#mountain + 1] = {x, y}
 			end
 		end
@@ -94,7 +100,7 @@ function MapGenerator.newMap(width, height)
 	end
 	
 	MapGenerator.printMap(map)
-	print("Trees: ", numTrees, "Water: ", numWater, "Units: ", numUnits)
+	print("Trees: ", numTrees, "Water: ", numWater, "Units: ", numUnits, "Fire places: ", numFirePlaces)
 	return map
 end
 

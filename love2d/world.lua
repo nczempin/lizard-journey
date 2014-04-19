@@ -132,7 +132,7 @@ function love.game.newWorld()
 			local tw = o.map.tileset.tileWidth
 			local th = o.map.tileset.tileHeight
 			if tw and th then
-				G.rectangle("line", tileX * tw*o.map.zoom + o.offsetX, tileY * th*o.map.zoom + o.offsetY, tw*o.map.zoom*o.map.tileScale, th*o.map.zoom*o.map.tileScale)
+				G.rectangle("line", tileX * tw*o.zoom - o.offsetX , tileY * th*o.zoom - o.offsetY, tw*o.zoom*o.map.tileScale, th*o.zoom*o.map.tileScale)
 			end
 		end
 	end
