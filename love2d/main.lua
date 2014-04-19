@@ -19,6 +19,7 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.window.setTitle("Lizard Journey (FPS:" .. love.timer.getFPS() .. ")")
 	lizGame.draw()
 end
 
