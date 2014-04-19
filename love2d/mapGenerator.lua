@@ -13,6 +13,11 @@ MAP_OBJ_WATER = 1
 MAP_OBJ_TREE = 2
 MAP_OBJ_START = 3
 MAP_OBJ_FIREPLACE = 4
+MAP_OBJ_BUSH1 = 5
+MAP_OBJ_BUSH2 = 6
+MAP_OBJ_BUSH3 = 7
+MAP_OBJ_BUSH4 = 8
+
 
 MAP_WATER_PERCENTAGE = 0.15
 MAP_TREE_PERCENTAGE = 0.1
@@ -24,6 +29,7 @@ function MapGenerator.newMap(width, height)
 	local mountain = {}
 	local plainTypes = {MAP_PLAIN, MAP_PLAIN_DESERT}
 	local mountainTypes = {MAP_MOUNTAIN, MAP_MOUNTAIN_DARK}
+	local treeTypes = {MAP_OBJ_TREE, MAP_OBJ_BUSH1, MAP_OBJ_BUSH2, MAP_OBJ_BUSH3, MAP_OBJ_BUSH4}
 	local countPlain = 0
 	for x = 1, width do
 		map[x] = {}
@@ -49,7 +55,8 @@ function MapGenerator.newMap(width, height)
 		local idx = math.random(#plain)
 		local pos = plain[idx]
 		table.remove(plain, idx)
-		map[pos[1]][pos[2]][2] = MAP_OBJ_TREE
+		local ttype = math.random(#plainTypes)
+		map[pos[1]][pos[2]][2] = treeTypes[ttype]
 		print("Tree: ", pos[1], pos[2])
 	end
 	
