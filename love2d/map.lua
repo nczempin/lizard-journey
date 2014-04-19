@@ -1,4 +1,4 @@
-function love.turris.newMap(path)
+function love.game.newMap(path)
 	-- load map object
 	love.filesystem.load("data/map/" .. path .. ".ini")()
 
@@ -122,6 +122,10 @@ function love.turris.newMap(path)
 				end
 			end
 		end
+	end
+
+	o.draw = function()
+		print("draw world!!!", 32, 32)
 	end
 
 	o.drawGround = function(ox, oy)
