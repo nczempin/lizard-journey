@@ -7,6 +7,7 @@ function love.game.newWorld()
 	o.init = function()
 		o.map = love.game.newMap(16, 8, 32, 32)
 		o.map.init()
+		o.map.setTile(3,3,7)
 	end
 	
 	o.update = function(dt)
