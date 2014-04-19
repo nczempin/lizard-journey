@@ -23,7 +23,7 @@ function love.game.newPawn(id, world)
 
 		o.water = o.water -0.2* dt --one per five seconds. TODO: make this dependent on all sorts of other things
 
-		if o.temperature <= 22 or o.temperature >= 46 then
+		if o.temperature <= 22 or o.temperature >= 56 then
 			o.temperatureDelta = - o.temperatureDelta -- simplified temp change
 		end
 		o.temperature = o.temperature + dt * o.temperatureDelta
