@@ -22,6 +22,7 @@ function love.game.newMap(width, height, layer)
 			for i = 1, o.width do
 				for k = 1, o.height do
 					-- change batch
+					--[[
 					for m = 1, 3 do
 						if o.tileset.isID(o.tiles[i][k][1], m) then
 							local tile = o.tileset.getID(o.tiles[i][k][1], m)
@@ -30,6 +31,8 @@ function love.game.newMap(width, height, layer)
 							o.tileset.batch[m]:add(o.tileset.quad, (i - 1) * o.tileset.tileWidth * o.tileScale, (k - 1) * o.tileset.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
 						end
 					end
+					]]--
+
 				end
 			end
 
@@ -73,14 +76,8 @@ function love.game.newMap(width, height, layer)
 				end
 
 				-- create batch
-				for l = 1, 3 do
-					if o.tileset.isID(o.tiles[i][k][1], l) then
-						local tile = o.tileset.getID(o.tiles[i][k][1], l)
-
-						o.tileset.quad:setViewport((tile % o.tileset.count) * o.tileset.tileWidth, math.floor(tile / o.tileset.count) * o.tileset.tileHeight, o.tileset.tileWidth, o.tileset.tileHeight)
-						o.tileset.batch[l]:add(o.tileset.quad, (i - 1) * o.tileset.tileWidth * o.tileScale, (k - 1) * o.tileset.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
-					end
-				end
+				o.tileset.quad:setViewport(0, 0, o.tileset.tileWidth, o.tileset.tileHeight)
+				o.tileset.batch[1]:add(o.tileset.quad, (i - 1) * o.tileset.tileWidth * o.tileScale, (k - 1) * o.tileset.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
 			end
 		end
 
@@ -99,6 +96,11 @@ function love.game.newMap(width, height, layer)
 		o.tiles[x][y][z] = n
 		o.tileChanged[x][y][z] = true
 		o.changed = true
+	end
+
+	o.setTileLayer = function(x, y, z, n)
+		o.tileset.quad:setViewport((n % o.tileset.count) * o.tileset.tileWidth, math.floor(n / o.tileset.count) * o.tileset.tileHeight, o.tileset.tileWidth, o.tileset.tileHeight)
+		o.tileset.batch[z]:add(o.tileset.quad, (x - 1) * o.tileset.tileWidth * o.tileScale, (y - 1) * o.tileset.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
 	end
 
 	o.setZoom = function(zoom)
