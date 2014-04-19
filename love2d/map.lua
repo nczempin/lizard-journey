@@ -12,6 +12,7 @@ function love.game.newMap(width, height, tileWidth, tileHeight, layer)
 	o.tileQuad = nil
 	o.tileCount = nil
 	o.tileChanged = nil
+	o.zoom = 1.0
 	o.changed = false
 
 	o.init = function()
@@ -45,8 +46,9 @@ function love.game.newMap(width, height, tileWidth, tileHeight, layer)
 	end
 
 	o.draw = function(x, y, z)
+		love.graphics.setColor(255,255,255)
 		if o.tileBatch[z] then
-			love.graphics.draw(o.tileBatch[z], x, y)
+			love.graphics.draw(o.tileBatch[z], x, y, 0, o.zoom, o.zoom)
 		end
 	end
 
@@ -89,10 +91,24 @@ function love.game.newMap(width, height, tileWidth, tileHeight, layer)
 		return o.tiles
 	end
 
+	o.getTile = function(x, y, z)
+		return o.tiles[x][y][z]
+	end
+
 	o.setTile = function(x, y, z, n)
 		o.tiles[x][y][z] = n
 		o.tileChanged[x][y][z] = true
 		o.changed = true
+	end
+
+	o.zoomIn = function(z)
+		z = z or 2
+		o.zoom = o.zoom * z
+	end
+
+	o.zoomOut = function(z)
+		z = z or 2
+		o.zoom = o.zoom / z
 	end
 
 	return o

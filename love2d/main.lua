@@ -34,8 +34,10 @@ function love.keypressed(key, code)
 end
 
 function love.mousepressed(x, y, key)
-	if(key == "l") then
-		--press left
+	if(key == "wu") then
+		lizGame.world.map.zoomIn()
+	elseif(key == "wd") then
+		lizGame.world.map.zoomOut()
 	end
 end
 
