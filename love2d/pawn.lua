@@ -18,9 +18,9 @@ function love.game.newPawn(world)
 	o.update = function(dt)
 		local tmpX= o.x + o.velX
 		local tmpY= o.y + o.velY
-		if tmpY<= 1 or tmpY >= o.world.map.height  then --TODO use world edges / collision
+		if tmpY<= 1 or tmpY >= o.world.map.height  then 
 			o.velY = -o.velY
-		elseif tmpX <= 1 or tmpX >= o.world.map.width then --TODO use world edges / collision
+		elseif tmpX <= 1 or tmpX >= o.world.map.width then 
 			o.velX = -o.velX
 		end
 		o.x = tmpX
