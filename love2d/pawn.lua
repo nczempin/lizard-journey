@@ -16,9 +16,19 @@ function love.game.newPawn(world)
 	o.velY = o.speed
 
 	o.update = function(dt)
+		local wantX = o.goalX - o.x
+		local wantY = o.goalY - o.y
+		
+		local dirX, dirY = love.game.normalize(wantX, wantY)
+		o.velX = dirX * o.speed
+		o.velY = dirY * o.speed
+		
+	
+	
+	-- update position and possibly speed
 		local tmpX= o.x + o.velX
 		local tmpY= o.y + o.velY
-		if tmpY<= 1 or tmpY >= o.world.map.height  then 
+		if tmpY <= 1 or tmpY >= o.world.map.height  then 
 			o.velY = -o.velY
 		elseif tmpX <= 1 or tmpX >= o.world.map.width then 
 			o.velX = -o.velX

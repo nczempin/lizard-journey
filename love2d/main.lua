@@ -1,5 +1,6 @@
 require "game"
 require "state/states"
+require "util"
 
 function love.load()
 	G = love.graphics
