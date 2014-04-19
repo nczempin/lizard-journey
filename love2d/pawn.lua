@@ -13,8 +13,11 @@ function love.game.newPawn(id, world)
 	o.velY = o.speed
 
 
-	o.water = 100
 	o.name = id
+
+	o.water = 100
+	o.temperature = 33
+
 
 	o.update = function(dt)
 

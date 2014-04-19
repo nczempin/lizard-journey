@@ -7,43 +7,19 @@ function love.game.newHudLayer(world)
 	o.fontTitle = G.newFont(FONT_SIZE_LARGE)
 	o.fontDescription = G.newFont(FONT_SIZE_MEDIUM)
 
-	--o.player = player
 
 	o.update = function(dt)
-	--		o.guiGame.update(dt)
 
-	--		if o.btnTower1.isHit() then
-	--			love.turris.selectedtower = 1
-	--		elseif o.btnTower2.isHit() then
-	--			love.turris.selectedtower = 3
-	--		elseif o.btnTower3.isHit() then
-	--			love.turris.selectedtower = 4
-	--		end
-	--
-	--		if love.keyboard.isDown("1") then
-	--			love.turris.selectedtower = 1
-	--			o.btnTower1.setChecked(true)
-	--		--elseif love.keyboard.isDown("2") then
-	--			--love.turris.selectedtower = 2 --2 would be the main base which should not be available for manual building
-	--			--o.guiGame.flushRadioButtons()
-	--		elseif love.keyboard.isDown("2") then
-	--			love.turris.selectedtower = 3
-	--			o.btnTower2.setChecked(true)
-	--		elseif love.keyboard.isDown("3") then
-	--			love.turris.selectedtower = 4
-	--			o.guiGame.flushRadioButtons()
-	--			o.btnTower3.setChecked(true)
-	--		--elseif love.keyboard.isDown("5") then
-	--			--love.turris.selectedtower = 5
-	--			--o.guiGame.flushRadioButtons()
-	--		end
 	end
 
 	o.draw = function()
 		G.setFont(FONT_MEDIUM)
 		G.setColor(0, 206, 209)
 		local water = math.floor(0.5+o.world.pawns[1].water)
-		G.print("Water: "..tostring(water), FONT_SIZE_MEDIUM, FONT_SIZE_MEDIUM)
+		G.print("Water: "..tostring(water).." %", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*0)
+		G.setColor(0, 255, 127)
+		local temperature = math.floor(0.5+o.world.pawns[1].temperature)
+		G.print("Temp: "..tostring(temperature).." \194\176C", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*1)
 	end
 
 	return o
