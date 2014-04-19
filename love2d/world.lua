@@ -6,7 +6,7 @@ function love.game.newWorld()
 	o.map = nil
 
 	o.init = function()
-		o.map = love.game.newMap(16, 8, 32, 32)
+		o.map = love.game.newMap(160, 80, 32, 32)
 		o.map.init()
 		
 		o.pawns = {}
