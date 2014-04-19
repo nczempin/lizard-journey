@@ -8,9 +8,6 @@ function love.game.newMap(width, height, layer)
 	o.tileScale = 2.0
 	o.tiles = nil
 	o.tileset = nil
-	o.tileBatch = nil
-	o.tileQuad = nil
-	o.tileCount = nil
 	o.tileChanged = nil
 	o.zoom = 1.0
 	o.changed = false
