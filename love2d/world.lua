@@ -1,5 +1,4 @@
 require "tileset"
-require "mapGenerator"
 require "map"
 require "pawn"
 require "mapGenerator"
@@ -22,9 +21,7 @@ function love.game.newWorld()
 	o.goalY =7
 
 	o.init = function()
-		mapG = MapGenerator.newMap(o.mapWidth, o.mapHeight)
-		MapGenerator.printMap(mapG)
-		print(MapGenerator.getID(mapG, 1, 1))
+		local mapG = MapGenerator.newMap(o.mapWidth, o.mapHeight)
 
 		o.tileset = love.game.newTileset("res/gfx/tileset.png", 32, 32, 1)
 		local tile
@@ -49,8 +46,12 @@ function love.game.newWorld()
 		--test
 		for i = 1, o.mapWidth do
 			for k = 1, o.mapHeight do
-				--print(MapGenerator.getID(mapG, i, k))
-				o.map.setTileLayer(i, k, 1, MapGenerator.getID(mapG, i, k) + 1)
+				if MapGenerator.getID(mapG, i, k) >= 1 then
+					o.map.setTileLayer(i, k, 1, MapGenerator.getID(mapG, i, k))
+				end
+				if MapGenerator.getObject(mapG, i, k) >= 1 then
+					o.map.setTileLayer(i, k, 1, MapGenerator.getObject(mapG, i, k))
+				end
 			end
 		end
 
@@ -114,9 +115,11 @@ function love.game.newWorld()
 		if tileX >= 0 and tileY >= 0 and tileX < o.map.width and tileY < o.map.height then
 			G.setColor(255, 63, 0)
 			G.setLineWidth(2)
---			if tileWidth and tileHeight then
---				G.rectangle("line", tileX * o.map.tileset.tileWidth*o.map.zoom + o.offsetX, tileY * o.map.tileset.tileHeight*o.map.zoom + o.offsetY, o.map.tileWidth*o.map.zoom*o.map.tileScale, o.map.tileHeight*o.map.zoom*o.map.tileScale)
---			end
+			local tw = o.map.tileset.tileWidth
+			local th = o.map.tileset.tileHeight
+			if tw and th then
+				G.rectangle("line", tileX * tw*o.map.zoom + o.offsetX, tileY * th*o.map.zoom + o.offsetY, tw*o.map.zoom*o.map.tileScale, th*o.map.zoom*o.map.tileScale)
+			end
 		end
 	end
 
