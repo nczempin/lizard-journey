@@ -1,4 +1,4 @@
-local SPRITE_SIZE = 32 --this assumes rectangular sprites
+local SPRITE_SIZE = 64 --this assumes rectangular sprites
 
 function love.game.newPawn()
 	local o = {}
