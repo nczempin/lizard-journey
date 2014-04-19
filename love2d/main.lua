@@ -1,6 +1,8 @@
 require "game"
 require "state/states"
 require "util"
+require "sound"
+require "soundinit"
 
 function love.load()
 	G = love.graphics
@@ -13,6 +15,8 @@ function love.load()
 	lizGame = love.game.newGame()
 	lizGame.setVersion("v0.0.1")
 	lizGame.init()
+	love.sounds.initSounds()
+	love.sounds.playBgm("desertCowboy")
 end
 
 function love.update(dt)
