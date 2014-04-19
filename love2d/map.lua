@@ -10,6 +10,7 @@ function love.game.newMap(width, height, layer)
 	o.tileQuad = nil
 	o.tileCount = nil
 	o.tileChanged = nil
+	o.zoom = 1.0
 	o.changed = false
 
 	o.init = function()
@@ -37,14 +38,9 @@ function love.game.newMap(width, height, layer)
 	end
 
 	o.draw = function(x, y, z)
-<<<<<<< HEAD
-		if o.tileBatch[z] then
-			love.graphics.draw(o.tileBatch[z], x, y)
-=======
 		love.graphics.setColor(255, 255, 255)
 		if o.tileset.batch[z] then
 			love.graphics.draw(o.tileset.batch[z], x, y, 0, o.zoom, o.zoom)
->>>>>>> c1345b30ebe7f0e21252df1764c23ed1b62bcdd4
 		end
 	end
 
@@ -91,8 +87,6 @@ function love.game.newMap(width, height, layer)
 		return o.tiles
 	end
 
-<<<<<<< HEAD
-=======
 	o.setTileset = function(tileset)
 		o.tileset = tileset
 	end
@@ -101,15 +95,12 @@ function love.game.newMap(width, height, layer)
 		return o.tiles[x][y][z]
 	end
 
->>>>>>> c1345b30ebe7f0e21252df1764c23ed1b62bcdd4
 	o.setTile = function(x, y, z, n)
 		o.tiles[x][y][z] = n
 		o.tileChanged[x][y][z] = true
 		o.changed = true
 	end
 
-<<<<<<< HEAD
-=======
 	o.setZoom = function(zoom)
 		o.zoom = zoom
 	end
@@ -124,6 +115,5 @@ function love.game.newMap(width, height, layer)
 		o.zoom = o.zoom / zoom
 	end
 
->>>>>>> c1345b30ebe7f0e21252df1764c23ed1b62bcdd4
 	return o
 end

@@ -2,6 +2,7 @@ require "tileset"
 require "mapGenerator"
 require "map"
 require "pawn"
+require "mapGenerator"
 
 function love.game.newWorld()
 	local o = {}
@@ -21,11 +22,6 @@ function love.game.newWorld()
 	o.goalY =7
 
 	o.init = function()
-<<<<<<< HEAD
-		o.map = love.game.newMap(16, 8, 32, 32)
-		o.map.init()
-		
-=======
 		mapG = MapGenerator.newMap(o.mapWidth, o.mapHeight)
 		MapGenerator.printMap(mapG)
 		print(MapGenerator.getID(mapG, 1, 1))
@@ -58,16 +54,12 @@ function love.game.newWorld()
 			end
 		end
 
->>>>>>> c1345b30ebe7f0e21252df1764c23ed1b62bcdd4
 		o.pawns = {}
-		local pawn = love.game.newPawn()
+		local pawn = love.game.newPawn(o)
 		table.insert(o.pawns, pawn)
 	end
-	
+
 	o.update = function(dt)
-<<<<<<< HEAD
-	--love.graphics.clear()
-=======
 		if love.keyboard.isDown("left") then
 			o.offsetX = o.offsetX + dt * 100
 		elseif love.keyboard.isDown("right") then
@@ -80,7 +72,6 @@ function love.game.newWorld()
 			o.offsetY = o.offsetY - dt * 100
 		end
 
->>>>>>> c1345b30ebe7f0e21252df1764c23ed1b62bcdd4
 		o.map.update(dt)
 		for i = 1, #o.pawns do
 			o.pawns[i].update(dt)
@@ -88,11 +79,7 @@ function love.game.newWorld()
 	end
 
 	o.draw = function()
-<<<<<<< HEAD
-		o.map.draw(0, 0, 1)
-=======
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 1)
->>>>>>> c1345b30ebe7f0e21252df1764c23ed1b62bcdd4
 		for i = 1, #o.pawns do
 			o.pawns[i].draw(o.offsetX, o.offsetY)
 		end
@@ -131,10 +118,6 @@ function love.game.newWorld()
 --				G.rectangle("line", tileX * o.map.tileset.tileWidth*o.map.zoom + o.offsetX, tileY * o.map.tileset.tileHeight*o.map.zoom + o.offsetY, o.map.tileWidth*o.map.zoom*o.map.tileScale, o.map.tileHeight*o.map.zoom*o.map.tileScale)
 --			end
 		end
-<<<<<<< HEAD
-		o.map.draw(0, 0, 2)
-=======
->>>>>>> c1345b30ebe7f0e21252df1764c23ed1b62bcdd4
 	end
 
 	o.setGoal = function(map, x,y)

@@ -2,9 +2,8 @@ require('math')
 
 MapGenerator = {}
 
-MAP_UNDEFINED = 0
-MAP_PLAIN = 1
-MAP_MOUNTAIN = 2
+MAP_PLAIN = 0
+MAP_MOUNTAIN = 1
 
 MAP_OBJ_NOTHING = 0
 MAP_OBJ_WATER = 1
@@ -188,11 +187,6 @@ function MapGenerator.printMap(map)
 	end
 end
 
-
 function MapGenerator.getID(map, x, y)
-	return map[x][y][1]
-end
-
-function MapGenerator.getObject(map, x, y)
-	return map[x][y][2]
+	return map[x][y][1] + 2 * map[x][y][2]
 end
