@@ -186,3 +186,7 @@ function MapGenerator.printMap(map)
 		print(line)
 	end
 end
+
+function MapGenerator.getID(map, x, y)
+	return map[x][y][1] + 2 * map[x][y][2]
+end

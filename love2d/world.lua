@@ -1,11 +1,15 @@
 require "tileset"
+require "mapGenerator"
 require "map"
 require "pawn"
 require "mapGenerator"
 
 function love.game.newWorld()
 	local o = {}
+	o.mapG = nil
 	o.map = nil
+	o.mapWidth = 32
+	o.mapHeight = 24
 	o.tileset = nil
 	o.offsetX = 0
 	o.offsetY = 0
@@ -18,6 +22,10 @@ function love.game.newWorld()
 	o.goalY =7
 
 	o.init = function()
+		mapG = MapGenerator.newMap(o.mapWidth, o.mapHeight)
+		MapGenerator.printMap(mapG)
+		print(MapGenerator.getID(mapG, 1, 1))
+
 		o.tileset = love.game.newTileset("res/gfx/tileset.png", 32, 32, 1)
 		local tile
 		tile = o.tileset.addTile(0, 1)
@@ -27,10 +35,24 @@ function love.game.newWorld()
 		tile = o.tileset.addTile(1, 1)
 		tile = o.tileset.addTile(2, 1)
 		tile = o.tileset.addTile(3, 1)
+		tile = o.tileset.addTile(4, 1)
+		tile = o.tileset.addTile(5, 1)
+		tile = o.tileset.addTile(6, 1)
+		tile = o.tileset.addTile(7, 1)
+		tile = o.tileset.addTile(8, 1)
+		tile = o.tileset.addTile(9, 1)
+		tile = o.tileset.addTile(10, 1)
 
-		o.map = love.game.newMap(80, 40)
+		o.map = love.game.newMap(o.mapWidth, o.mapHeight)
 		o.map.setTileset(o.tileset)
 		o.map.init()
+		--test
+		for i = 1, o.mapWidth do
+			for k = 1, o.mapHeight do
+				print(MapGenerator.getID(mapG, i, k))
+				o.map.setTile(i, k, 1, MapGenerator.getID(mapG, i, k))
+			end
+		end
 
 		o.pawns = {}
 		local pawn = love.game.newPawn(o)
@@ -59,7 +81,7 @@ function love.game.newWorld()
 	o.draw = function()
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 1)
 		for i = 1, #o.pawns do
-			o.pawns[i].draw()
+			o.pawns[i].draw(o.offsetX, o.offsetY)
 		end
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 2)
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 3)
@@ -70,6 +92,9 @@ function love.game.newWorld()
 		z = z or 2
 		o.zoom = o.zoom * z
 		o.map.setZoom(o.zoom)
+		for i = 1, #o.pawns do
+			o.pawns[i].setZoom(o.zoom)
+		end
 	end
 
 	o.zoomOut = function(z)
