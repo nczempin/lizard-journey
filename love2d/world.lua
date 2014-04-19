@@ -6,10 +6,14 @@ function love.game.newWorld()
 	local o = {}
 	o.map = nil
 
+	o.offsetX = 0
+	o.offsetY = 0
+
+
 	o.init = function()
 		o.map = love.game.newMap(160, 80, 32, 32)
 		o.map.init()
-	
+
 		o.pawns = {}
 		local pawn = love.game.newPawn(o)
 		table.insert(o.pawns, pawn)
@@ -29,8 +33,21 @@ function love.game.newWorld()
 		for i = 1, #o.pawns do
 			o.pawns[i].draw()
 		end
-		
-	end
+		o.drawMapCursor()
 
+	end
+	o.drawMapCursor = function()
+		local mx = love.mouse.getX()
+		local my = love.mouse.getY()
+		local tileX = o.map.tileScale*math.floor((mx - o.offsetX) / (o.map.tileWidth*o.map.tileScale))
+		local tileY = o.map.tileScale*math.floor((my - o.offsetY) / (o.map.tileHeight*o.map.tileScale))
+
+		if tileX >= 1 and tileY >= 1 and tileX < o.map.width and tileY < o.map.height then
+			G.setColor(255, 63, 0)
+			G.setLineWidth(2)
+			G.rectangle("line", tileX * o.map.tileWidth*o.map.zoom + o.offsetX, tileY * o.map.tileHeight*o.map.zoom + o.offsetY, o.map.tileWidth*o.map.zoom*o.map.tileScale, o.map.tileHeight*o.map.zoom*o.map.tileScale)
+
+		end
+	end
 	return o
 end

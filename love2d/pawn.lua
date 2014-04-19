@@ -16,9 +16,19 @@ function love.game.newPawn(world)
 	o.velY = o.speed
 
 	o.update = function(dt)
+		local wantX = o.goalX - o.x
+		local wantY = o.goalY - o.y
+		
+		local dirX, dirY = love.game.normalize(wantX, wantY)
+		o.velX = dirX * o.speed
+		o.velY = dirY * o.speed
+		
+	
+	
+	-- update position and possibly speed
 		local tmpX= o.x + o.velX
 		local tmpY= o.y + o.velY
-		if tmpY<= 1 or tmpY >= o.world.map.height  then 
+		if tmpY <= 1 or tmpY >= o.world.map.height  then 
 			o.velY = -o.velY
 		elseif tmpX <= 1 or tmpX >= o.world.map.width then 
 			o.velX = -o.velX
@@ -31,6 +41,8 @@ function love.game.newPawn(world)
 	o.draw = function()
 		love.graphics.setColor(0,255,0)
 		love.graphics.rectangle("fill", o.x*SPRITE_SIZE*o.world.map.zoom,o.y*SPRITE_SIZE*o.world.map.zoom, SPRITE_SIZE*o.world.map.zoom,SPRITE_SIZE*o.world.map.zoom)
+			love.graphics.setColor(255,255,0)
+		love.graphics.rectangle("line", o.goalX*SPRITE_SIZE*o.world.map.zoom,o.goalY*SPRITE_SIZE*o.world.map.zoom, SPRITE_SIZE*o.world.map.zoom,SPRITE_SIZE*o.world.map.zoom)
 	end
 	return o
 end
