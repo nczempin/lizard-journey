@@ -16,7 +16,7 @@ function love.game.newGame()
 	o.init = function()
 		o.world = love.game.newWorld()
 		o.world.init()
-		o.setState(states.GAMEPLAY) -- set the starting state (use e. g. MAIN_MENU if you work on the menus)
+		o.setState(states.GAME_PLAY) -- set the starting state (use e. g. MAIN_MENU if you work on the menus)
 	end
 
 	o.update = function(dt)
@@ -29,7 +29,7 @@ function love.game.newGame()
 			if (o.y >600 or o.y <0)then
 				o.yVel = -o.yVel
 			end
-		elseif o.state == states.GAMEPLAY then
+		elseif o.state == states.GAME_PLAY then
 			o.world.update(dt)
 		end
 	end
@@ -37,7 +37,7 @@ function love.game.newGame()
 	o.draw = function()
 		if o.state == states.MAIN_MENU then
 			love.graphics.print("test", o.x, o.y)
-		elseif o.state == states.GAMEPLAY then
+		elseif o.state == states.GAME_PLAY then
 			o.world.draw()
 		end
 	end
