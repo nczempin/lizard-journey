@@ -134,7 +134,12 @@ function love.game.newWorld()
 		end
 		]]--
 		G.setColor(255, 63, 0)
-		G.rectangle("line", math.floor(mx / (o.tileset.tileWidth * o.map.tileScale * o.zoom)) * (o.tileset.tileWidth * o.map.tileScale * o.zoom), math.floor(my / (o.tileset.tileHeight * o.map.tileScale * o.zoom)) * (o.tileset.tileHeight * o.map.tileScale * o.zoom), o.tileset.tileWidth * o.map.tileScale * o.zoom, o.tileset.tileHeight * o.map.tileScale * o.zoom)
+		G.rectangle("line",
+			math.floor((mx - o.offsetX * o.zoom) / (o.tileset.tileWidth * o.map.tileScale * o.zoom)) * (o.tileset.tileWidth * o.map.tileScale * o.zoom) + (o.offsetX * o.zoom),
+			math.floor((my - o.offsetY * o.zoom) / (o.tileset.tileHeight * o.map.tileScale * o.zoom)) * (o.tileset.tileHeight * o.map.tileScale * o.zoom) + (o.offsetY * o.zoom),
+			o.tileset.tileWidth * o.map.tileScale * o.zoom,
+			o.tileset.tileHeight * o.map.tileScale * o.zoom
+		)
 	end
 
 	o.setGoal = function(map, x,y)
