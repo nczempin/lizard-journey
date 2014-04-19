@@ -1,6 +1,6 @@
 local o = {}
 
-o.imgBackground0	= love.graphics.newImage("gfx/love_bg.png")
+--o.imgBackground0	= love.graphics.newImage("gfx/love_bg.png")
 o.imgBackground0:setWrap("repeat", "repeat")
 o.vertBackground0 = {
 	{ 0, 0, 0, 0, 255, 255, 255, 63 },
@@ -9,8 +9,8 @@ o.vertBackground0 = {
 	{ 0, love.window.getHeight(), 0, love.window.getHeight() / o.imgBackground0:getHeight(), 255, 255, 255, 127 },
 }
 o.mshBackground0 	= love.graphics.newMesh(o.vertBackground0, o.imgBackground0, "fan")
-o.imgBackground1	= love.graphics.newImage("gfx/love_logo.png")
-o.imgBackground2	= love.graphics.newImage("gfx/world.png")
+--o.imgBackground1	= love.graphics.newImage("gfx/love_logo.png")
+--o.imgBackground2	= love.graphics.newImage("gfx/world.png")
 o.phase = 1
 
 o.fontTitle = love.graphics.newFont(20)
