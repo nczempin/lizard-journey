@@ -119,42 +119,27 @@ function love.game.newWorld()
 	o.drawMapCursor = function()
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
-		--[[
-		local tileX, tileY = getTileFromScreen(o.map, mx, my)
-		tileX = tileX * o.map.tileScale
-		tileY = tileY * o.map.tileScale
-		if tileX >= 0 and tileY >= 0 and tileX < o.map.width and tileY < o.map.height then
-			G.setColor(255, 63, 0)
-			G.setLineWidth(2)
-			local tw = o.map.tileset.tileWidth
-			local th = o.map.tileset.tileHeight
-			if tw and th then
-				G.rectangle("line", tileX * tw*o.zoom - o.offsetX , tileY * th*o.zoom - o.offsetY, tw*o.zoom*o.map.tileScale, th*o.zoom*o.map.tileScale)
-			end
-		end
-		]]--
+		local tileX, tileY = o.getTileFromScreen(mx, my)
+
 		G.setColor(255, 63, 0)
 		G.rectangle("line",
-			math.floor((mx - o.offsetX * o.zoom) / (o.tileset.tileWidth * o.map.tileScale * o.zoom)) * (o.tileset.tileWidth * o.map.tileScale * o.zoom) + (o.offsetX * o.zoom),
-			math.floor((my - o.offsetY * o.zoom) / (o.tileset.tileHeight * o.map.tileScale * o.zoom)) * (o.tileset.tileHeight * o.map.tileScale * o.zoom) + (o.offsetY * o.zoom),
+			tileX * (o.tileset.tileWidth * o.map.tileScale * o.zoom) + (o.offsetX * o.zoom),
+			tileY * (o.tileset.tileHeight * o.map.tileScale * o.zoom) + (o.offsetY * o.zoom),
 			o.tileset.tileWidth * o.map.tileScale * o.zoom,
 			o.tileset.tileHeight * o.map.tileScale * o.zoom
 		)
 	end
 
-	o.setGoal = function(map, x,y)
-		o.goalX, o.goalY = getTileFromScreen(map,x,y)
-		print (x, y, o.goalX, o.goalY)
+	o.setGoal = function(map, x, y)
+		o.goalX, o.goalY = o.getTileFromScreen(x, y)
+	end
+
+	o.getTileFromScreen = function(mx, my)
+		local tileX = math.floor((mx - o.offsetX * o.zoom) / (o.tileset.tileWidth * o.map.tileScale * o.zoom))
+		local tileY = math.floor((my - o.offsetY * o.zoom) / (o.tileset.tileHeight * o.map.tileScale * o.zoom))
+
+		return tileX, tileY
 	end
 
 	return o
-end
-getTileFromScreen = function(map, mx, my)
-
-	local ts = map.tileScale
-	local tw = map.tileset.tileWidth
-	local th = map.tileset.tileHeight
-	local tileX =math.floor((mx) / (tw*ts))
-	local tileY =math.floor((my) / (tw*ts))
-	return tileX, tileY
 end
