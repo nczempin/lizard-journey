@@ -9,6 +9,7 @@ function love.game.newMap(width, height, tileWidth, tileHeight)
 	o.tileset = love.graphics.newImage("res/gfx/tileset.png")
 	o.tileBatch = nil
 	o.tileQuad = love.graphics.newQuad(0, 0, o.width, o.height, o.tileset:getWidth(), o.tileset:getHeight())
+	o.tileCount = o.tileset:getWidth() / o.tileWidth
 	o.tileChanged = nil
 	o.changed = false
 
@@ -22,7 +23,7 @@ function love.game.newMap(width, height, tileWidth, tileHeight)
 			for i = 1, o.width do
 				for k = 1, o.height do
 					if o.tileChanged[i][k] then
-						o.tileQuad:setViewport((o.tiles[i][k] % 4) * o.tileWidth, math.floor(o.tiles[i][k] / 6) * o.tileHeight, o.tileWidth, o.tileHeight)
+						o.tileQuad:setViewport((o.tiles[i][k] % 4) * o.tileWidth, math.floor(o.tiles[i][k] / o.tileCount) * o.tileHeight, o.tileWidth, o.tileHeight)
 						o.tileBatch:set((i - 1) * o.height + (k - 1), o.tileQuad, (i - 1) * o.tileWidth * o.tileScale, (k - 1) * o.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
 					end
 				end
@@ -57,7 +58,7 @@ function love.game.newMap(width, height, tileWidth, tileHeight)
 			o.tileChanged[i] = {}
 			for k = 1, o.height do
 				o.tiles[i][k] = math.random(0, 5)
-				o.tileQuad:setViewport((o.tiles[i][k] % 4) * o.tileWidth, math.floor(o.tiles[i][k] / 6) * o.tileHeight, o.tileWidth, o.tileHeight)
+				o.tileQuad:setViewport((o.tiles[i][k] % 4) * o.tileWidth, math.floor(o.tiles[i][k] / o.tileCount) * o.tileHeight, o.tileWidth, o.tileHeight)
 				o.tileBatch:add(o.tileQuad, (i - 1) * o.tileWidth * o.tileScale, (k - 1) * o.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
 				o.tileChanged[i][k] = false
 			end
