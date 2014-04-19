@@ -3,4 +3,3 @@
 states = {"main menu", "gameplay", "load", "settings", "game over", "credits", "settings/video","settings/video/advanced"}
 states.MAIN_MENU = states[1]
 states.GAMEPLAY = states[2]
-states.CREDITS = states[5]

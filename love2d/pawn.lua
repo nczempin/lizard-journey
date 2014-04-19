@@ -1,36 +1,27 @@
-local SPRITE_SIZE = 64 --this assumes rectangular sprites
+local SPRITE_SIZE = 32 --this assumes rectangular sprites
 
-function love.game.newPawn(world)
+function love.game.newPawn()
 	local o = {}
-	o.world = world
 
-	o.x = 2
-	o.y = 3
-
-	o.goalX = 7
-	o.goalY = 7
-
-	o.speed = 0.002
-
-	o.velX = o.speed
-	o.velY = o.speed
+	o.x = 20
+	o.y = 300
+	
+	o.goalX = 40
+	o.goalY = 40
+	
+	o.speed = 0.2
 
 	o.update = function(dt)
-		local tmpX= o.x + o.velX
-		local tmpY= o.y + o.velY
-		if tmpY<= 1 or tmpY >= o.world.map.height  then 
-			o.velY = -o.velY
-		elseif tmpX <= 1 or tmpX >= o.world.map.width then 
-			o.velX = -o.velX
+		o.x = o.x + o.speed
+		o.y = o.y + o.speed
+		
+		if o.x < 0 or o.y < 0 or o.x >800-SPRITE_SIZE or o.y >600 -SPRITE_SIZE then --TODO use world edges / collision
+			o.speed = -o.speed
 		end
-		o.x = tmpX
-		o.y = tmpY
-
 	end
 
 	o.draw = function()
-		love.graphics.setColor(0,255,0)
-		love.graphics.rectangle("fill", o.x*SPRITE_SIZE*o.world.map.zoom,o.y*SPRITE_SIZE*o.world.map.zoom, SPRITE_SIZE*o.world.map.zoom,SPRITE_SIZE*o.world.map.zoom)
+		love.graphics.rectangle("fill", o.x,o.y, SPRITE_SIZE,SPRITE_SIZE)
 	end
 	return o
 end

@@ -1,10 +1,10 @@
 --GUI class
 love.gui = {}
 
-require "external/gui/button"
-require "external/gui/checkbox"
-require "external/gui/radiobutton"
-require "external/gui/comboBox"
+require "libraries/button"
+require "libraries/checkbox"
+require "libraries/radiobutton"
+require "libraries/comboBox"
 
 function love.gui.newGui()
 	local o = {}

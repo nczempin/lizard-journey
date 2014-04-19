@@ -1,5 +1,7 @@
 require "game"
 require "state/states"
+require "sound"
+require "soundinit"
 
 function love.load()
 	G = love.graphics
@@ -12,6 +14,8 @@ function love.load()
 	lizGame = love.game.newGame()
 	lizGame.setVersion("v0.0.1")
 	lizGame.init()
+	love.sounds.initSounds()
+	love.sounds.playBgm("fireplace")
 end
 
 function love.update(dt)
@@ -28,16 +32,12 @@ function love.keypressed(key, code)
 		lizGame.setState(states.MAIN_MENU)
 	elseif key == "2" then
 		lizGame.setState(states.GAME_PLAY)
-	elseif key == "3" then
-        lizGame.setState(states.CREDITS)
-    end
+	end
 end
 
 function love.mousepressed(x, y, key)
-	if(key == "wu") then
-		lizGame.world.map.zoomIn()
-	elseif(key == "wd") then
-		lizGame.world.map.zoomOut()
+	if(key == "l") then
+		--press left
 	end
 end
 
