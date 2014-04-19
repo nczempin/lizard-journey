@@ -39,7 +39,6 @@ function love.mousepressed(x, y, key)
 		lizGame.world.zoomIn()
 	elseif(key == "wd") then
 		lizGame.world.zoomOut()
-
 	elseif (key == "l")then
 		local map = lizGame.world.map
 		lizGame.world.setGoal(map, x,y)
