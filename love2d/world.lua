@@ -39,8 +39,8 @@ function love.game.newWorld()
 	o.drawMapCursor = function()
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
-		local tileX = math.floor((mx - o.offsetX) / o.map.tileWidth)
-		local tileY = math.floor((my - o.offsetY) / o.map.tileHeight)
+		local tileX = o.map.tileScale*math.floor((mx - o.offsetX) / (o.map.tileWidth*o.map.tileScale))
+		local tileY = o.map.tileScale*math.floor((my - o.offsetY) / (o.map.tileHeight*o.map.tileScale))
 
 		if tileX >= 1 and tileY >= 1 and tileX < o.map.width and tileY < o.map.height then
 			G.setColor(255, 63, 0)
