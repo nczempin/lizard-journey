@@ -16,6 +16,7 @@ function love.game.newGame()
 	o.init = function()
 		o.world = love.game.newWorld()
 		o.world.init()
+		o.setState(states.GAMEPLAY) -- set the starting state (use e. g. MAIN_MENU if you work on the menus)
 	end
 
 	o.update = function(dt)
