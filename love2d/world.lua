@@ -6,7 +6,7 @@ function love.game.newWorld()
 	o.map = nil
 
 	o.init = function()
-		o.map = love.game.newMap(16, 8, 32, 32)
+		o.map = love.game.newMap(160, 80, 32, 32)
 		o.map.init()
 		
 		o.pawns = {}
@@ -23,12 +23,11 @@ function love.game.newWorld()
 	end
 
 	o.draw = function()
-		
-		o.map.draw()
+		o.map.draw(0, 0, 1)
+		o.map.draw(0, 0, 2)
 		for i = 1, #o.pawns do
 			o.pawns[i].draw()
 		end
-		
 		
 	end
 

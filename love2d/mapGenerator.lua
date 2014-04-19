@@ -9,7 +9,7 @@ MAP_PLAIN_WATER = 3
 MAP_MOUNTAIN_WATER = 4
 MAP_PLAIN_TREE = 5
 
-MAP_WATER_PERCENTAGE = 0.1
+MAP_WATER_PERCENTAGE = 0.15
 MAP_TREE_PERCENTAGE = 0.1
 
 function MapGenerator.newMap(width, height)
@@ -54,26 +54,128 @@ function MapGenerator.newMap(width, height)
 	end
 	
 	-- create water
+	-- local numWater = MAP_WATER_PERCENTAGE * width * height
+	-- for i = 1, numWater do
+		-- local pos
+		-- if (math.random() < numPlain/(numPlain + numMountains) and #plain > 0) or (#mountain == 0 and #plain > 0) then
+			-- local idx = math.random(#plain)
+			-- pos = plain[idx]
+			-- table.remove(plain, idx)
+			-- map[pos[1]][pos[2]] = MAP_PLAIN_WATER
+		-- else
+			-- local idx = math.random(#mountain)
+			-- pos = mountain[idx]
+			-- table.remove(mountain, idx)
+			-- map[pos[1]][pos[2]] = MAP_MOUNTAIN_WATER
+		-- end
+		-- print("Water: ", pos[1], pos[2])
+	-- end
+	
+	-- create water
 	local numWater = MAP_WATER_PERCENTAGE * width * height
-	for i = 1, numWater do
+	local waterToPlace = numWater
+	while waterToPlace > 0 do
 		local pos
+		local maxSize = math.random(1, math.min(15, waterToPlace))
 		if (math.random() < numPlain/(numPlain + numMountains) and #plain > 0) or (#mountain == 0 and #plain > 0) then
 			local idx = math.random(#plain)
 			pos = plain[idx]
-			table.remove(plain, idx)
-			map[pos[1]][pos[2]] = MAP_PLAIN_WATER
+			waterToPlace = waterToPlace - MapGenerator.generateWater(pos[1], pos[2], {plain, mountain}, map, width, height, maxSize)
 		else
 			local idx = math.random(#mountain)
 			pos = mountain[idx]
-			table.remove(mountain, idx)
-			map[pos[1]][pos[2]] = MAP_MOUNTAIN_WATER
+			waterToPlace = waterToPlace - MapGenerator.generateWater(pos[1], pos[2], {plain, mountain}, map, width, height, maxSize)
+				
 		end
-		print("Water: ", pos[1], pos[2])
+		print("Water: ", pos[1], pos[2], "@", maxSize)
 	end
 	
 	MapGenerator.printMap(map)
 	print("Trees: ", numTrees, "Water: ", numWater, "Units: ", numUnits)
 	return map
+end
+
+function MapGenerator.removePosFromTables(tables, x, y)
+	for idx, tab in pairs(tables) do
+		for i, v in pairs(tab) do
+			if x == v[1] and y == v[2] then
+				table.remove(tab, i)
+				return
+			end
+		end
+	end
+end
+
+function MapGenerator.canPlaceWater(map, x, y)
+	if map[x][y] == MAP_PLAIN or map[x][y] == MAP_MOUNTAIN then
+		return true
+	else
+		return false
+	end
+end
+
+function MapGenerator.placeWater(map, x, y)
+	if map[x][y] == MAP_PLAIN then
+		map[x][y] = MAP_PLAIN_WATER
+		return true
+	elseif map[x][y] == MAP_MOUNTAIN then
+		map[x][y] = MAP_MOUNTAIN_WATER
+		return true
+	else
+		return false
+	end
+end
+
+function MapGenerator.isValidPosition(x, y, width, height)
+	if x < 1 or x > width then
+		return false
+	end
+	if y < 1 or y > height then
+		return false
+	end
+	return true
+end
+
+function MapGenerator.checkWaterTarget(map, x, y, width, height)
+	if MapGenerator.isValidPosition(x, y, width, height) then
+		return MapGenerator.canPlaceWater(map, x, y)
+	end
+	return false
+end
+
+function MapGenerator.generateWater(x, y, tables, map, width, height, maxSize)
+	local placed = 0
+	if MapGenerator.placeWater(map, x, y) then
+		MapGenerator.removePosFromTables(tables, x, y)
+		placed = placed + 1
+	else
+		return placed
+	end
+	
+	for i = 1, maxSize - 1 do
+		-- locate possible targets
+		local neighbours = {}
+		if MapGenerator.checkWaterTarget(map, x - 1, y    , width, height) then neighbours[#neighbours + 1] = {x - 1, y    } end
+		if MapGenerator.checkWaterTarget(map, x + 1, y    , width, height) then neighbours[#neighbours + 1] = {x + 1, y    } end
+		if MapGenerator.checkWaterTarget(map, x    , y - 1, width, height) then neighbours[#neighbours + 1] = {x    , y - 1} end
+		if MapGenerator.checkWaterTarget(map, x    , y + 1, width, height) then neighbours[#neighbours + 1] = {x    , y + 1} end
+		
+		if #neighbours < 1 then
+			return placed
+		end
+		
+		local idx = math.random(#neighbours)
+		local pos = neighbours[idx]
+		if MapGenerator.placeWater(map, pos[1], pos[2]) then
+			MapGenerator.removePosFromTables(tables, pos[1], pos[2])
+			placed = placed + 1
+			x = pos[1]
+			y = pos[2]
+		else
+			return placed
+		end
+	end
+	return placed
 end
 
 function MapGenerator.printMap(map)
