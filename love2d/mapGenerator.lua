@@ -89,20 +89,13 @@ function MapGenerator.newMap(width, height)
 	end
 	
 	--create fire places
-	local numFirePlaces = MAP_FIREPLACE_PERCENTAGE * width * height
+	local numFirePlaces = MAP_FIREPLACE_PERCENTAGE * countPlain
 	for i = 1, numFirePlaces do
 		local pos
-		if (math.random() < numPlain/(numPlain + numMountains) and #plain > 0) or (#mountain == 0 and #plain > 0) then
-			local idx = math.random(#plain)
-			pos = plain[idx]
-			table.remove(plain, idx)
-			map[pos[1]][pos[2]][2] = MAP_OBJ_FIREPLACE
-		else
-			local idx = math.random(#mountain)
-			pos = mountain[idx]
-			table.remove(mountain, idx)
-			map[pos[1]][pos[2]][2] = MAP_OBJ_FIREPLACE	
-		end
+		local idx = math.random(#plain)
+		local pos = plain[idx]
+		table.remove(plain, idx)
+		map[pos[1]][pos[2]][2] = MAP_OBJ_FIREPLACE
 		print("Fire place: ", pos[1], pos[2])
 	end
 	
