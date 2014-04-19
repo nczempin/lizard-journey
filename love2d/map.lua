@@ -45,7 +45,6 @@ function love.game.newMap(width, height, tileWidth, tileHeight, layer)
 	end
 
 	o.draw = function(x, y, z)
-		love.graphics.print("draw map", 64, 64)
 		if o.tileBatch[z] then
 			love.graphics.draw(o.tileBatch[z], x, y)
 		end
