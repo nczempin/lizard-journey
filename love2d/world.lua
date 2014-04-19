@@ -37,11 +37,11 @@ function love.game.newWorld()
 		tile = o.tileset.addTile(3, 1)
 		tile = o.tileset.addTile(4, 1)
 		tile = o.tileset.addTile(5, 1)
-		tile = o.tileset.addTile(6, 1)
-		tile = o.tileset.addTile(7, 1)
-		tile = o.tileset.addTile(8, 1)
-		tile = o.tileset.addTile(9, 1)
-		tile = o.tileset.addTile(10, 1)
+		tile = o.tileset.addTile(1, 1)
+		tile = o.tileset.addTile(1, 1)
+		tile = o.tileset.addTile(1, 1)
+		tile = o.tileset.addTile(1, 1)
+		tile = o.tileset.addTile(1, 1)
 
 		o.map = love.game.newMap(o.mapWidth, o.mapHeight)
 		o.map.setTileset(o.tileset)
@@ -49,8 +49,8 @@ function love.game.newWorld()
 		--test
 		for i = 1, o.mapWidth do
 			for k = 1, o.mapHeight do
-				print(MapGenerator.getID(mapG, i, k))
-				o.map.setTile(i, k, 1, MapGenerator.getID(mapG, i, k))
+				--print(MapGenerator.getID(mapG, i, k))
+				o.map.setTileLayer(i, k, 1, MapGenerator.getID(mapG, i, k) + 1)
 			end
 		end
 
