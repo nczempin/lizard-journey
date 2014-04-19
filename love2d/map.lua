@@ -1,3 +1,5 @@
+require "mapGenerator"
+
 function love.game.newMap(width, height, layer)
 	local o = {}
 	o.width = width or 64
@@ -18,26 +20,7 @@ function love.game.newMap(width, height, layer)
 	end
 
 	o.update = function(dt)
-		if o.changed then
-			for i = 1, o.width do
-				for k = 1, o.height do
-					-- change batch
-					--[[
-					for m = 1, 3 do
-						if o.tileset.isID(o.tiles[i][k][1], m) then
-							local tile = o.tileset.getID(o.tiles[i][k][1], m)
-
-							o.tileset.quad:setViewport((tile % o.tileset.count) * o.tileset.tileWidth, math.floor(tile / o.tileset.count) * o.tileset.tileHeight, o.tileset.tileWidth, o.tileset.tileHeight)
-							o.tileset.batch[m]:add(o.tileset.quad, (i - 1) * o.tileset.tileWidth * o.tileScale, (k - 1) * o.tileset.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
-						end
-					end
-					]]--
-
-				end
-			end
-
-			o.changed = false
-		end
+	
 	end
 
 	o.draw = function(x, y, z)

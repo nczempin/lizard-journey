@@ -1,5 +1,4 @@
 require "tileset"
-require "mapGenerator"
 require "map"
 require "pawn"
 require "mapGenerator"
@@ -22,9 +21,7 @@ function love.game.newWorld()
 	o.goalY =7
 
 	o.init = function()
-		mapG = MapGenerator.newMap(o.mapWidth, o.mapHeight)
-		MapGenerator.printMap(mapG)
-		print(MapGenerator.getID(mapG, 1, 1))
+		local mapG = MapGenerator.newMap(o.mapWidth, o.mapHeight)
 
 		o.tileset = love.game.newTileset("res/gfx/tileset.png", 32, 32, 1)
 		local tile
@@ -49,8 +46,12 @@ function love.game.newWorld()
 		--test
 		for i = 1, o.mapWidth do
 			for k = 1, o.mapHeight do
-				--print(MapGenerator.getID(mapG, i, k))
-				o.map.setTileLayer(i, k, 1, MapGenerator.getID(mapG, i, k) + 1)
+				if MapGenerator.getID(mapG, i, k) >= 1 then
+					o.map.setTileLayer(i, k, 1, MapGenerator.getID(mapG, i, k))
+				end
+				if MapGenerator.getObject(mapG, i, k) >= 1 then
+					o.map.setTileLayer(i, k, 1, MapGenerator.getObject(mapG, i, k))
+				end
 			end
 		end
 
