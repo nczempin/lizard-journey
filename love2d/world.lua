@@ -1,4 +1,5 @@
 require "map"
+require "pawn"
 
 function love.game.newWorld()
 	local o = {}
@@ -6,14 +7,27 @@ function love.game.newWorld()
 
 	o.init = function()
 		o.map = love.game.newMap(16, 8, 32, 32)
+		o.map.init()
+		
+		o.pawns = {}
+		local pawn = love.game.newPawn()
+		table.insert(o.pawns, pawn)
 	end
 	
 	o.update = function(dt)
+	--love.graphics.clear()
 		o.map.update(dt)
+		for i = 1, #o.pawns do
+			o.pawns[i].update(dt)
+		end
 	end
 
 	o.draw = function()
-		o.map.draw()
+		o.map.draw(0, 0, 1)
+		for i = 1, #o.pawns do
+			o.pawns[i].draw()
+		end
+		o.map.draw(0, 0, 2)
 	end
 
 	return o
