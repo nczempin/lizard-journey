@@ -9,11 +9,9 @@ function love.game.newWorld()
 	o.init = function()
 		o.map = love.game.newMap(160, 80, 32, 32)
 		o.map.init()
-		MapGenerator.newMap(32, 32)
-		--o.map.setTile(x,y,z,tiletype)
-
+	
 		o.pawns = {}
-		local pawn = love.game.newPawn()
+		local pawn = love.game.newPawn(o)
 		table.insert(o.pawns, pawn)
 	end
 
@@ -31,6 +29,7 @@ function love.game.newWorld()
 		for i = 1, #o.pawns do
 			o.pawns[i].draw()
 		end
+		
 	end
 
 	return o
