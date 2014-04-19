@@ -17,6 +17,8 @@ require "sound"
 
 require "util"
 
+require "mapGenerator"
+
 -- states
 stateMainMenu = require("state/main_menu")
 --stateIntro = require("state/intro")
@@ -66,6 +68,7 @@ function love.load()
 	T = love.turris
 	S = love.sounds
 	FS = love.filesystem
+	MapGenerator.newMap(25,25)
 	loadOptions()
 	FONT = G.newFont(32)
 	FONT_SMALL = G.newFont(24)
