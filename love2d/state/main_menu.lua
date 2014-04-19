@@ -56,35 +56,33 @@ o.update = function(dt)
 end
 
 o.draw = function()
---	love.graphics.setFont(o.fontMenu)
---	love.graphics.setBlendMode("alpha")
---	love.graphics.setColor(255, 255, 255)
---	love.graphics.draw(o.imgScreen)
---	love.graphics.setColor(255, 255, 255, 223)
---	love.graphics.draw(o.imgBackground)
---	love.graphics.setColor(95 + math.sin(o.effectTimer * 0.1) * 63, 191 + math.cos(o.effectTimer) * 31, 223 + math.sin(o.effectTimer) * 31, 255)
---	love.graphics.setBlendMode("additive")
---	love.graphics.draw(o.imgMiddleground,(love.window.getWidth() - o.imgMiddleground:getWidth()) * 0.5, 0)
---	love.graphics.setColor(255, 255, 255)
---	love.graphics.setBlendMode("alpha")
---	love.graphics.draw(o.imgLogo, love.window.getWidth() * 0.5, o.imgLogo:getHeight() * 0.5, math.sin(o.effectTimer * 4) * 0.05 * math.max(0, 2 - o.effectTimer ^ 0.5), 1, 1, o.imgLogo:getWidth() * 0.5, o.imgLogo:getHeight() * 0.5)
---
---	o.guiMenu.draw()
---
---	love.graphics.setFont(o.fontVersion)
---	love.graphics.setColor(95 + math.sin(o.effectTimer * 0.1) * 63, 191 + math.cos(o.effectTimer) * 31, 223 + math.sin(o.effectTimer) * 31, 255)
---	love.graphics.print(o.version, love.window.getWidth() - 64, love.window.getHeight() - 32)
---
---	if math.random(0, love.timer.getFPS() * 5) == 0 then
---		o.chromaticEffect = math.random(0, 5) * 0.1
---	end
---
---	if o.chromaticEffect < 1.0 then
---		local colorAberration1 = math.sin(love.timer.getTime() * 10.0) * (1.0 - o.chromaticEffect) * 2.0
---		local colorAberration2 = math.cos(love.timer.getTime() * 10.0) * (1.0 - o.chromaticEffect) * 2.0
---
---		love.postshader.addEffect("chromatic", colorAberration1, colorAberration2, colorAberration2, -colorAberration1, colorAberration1, -colorAberration2)
---	end
+	--	love.graphics.setFont(o.fontMenu)
+	--	love.graphics.setBlendMode("alpha")
+	--	love.graphics.setColor(255, 255, 255)
+	--	love.graphics.draw(o.imgScreen)
+	--	love.graphics.setColor(255, 255, 255, 223)
+	--	love.graphics.draw(o.imgBackground)
+	--	love.graphics.setColor(95 + math.sin(o.effectTimer * 0.1) * 63, 191 + math.cos(o.effectTimer) * 31, 223 + math.sin(o.effectTimer) * 31, 255)
+	--	love.graphics.setBlendMode("additive")
+	--	love.graphics.draw(o.imgMiddleground,(love.window.getWidth() - o.imgMiddleground:getWidth()) * 0.5, 0)
+	--	love.graphics.setColor(255, 255, 255)
+	--	love.graphics.setBlendMode("alpha")
+	--	love.graphics.draw(o.imgLogo, love.window.getWidth() * 0.5, o.imgLogo:getHeight() * 0.5, math.sin(o.effectTimer * 4) * 0.05 * math.max(0, 2 - o.effectTimer ^ 0.5), 1, 1, o.imgLogo:getWidth() * 0.5, o.imgLogo:getHeight() * 0.5)
+	--
+	--	o.guiMenu.draw()
+	love.graphics.setColor(255, 255, 255)
+	love.graphics.line(200,50, 400,50)
+	--
+	--	if math.random(0, love.timer.getFPS() * 5) == 0 then
+	--		o.chromaticEffect = math.random(0, 5) * 0.1
+	--	end
+	--
+	--	if o.chromaticEffect < 1.0 then
+	--		local colorAberration1 = math.sin(love.timer.getTime() * 10.0) * (1.0 - o.chromaticEffect) * 2.0
+	--		local colorAberration2 = math.cos(love.timer.getTime() * 10.0) * (1.0 - o.chromaticEffect) * 2.0
+	--
+	--		love.postshader.addEffect("chromatic", colorAberration1, colorAberration2, colorAberration2, -colorAberration1, colorAberration1, -colorAberration2)
+	--	end
 end
 
 o.setVersion = function(version)
