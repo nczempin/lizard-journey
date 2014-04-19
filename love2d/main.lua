@@ -8,8 +8,8 @@ function love.load()
 	FONT = G.newFont(32)
 	FONT_SMALL = G.newFont(24)
 
-	--stateMainMenu.setVersion("v0.0.1")
 	lizGame = love.game.newGame()
+	lizGame.setVersion("v0.0.1")
 	lizGame.init()
 end
 
