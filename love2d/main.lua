@@ -1,74 +1,40 @@
-require "libraries/gui"
-
-require "external/TSerial"
-require "external/postshader"
-require "external/light"
-require "external/ai"
-
-require "external/anim"
-require "external/TEsound"
-
-require "world"
 require "game"
-require "map"
-require "spawn"
-require "towerType"
-require "sound"
-
-require "util"
-
-require "mapGenerator"
 
 function love.load()
 	G = love.graphics
 	W = love.window
-	T = love.turris
 	S = love.sounds
 	FS = love.filesystem
-	local map = MapGenerator.newMap(25,25)
-	
-end
+	FONT = G.newFont(32)
+	FONT_SMALL = G.newFont(24)
 
-function love.turris.reinit(map)
-	turGame = love.turris.newGame()
-	turGame.init()
+	lizGame = love.game.newGame()
+	lizGame.setVersion("v0.0.1")
+	lizGame.init()
 end
-
 
 function love.update(dt)
-	for i = 1, #pawns do
-		pawns[i].update(dt)
-	end
+	lizGame.update(dt)
 end
 
 function love.draw()
-	love.graphics.setColor(255, 255, 255)
-	love.graphics.line(200,50, 400,50)
-	W.setTitle("FPS: " .. love.timer.getFPS())
-
-
+	lizGame.draw()
 end
 
-
 function love.keypressed(key, code)
-	if key == "escape" then
+	if key == "1" then
+		lizGame.setState(1)
+	elseif key == "2" then
+		lizGame.setState(2)
 	end
 end
 
 function love.mousepressed(x, y, key)
 	if(key == "l") then
-		buttonDetected = 1
-		love.turris.checkleftclick(x,y)
-	end
-	if(key == "m") then
-		buttonDetected = 3
-	end
-	if(key == "r") then
-		buttonDetected = 2
-		love.turris.checkrightclick(x,y)
+		--press left
 	end
 end
 
 function love.mousereleased(x, y, key)
-	buttonDetected = 0
+	
 end
