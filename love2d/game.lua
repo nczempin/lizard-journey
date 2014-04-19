@@ -30,8 +30,10 @@ function love.game.newGame()
 		if o.state == states.MAIN_MENU then
 			if o.playButton.hit then
 				o.setState(states.GAME_PLAY)
+				love.sounds.playBgm("lizardGuitarFx")
 			elseif o.creditsButton.hit then
 				o.setState(states.CREDITS)
+				love.sounds.playBgm("lizardGuitarSlow")
 			elseif o.exitButton.hit then
 				love.event.quit()
 			end
