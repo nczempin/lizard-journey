@@ -28,7 +28,9 @@ function love.keypressed(key, code)
 		lizGame.setState(states.MAIN_MENU)
 	elseif key == "2" then
 		lizGame.setState(states.GAME_PLAY)
-	end
+	elseif key == "3" then
+        lizGame.setState(states.CREDITS)
+    end
 end
 
 function love.mousepressed(x, y, key)
