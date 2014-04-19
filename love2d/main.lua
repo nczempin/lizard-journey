@@ -1,7 +1,11 @@
 require "game"
 require "state/states"
+<<<<<<< HEAD
 require "sound"
 require "soundinit"
+=======
+require "util"
+>>>>>>> c1345b30ebe7f0e21252df1764c23ed1b62bcdd4
 
 function love.load()
 	G = love.graphics
@@ -36,8 +40,15 @@ function love.keypressed(key, code)
 end
 
 function love.mousepressed(x, y, key)
+<<<<<<< HEAD
 	if(key == "l") then
 		--press left
+=======
+	if(key == "wu") then
+		lizGame.world.zoomIn()
+	elseif(key == "wd") then
+		lizGame.world.zoomOut()
+>>>>>>> c1345b30ebe7f0e21252df1764c23ed1b62bcdd4
 	end
 end
 

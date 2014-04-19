@@ -108,19 +108,6 @@ function love.turris.newEnemy(enemyType, map, x, y, baseX, baseY)
 	return o
 end
 
-function love.turris.normalize(x, y)
-	local m = math.max(math.abs(x), math.abs(y))
-	--print ("normalize: ", x, y, m)
-	local xRet = x / m
-	local yRet = y / m
-	--	if (xRet ~= xRet) then
-	--		print ("xRet NaN: ",xRet)
-	--	end
-	--	if (yRet ~= yRet) then
-	--		print ("yRet NaN: ",yRet)
-	--	end
-	return xRet, yRet
-end
 
 function love.turris.updateEnemies(o, dt)
 	local won = true
