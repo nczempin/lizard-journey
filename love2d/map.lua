@@ -61,6 +61,8 @@ function love.game.newMap(width, height, layer)
 				-- create batch
 				o.tileset.quad:setViewport(0, 0, o.tileset.tileWidth, o.tileset.tileHeight)
 				o.tileset.batch[1]:add(o.tileset.quad, (i - 1) * o.tileset.tileWidth * o.tileScale, (k - 1) * o.tileset.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
+				o.tileset.batch[2]:add(o.tileset.quad, (i - 1) * o.tileset.tileWidth * o.tileScale, (k - 1) * o.tileset.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
+				o.tileset.batch[3]:add(o.tileset.quad, (i - 1) * o.tileset.tileWidth * o.tileScale, (k - 1) * o.tileset.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
 			end
 		end
 
@@ -83,7 +85,7 @@ function love.game.newMap(width, height, layer)
 
 	o.setTileLayer = function(x, y, z, n)
 		o.tileset.quad:setViewport((n % o.tileset.count) * o.tileset.tileWidth, math.floor(n / o.tileset.count) * o.tileset.tileHeight, o.tileset.tileWidth, o.tileset.tileHeight)
-		o.tileset.batch[z]:add(o.tileset.quad, (x - 1) * o.tileset.tileWidth * o.tileScale, (y - 1) * o.tileset.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
+		o.tileset.batch[z]:set((x - 1) * o.height + (y - 1),o.tileset.quad, (x - 1) * o.tileset.tileWidth * o.tileScale, (y - 1) * o.tileset.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
 	end
 
 	o.setZoom = function(zoom)
