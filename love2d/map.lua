@@ -1,10 +1,8 @@
-function love.game.newMap(width, height, tileWidth, tileHeight, layer)
+function love.game.newMap(width, height, layer)
 	local o = {}
 	o.width = width or 64
 	o.height = height or 48
-	o.layer = layer or 2
-	o.tileWidth = tileWidth or 32
-	o.tileHeight = tileHeight or 32
+	o.layer = layer or 1
 	o.tileScale = 2.0
 	o.tiles = nil
 	o.tileset = nil
@@ -16,15 +14,6 @@ function love.game.newMap(width, height, tileWidth, tileHeight, layer)
 	o.changed = false
 
 	o.init = function()
-		o.tileset = {}
-		o.tileQuad = {}
-		o.tileCount = {}
-		for i = 1, o.layer do
-			o.tileset[i] = love.graphics.newImage("res/gfx/layer" .. i .. ".png")
-			o.tileset[i]:setFilter("nearest", "nearest")
-			o.tileQuad[i] = love.graphics.newQuad(0, 0, o.width, o.height, o.tileset[i]:getWidth(), o.tileset[i]:getHeight())
-			o.tileCount[i] = o.tileset[i]:getWidth() / o.tileWidth
-		end
 		o.newMap(o.width, o.height)
 	end
 
@@ -34,8 +23,8 @@ function love.game.newMap(width, height, tileWidth, tileHeight, layer)
 				for k = 1, o.height do
 					for l = 1, o.layer do
 						if o.tileChanged[i][k][l] then
-							o.tileQuad[l]:setViewport((o.tiles[i][k] % o.tileCount[l]) * o.tileWidth, math.floor(o.tiles[i][k][l] / o.tileCount[l]) * o.tileHeight, o.tileWidth, o.tileHeight)
-							o.tileBatch[l]:set((i - 1) * o.height + (k - 1), o.tileQuad, (i - 1) * o.tileWidth * o.tileScale, (k - 1) * o.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
+							o.tileQuad[l]:setViewport((o.tiles[i][k] % o.tileCount[l]) * o.tileset.tileWidth, math.floor(o.tiles[i][k][l] / o.tileCount[l]) * o.tileset.tileHeight, o.tileset.tileWidth, o.tileset.tileHeight)
+							o.tileBatch:set((i - 1) * o.height + (k - 1), o.tileQuad, (i - 1) * o.tileset.tileWidth * o.tileScale, (k - 1) * o.tileset.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
 						end
 					end
 				end
@@ -47,8 +36,8 @@ function love.game.newMap(width, height, tileWidth, tileHeight, layer)
 
 	o.draw = function(x, y, z)
 		love.graphics.setColor(255,255,255)
-		if o.tileBatch[z] then
-			love.graphics.draw(o.tileBatch[z], x, y, 0, o.zoom, o.zoom)
+		if o.tileset.batch[z] then
+			love.graphics.draw(o.tileset.batch[z], x, y, 0, o.zoom, o.zoom)
 		end
 	end
 
@@ -67,11 +56,6 @@ function love.game.newMap(width, height, tileWidth, tileHeight, layer)
 	o.newMap = function()
 		o.tiles = {}
 		o.tileChanged = {}
-		o.tileBatch = {}
-
-		for i = 1, o.layer do
-			o.tileBatch[i] = love.graphics.newSpriteBatch(o.tileset[i], o.width * o.height)
-		end
 
 		for i = 1, o.width do
 			o.tiles[i] = {}
@@ -79,16 +63,29 @@ function love.game.newMap(width, height, tileWidth, tileHeight, layer)
 			for k = 1, o.height do
 				o.tiles[i][k] = {}
 				o.tileChanged[i][k] = {}
+				-- create data
 				for l = 1, o.layer do
-					o.tiles[i][k][l] = math.random(0, l * 5)
-					o.tileQuad[l]:setViewport((o.tiles[i][k][l] % o.tileCount[l]) * o.tileWidth, math.floor(o.tiles[i][k][l] / o.tileCount[l]) * o.tileHeight, o.tileWidth, o.tileHeight)
-					o.tileBatch[l]:add(o.tileQuad[l], (i - 1) * o.tileWidth * o.tileScale, (k - 1) * o.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
+					o.tiles[i][k][l] = math.random(1, 5)
 					o.tileChanged[i][k][l] = false
+				end
+
+				-- create batch
+				for l = 1, 3 do
+					if o.tileset.isID(o.tiles[i][k][1], l) then
+						local tile = o.tileset.getID(o.tiles[i][k][1], l)
+
+						o.tileset.quad:setViewport((tile % o.tileset.count) * o.tileset.tileWidth, math.floor(tile / o.tileset.count) * o.tileset.tileHeight, o.tileset.tileWidth, o.tileset.tileHeight)
+						o.tileset.batch[l]:add(o.tileset.quad, (i - 1) * o.tileset.tileWidth * o.tileScale, (k - 1) * o.tileset.tileHeight * o.tileScale, 0, o.tileScale, o.tileScale)
+					end
 				end
 			end
 		end
 
 		return o.tiles
+	end
+
+	o.setTileset = function(tileset)
+		o.tileset = tileset
 	end
 
 	o.getTile = function(x, y, z)
@@ -101,14 +98,18 @@ function love.game.newMap(width, height, tileWidth, tileHeight, layer)
 		o.changed = true
 	end
 
-	o.zoomIn = function(z)
-		z = z or 2
-		o.zoom = o.zoom * z
+	o.setZoom = function(zoom)
+		o.zoom = zoom
 	end
 
-	o.zoomOut = function(z)
+	o.zoomIn = function(zoom)
 		z = z or 2
-		o.zoom = o.zoom / z
+		o.zoom = o.zoom * zoom
+	end
+
+	o.zoomOut = function(zoom)
+		z = z or 2
+		o.zoom = o.zoom / zoom
 	end
 
 	return o
