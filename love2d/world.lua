@@ -2,6 +2,7 @@ require "tileset"
 require "map"
 require "pawn"
 require "mapGenerator"
+require "layer/hud"
 
 function love.game.newWorld()
 	local o = {}
@@ -56,6 +57,8 @@ function love.game.newWorld()
 			end
 		end
 
+		o.hudLayer = love.game.newHudLayer()
+
 		o.pawns = {}
 		local pawn = love.game.newPawn(o)
 		table.insert(o.pawns, pawn)
@@ -86,6 +89,8 @@ function love.game.newWorld()
 				end
 			end
 		end
+
+		o.hudLayer.update(dt)
 	end
 
 	o.draw = function()
@@ -96,6 +101,8 @@ function love.game.newWorld()
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 2)
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 3)
 		o.drawMapCursor()
+
+		o.hudLayer.draw()
 	end
 
 	o.zoomIn = function(z)
