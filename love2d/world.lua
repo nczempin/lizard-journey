@@ -115,9 +115,11 @@ function love.game.newWorld()
 		if tileX >= 0 and tileY >= 0 and tileX < o.map.width and tileY < o.map.height then
 			G.setColor(255, 63, 0)
 			G.setLineWidth(2)
---			if tileWidth and tileHeight then
---				G.rectangle("line", tileX * o.map.tileset.tileWidth*o.map.zoom + o.offsetX, tileY * o.map.tileset.tileHeight*o.map.zoom + o.offsetY, o.map.tileWidth*o.map.zoom*o.map.tileScale, o.map.tileHeight*o.map.zoom*o.map.tileScale)
---			end
+			local tw = o.map.tileset.tileWidth
+			local th = o.map.tileset.tileHeight
+			if tw and th then
+				G.rectangle("line", tileX * tw*o.map.zoom + o.offsetX, tileY * th*o.map.zoom + o.offsetY, tw*o.map.zoom*o.map.tileScale, th*o.map.zoom*o.map.tileScale)
+			end
 		end
 	end
 
