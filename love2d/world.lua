@@ -17,6 +17,8 @@ function love.game.newWorld()
 	o.offsetX = 0
 	o.offsetY = 0
 
+	o.goalX = 7
+	o.goalY =7
 
 	o.init = function()
 <<<<<<< HEAD
@@ -96,6 +98,7 @@ function love.game.newWorld()
 		end
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 2)
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 3)
+		o.drawMapCursor()
 	end
 
 	o.zoomIn = function(z)
@@ -118,14 +121,15 @@ function love.game.newWorld()
 	o.drawMapCursor = function()
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
-		local tileX = o.map.tileScale*math.floor((mx - o.offsetX) / (o.map.tileWidth*o.map.tileScale))
-		local tileY = o.map.tileScale*math.floor((my - o.offsetY) / (o.map.tileHeight*o.map.tileScale))
-
-		if tileX >= 1 and tileY >= 1 and tileX < o.map.width and tileY < o.map.height then
+		local tileX, tileY = getTileFromScreen(o.map,mx, my)
+		tileX = tileX * o.map.tileScale
+		tileY = tileY * o.map.tileScale
+		if tileX >= 0 and tileY >= 0 and tileX < o.map.width and tileY < o.map.height then
 			G.setColor(255, 63, 0)
 			G.setLineWidth(2)
-			G.rectangle("line", tileX * o.map.tileWidth*o.map.zoom + o.offsetX, tileY * o.map.tileHeight*o.map.zoom + o.offsetY, o.map.tileWidth*o.map.zoom*o.map.tileScale, o.map.tileHeight*o.map.zoom*o.map.tileScale)
-
+--			if tileWidth and tileHeight then
+--				G.rectangle("line", tileX * o.map.tileset.tileWidth*o.map.zoom + o.offsetX, tileY * o.map.tileset.tileHeight*o.map.zoom + o.offsetY, o.map.tileWidth*o.map.zoom*o.map.tileScale, o.map.tileHeight*o.map.zoom*o.map.tileScale)
+--			end
 		end
 <<<<<<< HEAD
 		o.map.draw(0, 0, 2)
@@ -133,5 +137,19 @@ function love.game.newWorld()
 >>>>>>> c1345b30ebe7f0e21252df1764c23ed1b62bcdd4
 	end
 
+	o.setGoal = function(map, x,y)
+		o.goalX, o.goalY = getTileFromScreen(map,x,y)
+		print (x, y, o.goalX, o.goalY)
+	end
+
 	return o
+end
+getTileFromScreen = function(map, mx, my)
+
+	local ts = map.tileScale
+	local tw = map.tileset.tileWidth
+	local th = map.tileset.tileHeight
+	local tileX =math.floor((mx) / (tw*ts))
+	local tileY =math.floor((my) / (tw*ts))
+	return tileX, tileY
 end
