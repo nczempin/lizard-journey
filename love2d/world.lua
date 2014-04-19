@@ -73,6 +73,9 @@ function love.game.newWorld()
 		z = z or 2
 		o.zoom = o.zoom / z
 		o.map.setZoom(o.zoom)
+		for i = 1, #o.pawns do
+			o.pawns[i].setZoom(o.zoom)
+		end
 	end
 	o.drawMapCursor = function()
 		local mx = love.mouse.getX()
@@ -87,5 +90,6 @@ function love.game.newWorld()
 
 		end
 	end
+
 	return o
 end
