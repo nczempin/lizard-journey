@@ -1,11 +1,11 @@
 function love.turris.newHudLayer(player)
 	local o = {}
 
-	o.iconMass = G.newImage("gfx/hud/mass_icon.png")
-	o.iconEnergy = G.newImage("gfx/hud/energy_icon.png")
-	o.iconTower1 = G.newImage("gfx/hud/button_tower00.png")
-	o.iconTower2 = G.newImage("gfx/hud/button_tower01.png")
-	o.iconTower3 = G.newImage("gfx/hud/button_tower02.png")
+--	o.iconMass = G.newImage("gfx/hud/mass_icon.png")
+--	o.iconEnergy = G.newImage("gfx/hud/energy_icon.png")
+--	o.iconTower1 = G.newImage("gfx/hud/button_tower00.png")
+--	o.iconTower2 = G.newImage("gfx/hud/button_tower01.png")
+--	o.iconTower3 = G.newImage("gfx/hud/button_tower02.png")
 
 	-- create gui elements
 	o.guiGame = love.gui.newGui()

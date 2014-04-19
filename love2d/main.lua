@@ -19,14 +19,14 @@ require "util"
 
 -- states
 stateMainMenu = require("state/main_menu")
-stateIntro = require("state/intro")
-stateWorldMenu = require("state/world_menu")
-stateCredits = require("state/credits")
-stateSettings = require("state/settings")
-stateSettingsVideo = require("state/settings_video")
-stateSettingsVideoShaders = require("state/settings_video_shaders")
-stateSettingsVideoDisplay = require("state/settings_video_display")
-stateSettingsAudio = require("state/settings_audio")
+--stateIntro = require("state/intro")
+--stateWorldMenu = require("state/world_menu")
+--stateCredits = require("state/credits")
+--stateSettings = require("state/settings")
+--stateSettingsVideo = require("state/settings_video")
+--stateSettingsVideoShaders = require("state/settings_video_shaders")
+--stateSettingsVideoDisplay = require("state/settings_video_display")
+--stateSettingsAudio = require("state/settings_audio")
 
 function loadOptions()
 	local optionsIni = "options.ini"
@@ -70,9 +70,9 @@ function love.load()
 	FONT = G.newFont(32)
 	FONT_SMALL = G.newFont(24)
 
-	currentgamestate = 12 -- TODO: make "skip intro" an option
+	currentgamestate = 0 -- TODO: make "skip intro" an option
 
-	stateMainMenu.setVersion("v0.6.2")
+	stateMainMenu.setVersion("v0.0.1")
 end
 
 function love.getgamestate()
@@ -186,15 +186,15 @@ function love.draw()
 		turGame.layerWin.draw()
 	end
 
-	if stateSettingsVideoShaders.optionScanlines then
-		love.postshader.addEffect("scanlines", scanlineStrength)
-	end
-
-	if stateSettingsVideoShaders.optionBloom then
-		love.postshader.addEffect("bloom")
-	end
-
-	love.postshader.draw()
+--	if stateSettingsVideoShaders.optionScanlines then
+--		love.postshader.addEffect("scanlines", scanlineStrength)
+--	end
+--
+--	if stateSettingsVideoShaders.optionBloom then
+--		love.postshader.addEffect("bloom")
+--	end
+--
+--	love.postshader.draw()
 end
 
 function love.turris.gameoverstate()
