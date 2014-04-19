@@ -115,10 +115,12 @@ function love.game.newWorld()
 			o.pawns[i].setZoom(o.zoom)
 		end
 	end
+
 	o.drawMapCursor = function()
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
-		local tileX, tileY = getTileFromScreen(o.map,mx, my)
+		--[[
+		local tileX, tileY = getTileFromScreen(o.map, mx, my)
 		tileX = tileX * o.map.tileScale
 		tileY = tileY * o.map.tileScale
 		if tileX >= 0 and tileY >= 0 and tileX < o.map.width and tileY < o.map.height then
@@ -130,6 +132,9 @@ function love.game.newWorld()
 				G.rectangle("line", tileX * tw*o.zoom - o.offsetX , tileY * th*o.zoom - o.offsetY, tw*o.zoom*o.map.tileScale, th*o.zoom*o.map.tileScale)
 			end
 		end
+		]]--
+		G.setColor(255, 63, 0)
+		G.rectangle("line", math.floor(mx / (o.tileset.tileWidth * o.map.tileScale * o.zoom)) * (o.tileset.tileWidth * o.map.tileScale * o.zoom), math.floor(my / (o.tileset.tileHeight * o.map.tileScale * o.zoom)) * (o.tileset.tileHeight * o.map.tileScale * o.zoom), o.tileset.tileWidth * o.map.tileScale * o.zoom, o.tileset.tileHeight * o.map.tileScale * o.zoom)
 	end
 
 	o.setGoal = function(map, x,y)
