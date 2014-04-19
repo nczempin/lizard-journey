@@ -1,7 +1,7 @@
 
-function love.game.newHudLayer()
+function love.game.newHudLayer(world)
 	local o = {}
-
+	o.world = world
 
 	-- set font
 	o.fontTitle = G.newFont(FONT_SIZE_LARGE)
@@ -42,7 +42,8 @@ function love.game.newHudLayer()
 	o.draw = function()
 		G.setFont(FONT_MEDIUM)
 		G.setColor(0, 206, 209)
-		G.print("Water: 100", FONT_SIZE_MEDIUM, FONT_SIZE_MEDIUM)
+		local water = math.floor(0.5+o.world.pawns[1].water)
+		G.print("Water: "..tostring(water), FONT_SIZE_MEDIUM, FONT_SIZE_MEDIUM)
 	end
 
 	return o

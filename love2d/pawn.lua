@@ -18,7 +18,7 @@ function love.game.newPawn(id, world)
 
 	o.update = function(dt)
 
-		o.water = o.water -dt --one per second. TODO: make this dependent on all sorts of other things
+		o.water = o.water -0.2* dt --one per five seconds. TODO: make this dependent on all sorts of other things
 
 
 		--update target coordinates

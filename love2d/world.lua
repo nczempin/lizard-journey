@@ -58,7 +58,7 @@ function love.game.newWorld()
 			end
 		end
 
-		o.hudLayer = love.game.newHudLayer()
+		o.hudLayer = love.game.newHudLayer(o)
 
 		o.pawns = {}
 		local pawn = love.game.newPawn(1, o)
