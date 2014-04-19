@@ -28,7 +28,7 @@ function love.game.newTileset(path, tileWidth, tileHeight)
 	end
 
 	o.isID = function(id, layer)
-		if o.tiles[id].isLayer(layer) then
+		if o.tiles[id] and o.tiles[id].isLayer(layer) then
 			return true
 		else
 			return false

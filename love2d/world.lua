@@ -1,11 +1,15 @@
 require "tileset"
+require "mapGenerator"
 require "map"
 require "pawn"
 require "mapGenerator"
 
 function love.game.newWorld()
 	local o = {}
+	o.mapG = nil
 	o.map = nil
+	o.mapWidth = 32
+	o.mapHeight = 24
 	o.tileset = nil
 	o.offsetX = 0
 	o.offsetY = 0
@@ -14,8 +18,14 @@ function love.game.newWorld()
 	o.offsetX = 0
 	o.offsetY = 0
 
+	o.goalX = 7
+	o.goalY =7
 
 	o.init = function()
+		mapG = MapGenerator.newMap(o.mapWidth, o.mapHeight)
+		MapGenerator.printMap(mapG)
+		print(MapGenerator.getID(mapG, 1, 1))
+
 		o.tileset = love.game.newTileset("res/gfx/tileset.png", 32, 32, 1)
 		local tile
 		tile = o.tileset.addTile(0, 1)
@@ -25,10 +35,24 @@ function love.game.newWorld()
 		tile = o.tileset.addTile(1, 1)
 		tile = o.tileset.addTile(2, 1)
 		tile = o.tileset.addTile(3, 1)
+		tile = o.tileset.addTile(4, 1)
+		tile = o.tileset.addTile(5, 1)
+		tile = o.tileset.addTile(1, 1)
+		tile = o.tileset.addTile(1, 1)
+		tile = o.tileset.addTile(1, 1)
+		tile = o.tileset.addTile(1, 1)
+		tile = o.tileset.addTile(1, 1)
 
-		o.map = love.game.newMap(80, 40)
+		o.map = love.game.newMap(o.mapWidth, o.mapHeight)
 		o.map.setTileset(o.tileset)
 		o.map.init()
+		--test
+		for i = 1, o.mapWidth do
+			for k = 1, o.mapHeight do
+				--print(MapGenerator.getID(mapG, i, k))
+				o.map.setTileLayer(i, k, 1, MapGenerator.getID(mapG, i, k) + 1)
+			end
+		end
 
 		o.pawns = {}
 		local pawn = love.game.newPawn(o)
@@ -57,16 +81,20 @@ function love.game.newWorld()
 	o.draw = function()
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 1)
 		for i = 1, #o.pawns do
-			o.pawns[i].draw()
+			o.pawns[i].draw(o.offsetX, o.offsetY)
 		end
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 2)
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 3)
+		o.drawMapCursor()
 	end
 
 	o.zoomIn = function(z)
 		z = z or 2
 		o.zoom = o.zoom * z
 		o.map.setZoom(o.zoom)
+		for i = 1, #o.pawns do
+			o.pawns[i].setZoom(o.zoom)
+		end
 	end
 
 	o.zoomOut = function(z)
@@ -80,16 +108,31 @@ function love.game.newWorld()
 	o.drawMapCursor = function()
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
-		local tileX = o.map.tileScale*math.floor((mx - o.offsetX) / (o.map.tileWidth*o.map.tileScale))
-		local tileY = o.map.tileScale*math.floor((my - o.offsetY) / (o.map.tileHeight*o.map.tileScale))
-
-		if tileX >= 1 and tileY >= 1 and tileX < o.map.width and tileY < o.map.height then
+		local tileX, tileY = getTileFromScreen(o.map,mx, my)
+		tileX = tileX * o.map.tileScale
+		tileY = tileY * o.map.tileScale
+		if tileX >= 0 and tileY >= 0 and tileX < o.map.width and tileY < o.map.height then
 			G.setColor(255, 63, 0)
 			G.setLineWidth(2)
-			G.rectangle("line", tileX * o.map.tileWidth*o.map.zoom + o.offsetX, tileY * o.map.tileHeight*o.map.zoom + o.offsetY, o.map.tileWidth*o.map.zoom*o.map.tileScale, o.map.tileHeight*o.map.zoom*o.map.tileScale)
-
+--			if tileWidth and tileHeight then
+--				G.rectangle("line", tileX * o.map.tileset.tileWidth*o.map.zoom + o.offsetX, tileY * o.map.tileset.tileHeight*o.map.zoom + o.offsetY, o.map.tileWidth*o.map.zoom*o.map.tileScale, o.map.tileHeight*o.map.zoom*o.map.tileScale)
+--			end
 		end
 	end
 
+	o.setGoal = function(map, x,y)
+		o.goalX, o.goalY = getTileFromScreen(map,x,y)
+		print (x, y, o.goalX, o.goalY)
+	end
+
 	return o
+end
+getTileFromScreen = function(map, mx, my)
+
+	local ts = map.tileScale
+	local tw = map.tileset.tileWidth
+	local th = map.tileset.tileHeight
+	local tileX =math.floor((mx) / (tw*ts))
+	local tileY =math.floor((my) / (tw*ts))
+	return tileX, tileY
 end
