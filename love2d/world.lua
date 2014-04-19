@@ -10,7 +10,7 @@ function love.game.newWorld()
 		o.map.init()
 		
 		o.pawns = {}
-		local pawn = love.game.newPawn()
+		local pawn = love.game.newPawn(o)
 		table.insert(o.pawns, pawn)
 	end
 	
