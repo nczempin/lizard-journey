@@ -156,7 +156,7 @@ function love.draw()
 
 	G.setFont(FONT) --TODO: this only needs to be done whenever the font changes, not every frame
 	W.setTitle("FPS: " .. love.timer.getFPS())
-	love.postshader.setBuffer("render")
+	--love.postshader.setBuffer("render")
 	G.setColor(0, 0, 0)
 	G.rectangle("fill", 0, 0, W.getWidth(), W.getHeight())
 
