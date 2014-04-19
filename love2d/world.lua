@@ -15,7 +15,8 @@ function love.game.newWorld()
 	end
 
 	o.draw = function()
-		o.map.draw()
+		o.map.draw(0, 0, 1)
+		o.map.draw(0, 0, 2)
 	end
 
 	return o
