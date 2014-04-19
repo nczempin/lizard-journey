@@ -29,6 +29,7 @@ function love.game.newWorld()
 			o.pawns[i].draw()
 		end
 		
+		
 	end
 
 	return o
