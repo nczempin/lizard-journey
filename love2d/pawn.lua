@@ -6,6 +6,7 @@ function love.game.newPawn(world)
 
 	o.x = 2
 	o.y = 3
+	o.zoom = 1
 
 	o.speed = 0.002
 
@@ -37,10 +38,15 @@ function love.game.newPawn(world)
 
 	o.draw = function()
 		love.graphics.setColor(0,255,0)
-		love.graphics.rectangle("fill", o.x*SPRITE_SIZE*o.world.map.zoom,o.y*SPRITE_SIZE*o.world.map.zoom, SPRITE_SIZE*o.world.map.zoom,SPRITE_SIZE*o.world.map.zoom)
+		love.graphics.rectangle("fill", o.x*SPRITE_SIZE*o.zoom,o.y*SPRITE_SIZE*o.zoom, SPRITE_SIZE*o.zoom,SPRITE_SIZE*o.zoom)
 			love.graphics.setColor(255,255,0)
-		love.graphics.rectangle("line", o.world.goalX*SPRITE_SIZE*o.world.map.zoom,o.world.goalY*SPRITE_SIZE*o.world.map.zoom, SPRITE_SIZE*o.world.map.zoom,SPRITE_SIZE*o.world.map.zoom)
+		love.graphics.rectangle("line", o.world.goalX*SPRITE_SIZE*o.zoom,o.world.goalY*SPRITE_SIZE*o.zoom, SPRITE_SIZE*o.zoom,SPRITE_SIZE*o.zoom)
 	end
+
+	o.setZoom = function(zoom)
+		o.zoom = zoom
+	end
+
 	return o
 end
 
