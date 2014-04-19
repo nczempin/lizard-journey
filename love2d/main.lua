@@ -22,8 +22,10 @@ function love.draw()
 end
 
 function love.keypressed(key, code)
-	if key == "escape" then
-		--escape
+	if key == "1" then
+		lizGame.setState(1)
+	elseif key == "2" then
+		lizGame.setState(2)
 	end
 end
 

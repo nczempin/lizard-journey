@@ -4,6 +4,7 @@ require "map"
 
 function love.game.newGame()
 	local o = {}
+	o.state = 1
 	o.map = nil
 
 	o.init = function()
@@ -15,8 +16,15 @@ function love.game.newGame()
 	end
 
 	o.draw = function()
-		love.graphics.print("test", 16, 16)
-		--o.map.draw()
+		if o.state == 1 then
+			love.graphics.print("test", 16, 16)
+		elseif o.state == 2 then
+			love.graphics.print("test2", 16, 16)
+		end
+	end
+
+	o.setState = function(state)
+		o.state = state
 	end
 
 	return o
