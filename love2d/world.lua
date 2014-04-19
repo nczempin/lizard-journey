@@ -1,6 +1,7 @@
 require "tileset"
 require "map"
 require "pawn"
+require "mapGenerator"
 
 function love.game.newWorld()
 	local o = {}
@@ -9,6 +10,10 @@ function love.game.newWorld()
 	o.offsetX = 0
 	o.offsetY = 0
 	o.zoom = 1
+
+	o.offsetX = 0
+	o.offsetY = 0
+
 
 	o.init = function()
 		o.tileset = love.game.newTileset("res/gfx/tileset.png", 32, 32, 1)
@@ -26,12 +31,11 @@ function love.game.newWorld()
 		o.map.init()
 
 		o.pawns = {}
-		local pawn = love.game.newPawn()
+		local pawn = love.game.newPawn(o)
 		table.insert(o.pawns, pawn)
 	end
 
 	o.update = function(dt)
-	--love.graphics.clear()
 		if love.keyboard.isDown("left") then
 			o.offsetX = o.offsetX + dt * 100
 		elseif love.keyboard.isDown("right") then
@@ -70,6 +74,18 @@ function love.game.newWorld()
 		o.zoom = o.zoom / z
 		o.map.setZoom(o.zoom)
 	end
+	o.drawMapCursor = function()
+		local mx = love.mouse.getX()
+		local my = love.mouse.getY()
+		local tileX = o.map.tileScale*math.floor((mx - o.offsetX) / (o.map.tileWidth*o.map.tileScale))
+		local tileY = o.map.tileScale*math.floor((my - o.offsetY) / (o.map.tileHeight*o.map.tileScale))
 
+		if tileX >= 1 and tileY >= 1 and tileX < o.map.width and tileY < o.map.height then
+			G.setColor(255, 63, 0)
+			G.setLineWidth(2)
+			G.rectangle("line", tileX * o.map.tileWidth*o.map.zoom + o.offsetX, tileY * o.map.tileHeight*o.map.zoom + o.offsetY, o.map.tileWidth*o.map.zoom*o.map.tileScale, o.map.tileHeight*o.map.zoom*o.map.tileScale)
+
+		end
+	end
 	return o
 end

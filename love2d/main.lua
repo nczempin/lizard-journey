@@ -1,5 +1,6 @@
 require "game"
 require "state/states"
+require "util"
 
 function love.load()
 	G = love.graphics
@@ -27,8 +28,10 @@ function love.keypressed(key, code)
 	if key == "1" then
 		lizGame.setState(states.MAIN_MENU)
 	elseif key == "2" then
-		lizGame.setState(states.GAMEPLAY)
-	end
+		lizGame.setState(states.GAME_PLAY)
+	elseif key == "3" then
+        lizGame.setState(states.CREDITS)
+    end
 end
 
 function love.mousepressed(x, y, key)

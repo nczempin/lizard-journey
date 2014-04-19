@@ -35,6 +35,7 @@ function love.game.newMap(width, height, layer)
 	end
 
 	o.draw = function(x, y, z)
+		love.graphics.setColor(255,255,255)
 		if o.tileset.batch[z] then
 			love.graphics.draw(o.tileset.batch[z], x, y, 0, o.zoom, o.zoom)
 		end
