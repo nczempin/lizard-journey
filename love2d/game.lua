@@ -19,7 +19,7 @@ function love.game.newGame()
 	end
 
 	o.update = function(dt)
-		if o.state == 1 then
+		if o.state == states.MAIN_MENU then
 			o.x = o.x + o.xVel
 			if (o.x >800 or o.x <0)then
 				o.xVel = -o.xVel
@@ -28,15 +28,15 @@ function love.game.newGame()
 			if (o.y >600 or o.y <0)then
 				o.yVel = -o.yVel
 			end
-		elseif o.state == 2 then
+		elseif o.state == states.GAMEPLAY then
 			o.world.update(dt)
 		end
 	end
 
 	o.draw = function()
-		if o.state == 1 then
+		if o.state == states.MAIN_MENU then
 			love.graphics.print("test", o.x, o.y)
-		elseif o.state == 2 then
+		elseif o.state == states.GAMEPLAY then
 			o.world.draw()
 		end
 	end
