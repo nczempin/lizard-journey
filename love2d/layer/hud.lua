@@ -15,10 +15,10 @@ function love.game.newHudLayer(world)
 	o.draw = function()
 		G.setFont(FONT_MEDIUM)
 		G.setColor(0, 206, 209)
-		local water = math.floor(0.5+o.world.pawns[1].water)
+		local water = math.floor(0.5+o.world.getActivePawn().water)
 		G.print("Water: "..tostring(water).." %", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*0)
 		G.setColor(0, 255, 127)
-		local temperature = math.floor(0.5+o.world.pawns[1].temperature)
+		local temperature = math.floor(0.5+o.world.getActivePawn().temperature)
 		G.print("Temp: "..tostring(temperature).." \194\176C", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*1)
 	end
 

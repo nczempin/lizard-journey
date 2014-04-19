@@ -142,6 +142,10 @@ function love.game.newWorld()
 		o.goalX, o.goalY = o.getTileFromScreen(x, y)
 	end
 
+	o.getActivePawn = function()
+		return o.pawns[1] -- TODO: 1. have multiple pawns, 2. be able to change selection
+	end
+
 	o.getTileFromScreen = function(mx, my)
 		local tileX = math.floor((mx - o.offsetX * o.zoom) / (o.tileset.tileWidth * o.map.tileScale * o.zoom))
 		local tileY = math.floor((my - o.offsetY * o.zoom) / (o.tileset.tileHeight * o.map.tileScale * o.zoom))
