@@ -1,5 +1,6 @@
 require "map"
 require "pawn"
+require "mapGenerator"
 
 function love.game.newWorld()
 	local o = {}
@@ -8,6 +9,8 @@ function love.game.newWorld()
 	o.init = function()
 		o.map = love.game.newMap(160, 80, 32, 32)
 		o.map.init()
+		MapGenerator.newMap(32, 32)
+		--o.map.setTile(x,y,z,tiletype)
 		
 		o.pawns = {}
 		local pawn = love.game.newPawn()

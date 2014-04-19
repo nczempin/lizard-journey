@@ -4,13 +4,16 @@ MapGenerator = {}
 
 MAP_PLAIN = 0
 MAP_MOUNTAIN = 1
-MAP_PLAIN_START = 2
-MAP_PLAIN_WATER = 3
-MAP_MOUNTAIN_WATER = 4
-MAP_PLAIN_TREE = 5
+
+MAP_OBJ_NOTHING = 0
+MAP_OBJ_WATER = 1
+MAP_OBJ_TREE = 2
+MAP_OBJ_START = 3
+MAP_OBJ_FIREPLACE = 4
 
 MAP_WATER_PERCENTAGE = 0.15
 MAP_TREE_PERCENTAGE = 0.1
+MAP_FIREPLACE_PERCENTAGE = 0.1
 
 function MapGenerator.newMap(width, height)
 	local map = {}
@@ -21,11 +24,11 @@ function MapGenerator.newMap(width, height)
 		map[x] = {}
 		for y = 1, height do
 			if y/width < 0.5 * math.cos((x / height) * 2 * math.pi - 2*math.pi/3)  -math.abs(0.5 * math.cos((x / height) * 4 * math.pi - 2*math.pi/3)) + 0.5 then
-				map[x][y] = MAP_PLAIN
+				map[x][y] = {MAP_PLAIN, MAP_OBJ_NOTHING}
 				countPlain = countPlain + 1
 				plain[#plain + 1] = {x, y}
 			else
-				map[x][y] = MAP_MOUNTAIN
+				map[x][y] = {MAP_MOUNTAIN, MAP_OBJ_NOTHING}
 				mountain[#mountain + 1] = {x, y}
 			end
 		end
@@ -39,7 +42,7 @@ function MapGenerator.newMap(width, height)
 		local idx = math.random(#plain)
 		local pos = plain[idx]
 		table.remove(plain, idx)
-		map[pos[1]][pos[2]] = MAP_PLAIN_TREE
+		map[pos[1]][pos[2]][2] = MAP_OBJ_TREE
 		print("Tree: ", pos[1], pos[2])
 	end
 	
@@ -49,27 +52,9 @@ function MapGenerator.newMap(width, height)
 		local idx = math.random(#plain)
 		local pos = plain[idx]
 		table.remove(plain, idx)
-		map[pos[1]][pos[2]] = MAP_PLAIN_START
+		map[pos[1]][pos[2]][2] = MAP_OBJ_START
 		print("Unit: ", pos[1], pos[2])
 	end
-	
-	-- create water
-	-- local numWater = MAP_WATER_PERCENTAGE * width * height
-	-- for i = 1, numWater do
-		-- local pos
-		-- if (math.random() < numPlain/(numPlain + numMountains) and #plain > 0) or (#mountain == 0 and #plain > 0) then
-			-- local idx = math.random(#plain)
-			-- pos = plain[idx]
-			-- table.remove(plain, idx)
-			-- map[pos[1]][pos[2]] = MAP_PLAIN_WATER
-		-- else
-			-- local idx = math.random(#mountain)
-			-- pos = mountain[idx]
-			-- table.remove(mountain, idx)
-			-- map[pos[1]][pos[2]] = MAP_MOUNTAIN_WATER
-		-- end
-		-- print("Water: ", pos[1], pos[2])
-	-- end
 	
 	-- create water
 	local numWater = MAP_WATER_PERCENTAGE * width * height
@@ -85,9 +70,26 @@ function MapGenerator.newMap(width, height)
 			local idx = math.random(#mountain)
 			pos = mountain[idx]
 			waterToPlace = waterToPlace - MapGenerator.generateWater(pos[1], pos[2], {plain, mountain}, map, width, height, maxSize)
-				
 		end
 		print("Water: ", pos[1], pos[2], "@", maxSize)
+	end
+	
+	--create fire places
+	local numFirePlaces = MAP_FIREPLACE_PERCENTAGE * width * height
+	for i = 1, numFirePlaces do
+		local pos
+		if (math.random() < numPlain/(numPlain + numMountains) and #plain > 0) or (#mountain == 0 and #plain > 0) then
+			local idx = math.random(#plain)
+			pos = plain[idx]
+			table.remove(plain, idx)
+			map[pos[1]][pos[2]][2] = MAP_OBJ_FIREPLACE
+		else
+			local idx = math.random(#mountain)
+			pos = mountain[idx]
+			table.remove(mountain, idx)
+			map[pos[1]][pos[2]][2] = MAP_OBJ_FIREPLACE	
+		end
+		print("Fire place: ", pos[1], pos[2])
 	end
 	
 	MapGenerator.printMap(map)
@@ -107,7 +109,7 @@ function MapGenerator.removePosFromTables(tables, x, y)
 end
 
 function MapGenerator.canPlaceWater(map, x, y)
-	if map[x][y] == MAP_PLAIN or map[x][y] == MAP_MOUNTAIN then
+	if map[x][y][2] == MAP_OBJ_NOTHING then
 		return true
 	else
 		return false
@@ -115,11 +117,8 @@ function MapGenerator.canPlaceWater(map, x, y)
 end
 
 function MapGenerator.placeWater(map, x, y)
-	if map[x][y] == MAP_PLAIN then
-		map[x][y] = MAP_PLAIN_WATER
-		return true
-	elseif map[x][y] == MAP_MOUNTAIN then
-		map[x][y] = MAP_MOUNTAIN_WATER
+	if map[x][y][2] == MAP_OBJ_NOTHING then
+		map[x][y][2] = MAP_OBJ_WATER
 		return true
 	else
 		return false
@@ -182,7 +181,7 @@ function MapGenerator.printMap(map)
 	for i,v in pairs(map) do
 		local line = ""
 		for j, v in pairs(v) do
-			line = line .. v .. " "
+			line = line .. (v[1] + 2 * v[2]) .. " "
 		end
 		print(line)
 	end
