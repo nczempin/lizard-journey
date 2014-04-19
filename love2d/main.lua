@@ -28,12 +28,16 @@ function love.keypressed(key, code)
 		lizGame.setState(states.MAIN_MENU)
 	elseif key == "2" then
 		lizGame.setState(states.GAME_PLAY)
-	end
+	elseif key == "3" then
+        lizGame.setState(states.CREDITS)
+    end
 end
 
 function love.mousepressed(x, y, key)
-	if(key == "l") then
-		--press left
+	if(key == "wu") then
+		lizGame.world.map.zoomIn()
+	elseif(key == "wd") then
+		lizGame.world.map.zoomOut()
 	end
 end
 
