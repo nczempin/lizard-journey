@@ -8,17 +8,14 @@ function love.game.newPawn(world)
 	o.y = 3
 	o.zoom = 1
 
-	o.goalX = 7
-	o.goalY = 7
-
 	o.speed = 0.002
 
 	o.velX = o.speed
 	o.velY = o.speed
 
 	o.update = function(dt)
-		local wantX = o.goalX - o.x
-		local wantY = o.goalY - o.y
+		local wantX = o.world.goalX - o.x
+		local wantY = o.world.goalY - o.y
 		
 		local dirX, dirY = love.game.normalize(wantX, wantY)
 		o.velX = dirX * o.speed
@@ -43,7 +40,7 @@ function love.game.newPawn(world)
 		love.graphics.setColor(0,255,0)
 		love.graphics.rectangle("fill", o.x*SPRITE_SIZE*o.zoom,o.y*SPRITE_SIZE*o.zoom, SPRITE_SIZE*o.zoom,SPRITE_SIZE*o.zoom)
 			love.graphics.setColor(255,255,0)
-		love.graphics.rectangle("line", o.goalX*SPRITE_SIZE*o.zoom,o.goalY*SPRITE_SIZE*o.zoom, SPRITE_SIZE*o.zoom,SPRITE_SIZE*o.zoom)
+		love.graphics.rectangle("line", o.world.goalX*SPRITE_SIZE*o.zoom,o.world.goalY*SPRITE_SIZE*o.zoom, SPRITE_SIZE*o.zoom,SPRITE_SIZE*o.zoom)
 	end
 
 	o.setZoom = function(zoom)
