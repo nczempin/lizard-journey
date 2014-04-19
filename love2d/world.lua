@@ -24,6 +24,7 @@ function love.game.newWorld()
 		local mapG = MapGenerator.newMap(o.mapWidth, o.mapHeight)
 
 		o.tileset = love.game.newTileset("res/gfx/tileset.png", 32, 32, 1)
+		--[[
 		local tile
 		tile = o.tileset.addTile(0, 1)
 		tile = o.tileset.addTile(0, 1)
@@ -39,6 +40,7 @@ function love.game.newWorld()
 		tile = o.tileset.addTile(1, 1)
 		tile = o.tileset.addTile(1, 1)
 		tile = o.tileset.addTile(1, 1)
+		]]--
 
 		o.map = love.game.newMap(o.mapWidth, o.mapHeight)
 		o.map.setTileset(o.tileset)
@@ -46,11 +48,23 @@ function love.game.newWorld()
 		--test
 		for i = 1, o.mapWidth do
 			for k = 1, o.mapHeight do
-				if MapGenerator.getID(mapG, i, k) >= 1 then
-					o.map.setTileLayer(i, k, 1, MapGenerator.getID(mapG, i, k))
+				-- field
+				if MapGenerator.getID(mapG, i, k) == 1 then
+					o.map.setTileLayer(i, k, 1, 0)
+				elseif MapGenerator.getID(mapG, i, k) == 2 then
+					o.map.setTileLayer(i, k, 1, 2)
 				end
-				if MapGenerator.getObject(mapG, i, k) >= 1 then
-					o.map.setTileLayer(i, k, 1, MapGenerator.getObject(mapG, i, k))
+				--objects
+				if MapGenerator.getObject(mapG, i, k) == 1 then
+					o.map.setTileLayer(i, k, 2, 3)
+				elseif MapGenerator.getObject(mapG, i, k) == 2 then
+					o.map.setTileLayer(i, k, 2, 22)
+				elseif MapGenerator.getObject(mapG, i, k) == 4 then
+					o.map.setTileLayer(i, k, 2, 18)
+				end
+				--objects 2
+				if MapGenerator.getObject(mapG, i, k) == 2 then
+					o.map.setTileLayer(i, k - 1, 3, 14)
 				end
 			end
 		end

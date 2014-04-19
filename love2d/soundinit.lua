@@ -10,4 +10,10 @@ function love.sounds.initSounds()
 	----Background music:---------------------
 	--parameters: name,location,isLoop
 	love.sounds.addBgmSoundFile("desertCowboy","res/music/desert_cowboy.mp3",true)
+	love.sounds.addBgmSoundFile("battleIntro","res/music/battle_intro.mp3",true)
+	love.sounds.addBgmSoundFile("heroicMoments","res/music/Heroic_Moments.mp3",true)
+	love.sounds.addBgmSoundFile("lizardGuitarFx","res/music/lizard_guitar_fx.mp3",true)
+	love.sounds.addBgmSoundFile("lizardGuitarSlow","res/music/lizard_guitar_slow.mp3",true)
+	love.sounds.addBgmSoundFile("lizardGuitarSession","res/music/lizard_violin_session.mp3",true)
+	love.sounds.addBgmSoundFile("magicalTale","res/music/Magical_Tale.mp3",true)
 end
