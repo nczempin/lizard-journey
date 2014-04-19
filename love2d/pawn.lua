@@ -40,7 +40,7 @@ function love.game.newPawn(world)
 		love.graphics.setColor(0,255,0)
 		love.graphics.rectangle("fill", (o.x * SPRITE_SIZE + x) * o.zoom, (o.y * SPRITE_SIZE + y) * o.zoom, SPRITE_SIZE * o.zoom,SPRITE_SIZE * o.zoom)
 			love.graphics.setColor(255,255,0)
-		love.graphics.rectangle("line", o.world.goalX*SPRITE_SIZE*o.zoom,o.world.goalY*SPRITE_SIZE*o.zoom, SPRITE_SIZE*o.zoom,SPRITE_SIZE*o.zoom)
+		love.graphics.rectangle("line", (o.world.goalX*SPRITE_SIZE+x)*o.zoom,(o.world.goalY*SPRITE_SIZE+y)*o.zoom, SPRITE_SIZE*o.zoom,SPRITE_SIZE*o.zoom)
 	end
 
 	o.setZoom = function(zoom)
