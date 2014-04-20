@@ -14,13 +14,15 @@ function love.game.newWorld()
 	o.offsetX = 0
 	o.offsetY = 0
 	o.zoom = 1
+	o.dragX = 0
+	o.dragY = 0
 
 	o.offsetX = 0
 	o.offsetY = 0
 
 	--TODO right now we have just a "global" goal for pawns, since we just have one pawn and the goal is set with the mouse. For multiple pawns each should have its own goal
 	o.goalX = 7
-	o.goalY =7
+	o.goalY = 7
 
 	o.init = function()
 		o.mapG = MapGenerator.newMap(o.mapWidth, o.mapHeight)
@@ -46,6 +48,14 @@ function love.game.newWorld()
 					o.map.setTileLayer(i, k, 2, 22)
 				elseif MapGenerator.getObject(o.mapG, i, k) == 4 then
 					o.map.setTileLayer(i, k, 2, 18)
+				elseif MapGenerator.getObject(o.mapG, i, k) == 5 then
+					o.map.setTileLayer(i, k, 2, 8)
+				elseif MapGenerator.getObject(o.mapG, i, k) == 6 then
+					o.map.setTileLayer(i, k, 2, 9)
+				elseif MapGenerator.getObject(o.mapG, i, k) == 7 then
+					o.map.setTileLayer(i, k, 2, 10)
+				elseif MapGenerator.getObject(o.mapG, i, k) == 8 then
+					o.map.setTileLayer(i, k, 2, 11)
 				else
 					o.map.setTileLayer(i, k, 2, 63)
 				end
@@ -66,16 +76,24 @@ function love.game.newWorld()
 	end
 
 	o.update = function(dt)
+		local mx = love.mouse.getX()
+		local my = love.mouse.getY()
+
+		if love.mouse.isDown("m") then
+			o.offsetX = (mx - o.dragX) / lizGame.world.zoom
+			o.offsetY = (my - o.dragY) / lizGame.world.zoom
+		end
+
 		if love.keyboard.isDown("left") then
-			o.offsetX = o.offsetX + dt * 100
+			o.offsetX = o.offsetX + dt * 500
 		elseif love.keyboard.isDown("right") then
-			o.offsetX = o.offsetX - dt * 100
+			o.offsetX = o.offsetX - dt * 500
 		end
 
 		if love.keyboard.isDown("up") then
-			o.offsetY = o.offsetY + dt * 100
+			o.offsetY = o.offsetY + dt * 500
 		elseif love.keyboard.isDown("down") then
-			o.offsetY = o.offsetY - dt * 100
+			o.offsetY = o.offsetY - dt * 500
 		end
 
 		o.map.update(dt)
@@ -106,22 +124,33 @@ function love.game.newWorld()
 		o.hudLayer.draw()
 	end
 
-	o.zoomIn = function(z)
-		z = z or 2
-		o.zoom = o.zoom * z
+	o.zoomIn = function(zoom)
+		zoom = zoom or 2
+		o.zoom = o.zoom * zoom
 		o.map.setZoom(o.zoom)
 		for i = 1, #o.pawns do
 			o.pawns[i].setZoom(o.zoom)
 		end
+
+		o.offsetX = o.offsetX * 0.5
+		o.offsetY = o.offsetY * 0.5
+
+		o.offsetX = o.offsetX - (love.mouse.getX() - o.offsetX * o.zoom) / o.zoom
+		o.offsetY = o.offsetY - (love.mouse.getY() - o.offsetY * o.zoom) / o.zoom
 	end
 
-	o.zoomOut = function(z)
-		z = z or 2
-		o.zoom = o.zoom / z
+	o.zoomOut = function(zoom)
+		zoom = zoom or 2
+		o.zoom = o.zoom / zoom
 		o.map.setZoom(o.zoom)
 		for i = 1, #o.pawns do
 			o.pawns[i].setZoom(o.zoom)
 		end
+		o.offsetX = o.offsetX * 2
+		o.offsetY = o.offsetY * 2
+print(o.zoom)
+		o.offsetX = o.offsetX + (love.mouse.getX() - o.offsetX * o.zoom) / (o.zoom * 2)
+		o.offsetY = o.offsetY + (love.mouse.getY() - o.offsetY * o.zoom) / (o.zoom * 2)
 	end
 
 	o.drawMapCursor = function()
@@ -140,6 +169,10 @@ function love.game.newWorld()
 
 	o.setGoal = function(map, x, y)
 		o.goalX, o.goalY = o.getTileFromScreen(x, y)
+	end
+
+	o.getActivePawn = function()
+		return o.pawns[1] -- TODO: 1. have multiple pawns, 2. be able to change selection
 	end
 
 	o.getTileFromScreen = function(mx, my)
