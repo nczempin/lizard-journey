@@ -8,7 +8,7 @@ function love.game.newPawn(id, world)
 	o.x = 2
 	o.y = 3
 
-	o.speed = 0.002
+	o.speed = 2
 	o.velX = o.speed
 	o.velY = o.speed
 
@@ -18,12 +18,12 @@ function love.game.newPawn(id, world)
 	o.water = 100
 	o.temperature = 33
 	o.temperatureDelta = 1
-	
+
 	o.ambientTemperature = 33
 
 	o.update = function(dt)
-	
-		
+
+
 
 
 		if o.temperature <= 22 or o.temperature >= 56 then
@@ -46,8 +46,8 @@ function love.game.newPawn(id, world)
 
 
 		-- update position and possibly speed
-		local tmpX= o.x + o.velX
-		local tmpY= o.y + o.velY
+		local tmpX= o.x + o.velX* dt
+		local tmpY= o.y + o.velY* dt
 		if tmpY <= 1 or tmpY >= o.world.map.height  then
 			o.velY = -o.velY
 		elseif tmpX <= 1 or tmpX >= o.world.map.width then
