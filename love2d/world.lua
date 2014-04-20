@@ -98,6 +98,14 @@ function love.game.newWorld()
 		o.timeOfDay = (o.timeOfDay + dt)%24 -- one hour per second
 		
 	
+	-- play ambient sounds
+		if love.sound.ambientSound then
+			love.sound.ambientSound.soundActive = true
+			love.sound.ambientSound.playAmbient()
+		else
+			love.sound.ambientSound = getAmbientSoundGenerator()
+		end
+		
 	-- handle scrolling and zooming
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
