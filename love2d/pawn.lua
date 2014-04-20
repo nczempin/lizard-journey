@@ -89,8 +89,7 @@ function love.game.newPawn(id, world)
 	end
 
 	o.draw = function(x, y)
-		love.graphics.setColor(0,255,0)
-		--love.graphics.rectangle("fill", (o.x * SPRITE_SIZE + x) * o.zoom, (o.y * SPRITE_SIZE + y) * o.zoom, SPRITE_SIZE * o.zoom,SPRITE_SIZE * o.zoom)
+		love.graphics.setColor(255,255,255)
 		
 		local quad = love.graphics.newQuad(o.anim[1] * o.spritesize, o.anim[2] * o.spritesize, o.spritesize, o.spritesize, o.image:getWidth(), o.image:getHeight())
 		love.graphics.draw( o.image, quad, (o.x * SPRITE_SIZE + x) * o.zoom, (o.y * SPRITE_SIZE + y) * o.zoom, 0, 2 * o.zoom, 2 * o.zoom)

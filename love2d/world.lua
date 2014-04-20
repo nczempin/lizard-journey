@@ -114,12 +114,13 @@ function love.game.newWorld()
 
 	o.draw = function()
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 1)
-		for i = 1, #o.pawns do
-			o.pawns[i].draw(o.offsetX, o.offsetY)
-		end
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 2)
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 3)
 		o.drawMapCursor()
+
+		for i = 1, #o.pawns do
+			o.pawns[i].draw(o.offsetX, o.offsetY)
+		end
 
 		o.hudLayer.draw()
 	end
