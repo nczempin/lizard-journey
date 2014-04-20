@@ -63,7 +63,7 @@ function love.game.newPawn(id, world)
 			o.temperature = o.temperature + 0.05*tempDiff*dt
 
 			o.water = o.water -0.0005*o.temperature*o.temperature* dt --TODO: make this dependent on all sorts of other things
-			if o.water <=0 then
+			if o.water <=0 or o.temperature >= 60 then
 				o.state = "dead"
 			end
 
