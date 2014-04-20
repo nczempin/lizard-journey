@@ -2,6 +2,7 @@ require "tileset"
 require "map"
 require "pawn"
 require "mapGenerator"
+require "layer/hud"
 
 function love.game.newWorld()
 	local o = {}
@@ -17,6 +18,7 @@ function love.game.newWorld()
 	o.offsetX = 0
 	o.offsetY = 0
 
+	--TODO right now we have just a "global" goal for pawns, since we just have one pawn and the goal is set with the mouse. For multiple pawns each should have its own goal
 	o.goalX = 7
 	o.goalY =7
 
@@ -56,8 +58,10 @@ function love.game.newWorld()
 			end
 		end
 
+		o.hudLayer = love.game.newHudLayer(o)
+
 		o.pawns = {}
-		local pawn = love.game.newPawn(o)
+		local pawn = love.game.newPawn(1, o)
 		table.insert(o.pawns, pawn)
 	end
 
@@ -86,6 +90,8 @@ function love.game.newWorld()
 				end
 			end
 		end
+
+		o.hudLayer.update(dt)
 	end
 
 	o.draw = function()
@@ -96,6 +102,8 @@ function love.game.newWorld()
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 2)
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 3)
 		o.drawMapCursor()
+
+		o.hudLayer.draw()
 	end
 
 	o.zoomIn = function(z)
@@ -132,6 +140,10 @@ function love.game.newWorld()
 
 	o.setGoal = function(map, x, y)
 		o.goalX, o.goalY = o.getTileFromScreen(x, y)
+	end
+
+	o.getActivePawn = function()
+		return o.pawns[1] -- TODO: 1. have multiple pawns, 2. be able to change selection
 	end
 
 	o.getTileFromScreen = function(mx, my)

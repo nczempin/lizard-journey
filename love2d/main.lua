@@ -9,11 +9,22 @@ function love.load()
 	W = love.window
 	S = love.sounds
 	FS = love.filesystem
-	FONT = G.newFont(32)
-	FONT_SMALL = G.newFont(24)
+
+
+	--TODO: externalize into some kind of font manager
+	FONT_SIZE_XLARGE = 32
+	FONT_SIZE_LARGE = 24
+	FONT_SIZE_MEDIUM = 16
+	FONT_SIZE_SMALL = 8
+	FONT_XLARGE = G.newFont(FONT_SIZE_XLARGE)
+	FONT_LARGE = G.newFont(FONT_SIZE_LARGE)
+	FONT_MEDIUM= G.newFont(FONT_SIZE_MEDIUM)
+	FONT_SMALL = G.newFont(FONT_SIZE_SMALL)
+
+	FONT = FONT_LARGE
 
 	lizGame = love.game.newGame()
-	lizGame.setVersion("v0.0.1")
+	lizGame.setVersion("v0.1.1")
 	lizGame.init()
 	love.sounds.initSounds()
 	love.sounds.playBgm("desertCowboy")
