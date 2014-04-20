@@ -1,5 +1,5 @@
 require('math')
-local SPRITE_SIZE = 64 --this assumes rectangular sprites
+local SPRITE_SIZE = 64 --this assumes rectangular sprites --TODO this conflicts with o.spriteSize
 local EPSILON = 0.001
 function love.game.newPawn(id, world)
 	local o = {}
@@ -20,7 +20,7 @@ function love.game.newPawn(id, world)
 	o.temperature = 33
 	o.temperatureDelta = 1
 	o.image = love.graphics.newImage("res/gfx/character.png")
-	o.spritesize = 32
+	o.spritesize = 32 --TODO this conflicts with the constant SPRITE_SIZE
 	o.anim = {0, 0}
 	o.animstates = 2
 	o.animspeed = 0.1
@@ -55,17 +55,17 @@ function love.game.newPawn(id, world)
 		--close enough
 		if (math.abs(wantX) < EPSILON)then
 			o.velX = 0
-			o.x = math.floor(o.x+0.5)
+			o.x = math.floor(o.x + 0.5)
 		end
 		if (math.abs(wantY) <EPSILON)then
 			o.velY = 0
-			o.y = math.floor(o.y+0.5)
+			o.y = math.floor(o.y + 0.5)
 		end
 
 
 		-- update position and possibly speed
-		local tmpX= o.x + o.velX* dt
-		local tmpY= o.y + o.velY* dt
+		local tmpX= o.x + o.velX * dt
+		local tmpY= o.y + o.velY * dt
 		if tmpY <= 1 or tmpY >= o.world.map.height  then
 			o.velY = -o.velY
 		elseif tmpX <= 1 or tmpX >= o.world.map.width then
@@ -75,8 +75,7 @@ function love.game.newPawn(id, world)
 		o.y = tmpY
 
 		--determine animation frame
-
-		o.curAnimdt = o.curAnimdt + dt
+	o.curAnimdt = o.curAnimdt + dt
 		if o.curAnimdt > o.animspeed then
 			o.anim[1] = (o.anim[1] + 1) % o.animstates
 			o.curAnimdt = o.curAnimdt - o.animspeed
