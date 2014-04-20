@@ -37,7 +37,8 @@ function love.game.newPawn(id, world)
 		if o.temperature <= 22 or o.temperature >= 56 then
 			o.temperatureDelta = - o.temperatureDelta -- simplified temp change
 		end
-		o.temperature = o.temperature + dt * o.temperatureDelta
+		--o.temperature = o.temperature + dt * o.temperatureDelta
+		o.temperature = o.temperature - dt/2
 
 		o.water = o.water -0.0005*o.temperature*o.temperature* dt --one per five seconds. TODO: make this dependent on all sorts of other things
 		--update target coordinates
@@ -116,6 +117,14 @@ function love.game.newPawn(id, world)
 
 	o.setZoom = function(zoom)
 		o.zoom = zoom
+	end
+	
+	o.heat = function(dt)
+		o.temperature = o.temperature + dt
+	end
+	
+	o.getPosition = function()
+		return o.x, o.y
 	end
 
 	return o
