@@ -18,8 +18,12 @@ function love.game.newPawn(id, world)
 	o.water = 100
 	o.temperature = 33
 	o.temperatureDelta = 1
+	
+	o.ambientTemperature = 33
 
 	o.update = function(dt)
+	
+		
 
 
 		if o.temperature <= 22 or o.temperature >= 56 then
