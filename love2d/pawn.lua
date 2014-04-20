@@ -21,13 +21,13 @@ function love.game.newPawn(id, world)
 
 	o.update = function(dt)
 
-		o.water = o.water -0.2* dt --one per five seconds. TODO: make this dependent on all sorts of other things
 
 		if o.temperature <= 22 or o.temperature >= 56 then
 			o.temperatureDelta = - o.temperatureDelta -- simplified temp change
 		end
 		o.temperature = o.temperature + dt * o.temperatureDelta
 
+		o.water = o.water -0.0005*o.temperature*o.temperature* dt --one per five seconds. TODO: make this dependent on all sorts of other things
 		--update target coordinates
 
 		--TODO right now these goals are set by mouse clicks
