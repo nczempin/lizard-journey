@@ -24,7 +24,7 @@ function love.game.newPawn(id, world)
 	o.image = love.graphics.newImage("res/gfx/character.png")
 	o.spritesize = 32 --TODO this conflicts with the constant SPRITE_SIZE
 	o.anim = {0, 0}
-	o.animstates = 2
+	o.animstates = 8
 	o.animspeed = 0.1
 	o.curAnimdt = 0
 
@@ -103,18 +103,18 @@ function love.game.newPawn(id, world)
 		if math.abs(o.velX) > math.abs(o.velY) then
 			if o.velX < EPSILON then
 				-- left
-				o.anim[2] = 3
+				o.anim[2] = 4
 			elseif o.velX > EPSILON then
 				--right
-				o.anim[2] = 2
+				o.anim[2] = 3
 			end
 		else
 			if o.velY < EPSILON then
 				-- up
-				o.anim[2] = 1
+				o.anim[2] = 2
 			elseif o.velY > EPSILON then
 				--down
-				o.anim[2] = 0
+				o.anim[2] = 1
 			end
 		end
 
