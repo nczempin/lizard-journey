@@ -24,7 +24,7 @@ function love.load()
 	FONT = FONT_LARGE
 
 	lizGame = love.game.newGame()
-	lizGame.setVersion("v0.1.1")
+	lizGame.setVersion("v0.2.1")
 	lizGame.init()
 	love.sounds.initSounds()
 	love.sounds.playBgm("desertCowboy")
