@@ -21,6 +21,8 @@ function Fire.newFire(x, y, graphic)
 	fire.timeStateChange = 0.25
 	fire.zoom = 1
 	
+	fire.temperature = 300
+	
 	fire.draw = function(x, y)
 		local quad = love.graphics.newQuad(fire.state * fire.spritesize, 2 * fire.spritesize, fire.spritesize, fire.spritesize, fire.image:getWidth(), fire.image:getHeight())
 		love.graphics.draw( fire.image, quad, (fire.x * SPRITE_SIZE + x) * fire.zoom, (fire.y * SPRITE_SIZE + y) * fire.zoom, 0, 2 * fire.zoom, 2 * fire.zoom)
@@ -50,13 +52,6 @@ function Fire.newFire(x, y, graphic)
 				fire.state = fire.state + 1
 				if fire.state > FIRE_STATE_BURN_ANIM4 then
 					fire.state = FIRE_STATE_BURN_ANIM1
-				end
-			end
-			for i, v in pairs(pawns) do
-				local x, y = v.getPosition()
-				local dist = distance_euclid(x, y, fire.x, fire.y)
-				if dist < 1 then
-					--v.heat(dt)
 				end
 			end
 		end
