@@ -183,8 +183,10 @@ function love.game.newPawn(id, world)
 		local xx = (o.x * SPRITE_SIZE + x) * o.zoom
 		local yy = (o.y * SPRITE_SIZE + y) * o.zoom
 		if o.state == "dead" then
-			love.graphics.setColor(0,0,0)
-			love.graphics.rectangle("fill",xx,yy, SPRITE_SIZE*o.zoom,SPRITE_SIZE*o.zoom)
+			love.graphics.setColor(255,255,255)
+
+			local quad = love.graphics.newQuad(4 * o.spritesize, 0 * o.spritesize, o.spritesize, o.spritesize, o.image:getWidth(), o.image:getHeight())
+			love.graphics.draw( o.image, quad, xx, yy, 0, 2 * o.zoom, 2 * o.zoom) -- the magic 2 possibly comes from the inconsistency between the sprite size constants
 		else
 			love.graphics.setColor(255,255,255)
 
