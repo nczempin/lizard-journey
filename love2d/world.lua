@@ -72,6 +72,7 @@ function love.game.newWorld()
 					o.map.setTileLayer(i, k, 2, 63)
 				end
 				--objects 2
+				o.map.setTileLayer(i, k, 3, 63)
 				if MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_TREE then
 					o.map.setTileLayer(i, k - 1, 3, 14)
 				elseif MapGenerator.getID(o.mapG, i, k) == MAP_MOUNTAIN then
@@ -79,7 +80,7 @@ function love.game.newWorld()
 				elseif MapGenerator.getID(o.mapG, i, k) == MAP_MOUNTAIN_DARK then
 					o.map.setTileLayer(i, k, 3, 5)
 				else
-					o.map.setTileLayer(i, k - 1, 3, 63)
+					--o.map.setTileLayer(i, k - 1, 3, 63)
 				end
 			end
 		end
@@ -139,12 +140,11 @@ function love.game.newWorld()
 	o.draw = function()
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 1)
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 2)
-		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 3)
-		o.drawMapCursor()
-
 		for i,v in pairs(o.fires) do
 			v.draw(o.offsetX, o.offsetY)
 		end
+		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 3)
+		o.drawMapCursor()
 
 		for i = 1, #o.pawns do
 			o.pawns[i].draw(o.offsetX, o.offsetY)

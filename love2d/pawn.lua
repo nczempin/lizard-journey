@@ -1,6 +1,9 @@
 require('math')
+require('mapGenerator')
+
 local SPRITE_SIZE = 64 --this assumes rectangular sprites --TODO this conflicts with o.spriteSize
 local EPSILON = 0.001
+local DIGGING_TIME = 0.5
 local DEFAULT_AMBIENT_TEMPERATURE = 33
 
 function love.game.newPawn(id, world)
@@ -10,6 +13,8 @@ function love.game.newPawn(id, world)
 
 	o.x = 2
 	o.y = 3
+	o.lastDigging = {-1, -1}
+	o.diggingTimeLeft = DIGGING_TIME
 
 	o.maxSpeed = 2
 	o.velX = 0
@@ -94,10 +99,48 @@ function love.game.newPawn(id, world)
 			elseif tmpX <= 1 or tmpX >= o.world.map.width then
 				o.velX = -o.velX
 			end
-			o.x = tmpX
-			o.y = tmpY
 
-
+			local x, y
+			if o.velX < 0 then
+				x = math.floor(tmpX) + 1
+			else
+				x = math.ceil(tmpX) + 1
+			end
+			if o.velY < 0 then
+				y = math.floor(tmpY) + 1
+			else
+				y = math.ceil(tmpY) + 1
+			end
+			if x > 0 and y > 0 and x <= o.world.mapWidth and y <= o.world.mapHeight then
+				tileId = MapGenerator.getID(o.world.mapG, x, y)
+				if tileId == MAP_MOUNTAIN_DARK or tileId == MAP_MOUNTAIN then
+					if o.lastDigging[1] == x and o.lastDigging[2] == y then
+						o.diggingTimeLeft = o.diggingTimeLeft - dt
+						if o.diggingTimeLeft < 0 then
+							if tileId == MAP_MOUNTAIN_DARK then
+								MapGenerator.setID(o.world.mapG, x, y, MAP_PLAIN)
+								o.world.map.setTileLayer(x, y, 1, 0)
+								o.world.map.setTileLayer(x, y, 3, 63)
+							elseif tileId == MAP_MOUNTAIN then
+								MapGenerator.setID(o.world.mapG, x, y, MAP_PLAIN)
+								o.world.map.setTileLayer(x, y, 1, 0)
+								o.world.map.setTileLayer(x, y, 3, 63)
+							end
+							-- change tile to floor
+						end
+					else
+						o.lastDigging[1] = x
+						o.lastDigging[2] = y
+						o.diggingTimeLeft = DIGGING_TIME
+					end
+				else
+					o.x = tmpX
+					o.y = tmpY
+				end
+			else
+				o.x = tmpX
+				o.y = tmpY
+			end
 		end
 
 		--------update graphics ----------------------
