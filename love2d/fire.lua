@@ -56,7 +56,7 @@ function Fire.newFire(x, y, graphic)
 				local x, y = v.getPosition()
 				local dist = distance_euclid(x, y, fire.x, fire.y)
 				if dist < 1 then
-					v.heat(dt)
+					--v.heat(dt)
 				end
 			end
 		end
