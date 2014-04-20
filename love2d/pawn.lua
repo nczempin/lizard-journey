@@ -161,7 +161,6 @@ function love.game.newPawn(id, world)
 		end
 
 		--determine facing
-		print(o.velX, o.velY, EPSILON)
 		if math.abs(o.velX) > math.abs(o.velY) then
 			if o.velX < -EPSILON then
 				-- left
