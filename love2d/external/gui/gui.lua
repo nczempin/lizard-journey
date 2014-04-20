@@ -114,8 +114,8 @@ function love.gui.newGui()
 	end
 
 	--Return new button
-	o.newButton = function(x, y, width, height, name, imagePath)
-		o.elements[#o.elements + 1] = love.gui.newButton(x, y, width, height, name)
+	o.newButton = function(x, y, width, height, name, image)
+		o.elements[#o.elements + 1] = love.gui.newButton(x, y, width, height, name, image)
 		o.elements[#o.elements].parent = o
 
 		return o.elements[#o.elements]
