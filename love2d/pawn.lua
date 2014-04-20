@@ -63,7 +63,13 @@ function love.game.newPawn(id, world)
 			local tempDiff = o.ambientTemperature - o.temperature
 			o.temperature = o.temperature + 0.05*tempDiff*dt
 
-			o.water = o.water -0.0005*o.temperature*o.temperature* dt --TODO: make this dependent on all sorts of other things
+			local mx = math.floor(o.x + 0.5) + 1
+			local my = math.floor(o.y + 0.5) + 1
+			if mx > 0 and my > 0 and mx <= o.world.mapWidth and my <= o.world.mapHeight and	MapGenerator.getObject(o.world.mapG, mx, my) == MAP_OBJ_WATER then
+				o.water = math.min(100, o.water + 0.00125*o.temperature*o.temperature* dt)
+			else
+				o.water = math.max(0, o.water - 0.0005*o.temperature*o.temperature* dt) --TODO: make this dependent on all sorts of other things
+			end
 			if o.water <=0 then
 				o.state = "dead"
 			end
