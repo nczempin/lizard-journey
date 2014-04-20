@@ -60,6 +60,8 @@ function love.game.newWorld()
 					o.map.setTileLayer(i, k, 2, 10)
 				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_BUSH4 then
 					o.map.setTileLayer(i, k, 2, 11)
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_STONE then
+					o.map.setTileLayer(i, k, 2, 24)	
 				else
 					o.map.setTileLayer(i, k, 2, 63)
 				end
