@@ -23,18 +23,12 @@ function love.game.newGame()
 		
 		o.setState(states.MAIN_MENU) -- set the starting state (use e. g. MAIN_MENU if you work on the menus)
 	end
-		
 	
-
 	o.setupMenu = function()
 		o.menu = love.gui.newGui()
 		
 		-- Buttons
-		love.graphics.setFont(FONT_MEDIUM)
-		local padding = 7
-		local font_h = FONT_MEDIUM:getHeight()
-		local spacing = 10
-		local button_height = padding + font_h
+		
 		
 		-- A man can dream...
 		--[[
@@ -46,9 +40,23 @@ function love.game.newGame()
 		end
 		--]]
 		
-		o.playButton = o.menu.newButton(5, 1*(spacing + button_height), 120, padding + font_h, "Play", nil)
-		o.creditsButton = o.menu.newButton(5, 2*(spacing + button_height), 120, padding + font_h, "Credits", nil)
-		o.exitButton = o.menu.newButton(5, 3*(spacing + button_height), 120, padding + font_h, "Exit", nil)
+		
+		o.buttonImage = G.newImage("res/gfx/gui-arrow.png")
+		G.setFont(FONT_LARGE)
+		local padding = 7
+		local fontH = FONT_MEDIUM:getHeight()
+		local spacing = 25
+		local buttonH = padding + fontH
+		local buttonX = love.window.getWidth()/2 - 140/2
+		local windowH = love.window.getHeight()/2
+		local nButtons = 3
+		local totalButtonH = nButtons*(spacing + buttonH)
+		o.playButton = o.menu.newButton(buttonX, windowH - totalButtonH/2 + 0*(spacing + buttonH), 140, buttonH, "Play", o.buttonImage)
+		o.playButton.setFont(FONT_LARGE)
+		o.creditsButton = o.menu.newButton(buttonX, windowH - totalButtonH/2 + 1*(spacing + buttonH), 140, buttonH, "Credits", o.buttonImage)
+		o.creditsButton.setFont(FONT_LARGE)
+		o.exitButton = o.menu.newButton(buttonX, windowH - totalButtonH/2 + 2*(spacing + buttonH), 140, buttonH, "Exit", o.buttonImage)
+		o.creditsButton.setFont(FONT_LARGE)
 		
 		-- Background image
 		local scale = function(x, min1, max1, min2, max2)
@@ -69,7 +77,7 @@ function love.game.newGame()
 			return 159 + diff*color/255, 159 + diff*color/255, 159 + diff*color/255, 255
 		end)
 		
-		o.backgroundImage = love.graphics.newImage(imageData)
+		o.backgroundImage = G.newImage(imageData)
 	end
 
 	o.update = function(dt)
@@ -95,31 +103,41 @@ function love.game.newGame()
 
 	o.draw = function()
 		if o.state == states.MAIN_MENU then
-			love.graphics.setColor(255, 255, 255)
-			love.graphics.draw(o.backgroundImage, 0, 0, 0,
-							   love.window.getWidth()/o.backgroundImage:getWidth(), 
-							   love.window.getHeight()/o.backgroundImage:getHeight())
+			G.setColor(255, 255, 255)
+			G.draw(o.backgroundImage, 0, 0, 0,
+				love.window.getWidth()/o.backgroundImage:getWidth(), 
+				love.window.getHeight()/o.backgroundImage:getHeight())
 			o.menu.draw()
+			
+			local font = FONT_XLARGE
+			G.setFont(font)
+			G.setColor(151*0.80, 147*0.80, 141*0.80)
+			G.printf("The Tale of Some Reptile", 0, love.window.getHeight()/4 - font:getHeight()/2, love.window.getWidth(), "center")
+			-- debug
+			--G.setColor(255, 0, 0)
+			--G.rectangle("fill", love.window.getWidth()/2 - 20, love.window.getHeight()/2 - 20, 40, 40)
+			
+			G.setColor(255, 255, 255)
 		elseif o.state == states.GAME_PLAY then
 			o.world.draw()
 		elseif o.state == states.CREDITS then
-			love.graphics.print("Credits!", o.x, o.y)
+			G.print("Credits!", o.x, o.y)
 		elseif o.state == states.PAUSED then
 			-- Draw world as backdrop
-			love.graphics.setColor(255, 255, 255, 255)
+			G.setColor(255, 255, 255, 255)
 			o.world.draw()
 			-- Draw transparent rectangle for the 'faded' effect
 			local w = love.window.getWidth()
 			local h = love.window.getHeight()
-			love.graphics.setColor(255, 255, 255, 96)
-			love.graphics.rectangle("fill", 0, 0, w, h)
+			G.setColor(255, 255, 255, 96)
+			G.rectangle("fill", 0, 0, w, h)
 			-- Draw centered (H&V) text
-			love.graphics.setColor(0, 0, 0)
+			G.setColor(0, 0, 0)
 			local font = FONT_XLARGE
-			love.graphics.setFont(font)
-			love.graphics.printf("Paused.", 0, h/2 - font:getHeight()/2, w, "center")
-			
-			love.graphics.setColor(255, 255, 255)
+			G.setFont(font)
+			G.printf("Paused.", 0, h/2 - font:getHeight()/2, w, "center")
+
+			G.setColor(255, 255, 255)
 		end
 	end
 

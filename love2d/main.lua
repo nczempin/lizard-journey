@@ -16,10 +16,10 @@ function love.load()
 	FONT_SIZE_LARGE = 24
 	FONT_SIZE_MEDIUM = 16
 	FONT_SIZE_SMALL = 8
-	FONT_XLARGE = G.newFont(FONT_SIZE_XLARGE)
-	FONT_LARGE = G.newFont(FONT_SIZE_LARGE)
-	FONT_MEDIUM= G.newFont(FONT_SIZE_MEDIUM)
-	FONT_SMALL = G.newFont(FONT_SIZE_SMALL)
+	FONT_XLARGE = G.newFont("res/fonts/alagard.ttf", FONT_SIZE_XLARGE)
+	FONT_LARGE = G.newFont("res/fonts/alagard.ttf", FONT_SIZE_LARGE)
+	FONT_MEDIUM= G.newFont("res/fonts/alagard.ttf", FONT_SIZE_MEDIUM)
+	FONT_SMALL = G.newFont("res/fonts/alagard.ttf", FONT_SIZE_SMALL)
 
 	FONT = FONT_LARGE
 
