@@ -3,6 +3,7 @@ require "map"
 require "pawn"
 require "mapGenerator"
 require "layer/hud"
+require('fire')
 
 function love.game.newWorld()
 	local o = {}
@@ -28,10 +29,12 @@ function love.game.newWorld()
 		o.mapG = MapGenerator.newMap(o.mapWidth, o.mapHeight)
 
 		o.tileset = love.game.newTileset("res/gfx/tileset.png", 32, 32, 1)
+		o.fireGraphics = love.graphics.newImage("res/gfx/tileset.png")
 
 		o.map = love.game.newMap(o.mapWidth, o.mapHeight)
 		o.map.setTileset(o.tileset)
 		o.map.init()
+		o.fires = {}
 		--test
 		for i = 1, o.mapWidth do
 			for k = 1, o.mapHeight do
@@ -51,7 +54,8 @@ function love.game.newWorld()
 				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_TREE then
 					o.map.setTileLayer(i, k, 2, 22)
 				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_FIREPLACE then
-					o.map.setTileLayer(i, k, 2, 18)
+					--o.map.setTileLayer(i, k, 2, 18)
+					o.fires[#o.fires + 1] = Fire.newFire(i, k, o.fireGraphics)
 				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_BUSH1 then
 					o.map.setTileLayer(i, k, 2, 8)
 				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_BUSH2 then
@@ -111,12 +115,15 @@ function love.game.newWorld()
 			o.pawns[i].update(dt)
 		end
 
-		for i = 1, o.mapWidth do
-			for k = 1, o.mapHeight do
-				if MapGenerator.getObject(o.mapG, i, k) == 4 then
-					o.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
-				end
-			end
+		-- for i = 1, o.mapWidth do
+			-- for k = 1, o.mapHeight do
+				-- if MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_FIREPLACE then
+					-- o.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
+				-- end
+			-- end
+		-- end
+		for i, v in pairs(o.fires) do
+			v.update(dt, o.pawns)
 		end
 
 		o.hudLayer.update(dt)
@@ -127,6 +134,10 @@ function love.game.newWorld()
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 2)
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 3)
 		o.drawMapCursor()
+
+		for i,v in pairs(o.fires) do
+			v.draw(o.offsetX, o.offsetY)
+		end
 
 		for i = 1, #o.pawns do
 			o.pawns[i].draw(o.offsetX, o.offsetY)
@@ -142,6 +153,10 @@ function love.game.newWorld()
 		for i = 1, #o.pawns do
 			o.pawns[i].setZoom(o.zoom)
 		end
+		
+		for i, v in pairs(o.fires) do
+			v.setZoom(o.zoom)
+		end
 
 		o.offsetX = o.offsetX * 0.5
 		o.offsetY = o.offsetY * 0.5
@@ -156,6 +171,9 @@ function love.game.newWorld()
 		o.map.setZoom(o.zoom)
 		for i = 1, #o.pawns do
 			o.pawns[i].setZoom(o.zoom)
+		end
+		for i, v in pairs(o.fires) do
+			v.setZoom(o.zoom)
 		end
 		o.offsetX = o.offsetX * 2
 		o.offsetY = o.offsetY * 2
