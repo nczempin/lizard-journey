@@ -215,3 +215,11 @@ end
 function MapGenerator.getObject(map, x, y)
 	return map[x][y][2]
 end
+
+function MapGenerator.setID(map, x, y, id)
+	map[x][y][1] = id
+end
+
+function MapGenerator.setObject(map, x, y, obj)
+	map[x][y][2] = obj
+end
