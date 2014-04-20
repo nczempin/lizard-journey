@@ -27,20 +27,19 @@ function love.game.newPawn(id, world)
 	o.temperature = 0
 	o.temperatureDelta = 1
 	o.image = love.graphics.newImage("res/gfx/character.png")
+	o.image:setFilter("nearest","nearest")
 	o.spritesize = 32 --TODO this conflicts with the constant SPRITE_SIZE
 	o.anim = {0, 0}
 	o.animstates = 8
 	o.animspeed = 0.1
 	o.curAnimdt = 0
+	o.lastIdle = 0.5
 
 	o.ambientTemperature = DEFAULT_AMBIENT_TEMPERATURE
 
 
 	o.update = function(dt)
-
-		if o.state == "dead" then
-
-		else
+		--determine ambient temperature
 			local maxTemp = DEFAULT_AMBIENT_TEMPERATURE
 			for i, fire in pairs(o.world.fires) do
 				if fire.state > FIRE_STATE_ENLIGHT then
@@ -51,11 +50,13 @@ function love.game.newPawn(id, world)
 					end
 				end
 			end
-
-			--determine ambient temperature
 			local ambientDiff = maxTemp-o.ambientTemperature
 			o.heatAmbient(ambientDiff*dt)
 
+		if o.state == "dead" then
+
+		else
+	
 			--			if o.temperature <= 22 or o.temperature >= 56 then
 			--				o.temperatureDelta = - o.temperatureDelta -- simplified temp change
 			--			end
@@ -63,8 +64,15 @@ function love.game.newPawn(id, world)
 			local tempDiff = o.ambientTemperature - o.temperature
 			o.temperature = o.temperature + 0.05*tempDiff*dt
 
-			o.water = o.water -0.0005*o.temperature*o.temperature* dt --TODO: make this dependent on all sorts of other things
-			if o.water <=0 then
+			local mx = math.floor(o.x + 0.5) + 1
+			local my = math.floor(o.y + 0.5) + 1
+			if mx > 0 and my > 0 and mx <= o.world.mapWidth and my <= o.world.mapHeight and	MapGenerator.getObject(o.world.mapG, mx, my) == MAP_OBJ_WATER then
+				o.water = math.min(100, o.water + 0.00125*o.temperature*o.temperature* dt)
+			else
+				o.water = math.max(0, o.water - 0.0005*o.temperature*o.temperature* dt) --TODO: make this dependent on all sorts of other things
+			end
+			
+			if o.water <=0 or o.temperature >= 60 then
 				o.state = "dead"
 			end
 
@@ -154,31 +162,54 @@ function love.game.newPawn(id, world)
 
 		--determine facing
 		if math.abs(o.velX) > math.abs(o.velY) then
-			if o.velX < EPSILON then
+			if o.velX < -EPSILON then
 				-- left
 				o.anim[2] = 4
 			elseif o.velX > EPSILON then
 				--right
 				o.anim[2] = 3
+			else
+				o.lastIdle = o.lastIdle - dt
+				if o.lastIdle < 0 then
+					if math.random() < 0.5 then
+						o.anim[2] = 6
+						o.lastIdle = 0.5
+					else
+						o.anim[2] = 7
+						o.lastIdle = 0.5
+					end
+				end
 			end
 		else
-			if o.velY < EPSILON then
+			if o.velY < -EPSILON then
 				-- up
 				o.anim[2] = 2
 			elseif o.velY > EPSILON then
 				--down
 				o.anim[2] = 1
+			else
+				o.lastIdle = o.lastIdle - dt
+				if o.lastIdle < 0 then
+					if math.random() < 0.5 then
+						o.anim[2] = 6
+						o.lastIdle = 0.5
+					else
+						o.anim[2] = 7
+						o.lastIdle = 0.5
+					end
+				end
 			end
 		end
-
 	end
 
 	o.draw = function(x, y)
 		local xx = (o.x * SPRITE_SIZE + x) * o.zoom
 		local yy = (o.y * SPRITE_SIZE + y) * o.zoom
 		if o.state == "dead" then
-			love.graphics.setColor(0,0,0)
-			love.graphics.rectangle("fill",xx,yy, SPRITE_SIZE*o.zoom,SPRITE_SIZE*o.zoom)
+			love.graphics.setColor(255,255,255)
+
+			local quad = love.graphics.newQuad(4 * o.spritesize, 0 * o.spritesize, o.spritesize, o.spritesize, o.image:getWidth(), o.image:getHeight())
+			love.graphics.draw( o.image, quad, xx, yy, 0, 2 * o.zoom, 2 * o.zoom) -- the magic 2 possibly comes from the inconsistency between the sprite size constants
 		else
 			love.graphics.setColor(255,255,255)
 

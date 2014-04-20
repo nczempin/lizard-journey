@@ -14,7 +14,7 @@ function love.sounds.initSounds()
 	love.sounds.addEnvSoundFile("riverLoop1","res/sfx/river_loop_1.mp3",true,nil)
 	love.sounds.addEnvSoundFile("spell","res/sfx/spell.mp3",false)
 	love.sounds.addEnvSoundFile("tensionAtmo","res/sfx/tension_atmo.mp3",true,nil)
-	love.sounds.addEnvSoundFile("waterBirdsEnvironment","res/sfx/water_birds_environment.mp3",true,nil)
+	--love.sounds.addEnvSoundFile("waterBirdsEnvironment","res/sfx/water_birds_environment.mp3",true,nil)
 	love.sounds.addEnvSoundFile("windyCave","res/sfx/windy_cave.mp3",true,nil)
 
 	----Background music:---------------------
