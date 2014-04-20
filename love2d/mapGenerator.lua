@@ -24,6 +24,7 @@ MAP_TREE_PERCENTAGE = 0.1
 MAP_FIREPLACE_PERCENTAGE = 0.1
 
 function MapGenerator.newMap(width, height)
+	math.randomseed( os.time() )
 	local map = {}
 	local plain = {}
 	local mountain = {}
