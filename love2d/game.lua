@@ -95,7 +95,7 @@ function love.game.newGame()
 
 	o.draw = function()
 		if o.state == states.MAIN_MENU then
-			love.graphics.setColor(255, 255, 255, 255)
+			love.graphics.setColor(255, 255, 255)
 			love.graphics.draw(o.backgroundImage, 0, 0, 0,
 							   love.window.getWidth()/o.backgroundImage:getWidth(), 
 							   love.window.getHeight()/o.backgroundImage:getHeight())
@@ -106,6 +106,7 @@ function love.game.newGame()
 			love.graphics.print("Credits!", o.x, o.y)
 		elseif o.state == states.PAUSED then
 			-- Draw world as backdrop
+			love.graphics.setColor(255, 255, 255, 255)
 			o.world.draw()
 			-- Draw transparent rectangle for the 'faded' effect
 			local w = love.window.getWidth()
@@ -113,10 +114,12 @@ function love.game.newGame()
 			love.graphics.setColor(255, 255, 255, 96)
 			love.graphics.rectangle("fill", 0, 0, w, h)
 			-- Draw centered (H&V) text
-			love.graphics.setColor(0, 0, 0, 255)
+			love.graphics.setColor(0, 0, 0)
 			local font = FONT_XLARGE
 			love.graphics.setFont(font)
 			love.graphics.printf("Paused.", 0, h/2 - font:getHeight()/2, w, "center")
+			
+			love.graphics.setColor(255, 255, 255)
 		end
 	end
 
