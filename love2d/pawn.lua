@@ -41,9 +41,19 @@ function love.game.newPawn(id, world)
 		if o.state == "dead" then
 
 		else
+			local maxTemp = DEFAULT_AMBIENT_TEMPERATURE
+			for i, fire in pairs(o.world.fires) do
+				if fire.state > FIRE_STATE_ENLIGHT then
+					local dist = distance_euclid(fire.x, fire.y, o.x, o.y)+1
+					local netTemp = fire.temperature/((dist)*(dist))
+					if netTemp > maxTemp then
+						maxTemp = netTemp
+					end
+				end
+			end
 
 			--determine ambient temperature
-			local ambientDiff = DEFAULT_AMBIENT_TEMPERATURE-o.ambientTemperature
+			local ambientDiff = maxTemp-o.ambientTemperature
 			o.heatAmbient(ambientDiff*dt)
 
 			--			if o.temperature <= 22 or o.temperature >= 56 then
@@ -53,7 +63,7 @@ function love.game.newPawn(id, world)
 			local tempDiff = o.ambientTemperature - o.temperature
 			o.temperature = o.temperature + 0.05*tempDiff*dt
 
-			o.water = o.water -0.001*o.temperature*o.temperature* dt --TODO: make this dependent on all sorts of other things
+			o.water = o.water -0.0005*o.temperature*o.temperature* dt --TODO: make this dependent on all sorts of other things
 			if o.water <=0 then
 				o.state = "dead"
 			end
