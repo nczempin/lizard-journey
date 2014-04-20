@@ -57,6 +57,9 @@ function love.mousepressed(x, y, key)
 	elseif (key == "l")then
 		local map = lizGame.world.map
 		lizGame.world.setGoal(map, x,y)
+	elseif (key == "m")then
+		lizGame.world.dragX = x - lizGame.world.offsetX * lizGame.world.zoom
+		lizGame.world.dragY = y - lizGame.world.offsetY * lizGame.world.zoom
 	end
 end
 
