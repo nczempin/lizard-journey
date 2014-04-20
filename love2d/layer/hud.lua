@@ -43,7 +43,7 @@ function love.game.newHudLayer(world)
 		local temperature = math.floor(0.5+ pawn.temperature)
 
 		o.setColour(temperature)
-		G.print("Body temperature: "..tostring(temperature).." \194\176C", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*line)
+		G.print("Body temperature: "..tostring(temperature).." C", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*line)
 
 
 
@@ -52,7 +52,7 @@ function love.game.newHudLayer(world)
 
 		o.setColour(ambientTemperature)
 
-		G.print("Ambient temperature: "..tostring(ambientTemperature).." \194\176C", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*line)
+		G.print("Ambient temperature: "..tostring(ambientTemperature).." C", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*line)
 
 		local timeOfDay =math.floor( o.world.timeOfDay)
 		line = line + 1
