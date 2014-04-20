@@ -12,14 +12,7 @@ function love.game.newHudLayer(world)
 
 	end
 
-	o.draw = function()
-		G.setFont(FONT_MEDIUM)
-		G.setColor(0, 206, 209)
-		local water = math.floor(0.5+o.world.getActivePawn().water)
-		G.print("Water: "..tostring(water).." %", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*0)
-
-
-		local temperature = math.floor(0.5+o.world.getActivePawn().temperature)
+	o.setColour = function(temperature)
 		if (temperature >= 50) then
 			G.setColor(255, 0, 0) --red
 		elseif (temperature >= 43) then
@@ -34,9 +27,32 @@ function love.game.newHudLayer(world)
 			G.setColor(0, 0, 255) --blue
 		end
 
+	end
+	o.draw = function()
+		local pawn = o.world.getActivePawn()
+		G.setFont(FONT_MEDIUM)
+		G.setColor(0, 206, 209)
+
+		line = 0
+
+		local water = math.floor(0.5+pawn.water)
+		G.print("Water: "..tostring(water).." %", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*line)
 
 
-		G.print("Temp: "..tostring(temperature).." \194\176C", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*1)
+		line = line + 1
+		local temperature = math.floor(0.5+ pawn.temperature)
+
+		o.setColour(temperature)
+		G.print("Body temperature: "..tostring(temperature).." \194\176C", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*line)
+		
+		
+		
+			line = line + 1
+		local ambientTemperature = math.floor(0.5+ pawn.ambientTemperature)
+
+		o.setColour(ambientTemperature)
+
+		G.print("Ambient temperature: "..tostring(ambientTemperature).." \194\176C", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*line)
 	end
 
 	return o

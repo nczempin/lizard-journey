@@ -3,6 +3,7 @@ require "sound"
 function love.sounds.initSounds()
 	----envSounds:----------------------------
 	--parameters: name,location,isLoop,loopsPerPlay (if set to nil while isLoop is true, the sound will have to be stopped manually)
+
 	love.sounds.addEnvSoundFile("bird","res/sfx/bird.mp3",true,nil)
 	love.sounds.addEnvSoundFile("birds","res/sfx/birds.mp3",true,nil)
 	love.sounds.addEnvSoundFile("caveAtmo","res/sfx/cave_atmo.mp3",true,nil)
@@ -15,6 +16,7 @@ function love.sounds.initSounds()
 	love.sounds.addEnvSoundFile("tensionAtmo","res/sfx/tension_atmo.mp3",true,nil)
 	love.sounds.addEnvSoundFile("waterBirdsEnvironment","res/sfx/water_birds_environment.mp3",true,nil)
 	love.sounds.addEnvSoundFile("windyCave","res/sfx/windy_cave.mp3",true,nil)
+
 	----Background music:---------------------
 	--parameters: name,location,isLoop
 	love.sounds.addBgmSoundFile("desertCowboy","res/music/desert_cowboy.mp3",true)

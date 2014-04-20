@@ -36,32 +36,42 @@ function love.game.newWorld()
 		for i = 1, o.mapWidth do
 			for k = 1, o.mapHeight do
 				-- field
-				if MapGenerator.getID(o.mapG, i, k) == 1 then
+				if MapGenerator.getID(o.mapG, i, k) == MAP_PLAIN then
 					o.map.setTileLayer(i, k, 1, 0)
-				elseif MapGenerator.getID(o.mapG, i, k) == 2 then
+				elseif MapGenerator.getID(o.mapG, i, k) == MAP_MOUNTAIN then
+					o.map.setTileLayer(i, k, 1, 4)
+				elseif MapGenerator.getID(o.mapG, i, k) == MAP_PLAIN_DESERT then
 					o.map.setTileLayer(i, k, 1, 2)
+				elseif MapGenerator.getID(o.mapG, i, k) == MAP_MOUNTAIN_DARK then
+					o.map.setTileLayer(i, k, 1, 5)
 				end
 				--objects
-				if MapGenerator.getObject(o.mapG, i, k) == 1 then
+				if MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_WATER then
 					o.map.setTileLayer(i, k, 2, 3)
-				elseif MapGenerator.getObject(o.mapG, i, k) == 2 then
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_TREE then
 					o.map.setTileLayer(i, k, 2, 22)
-				elseif MapGenerator.getObject(o.mapG, i, k) == 4 then
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_FIREPLACE then
 					o.map.setTileLayer(i, k, 2, 18)
-				elseif MapGenerator.getObject(o.mapG, i, k) == 5 then
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_BUSH1 then
 					o.map.setTileLayer(i, k, 2, 8)
-				elseif MapGenerator.getObject(o.mapG, i, k) == 6 then
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_BUSH2 then
 					o.map.setTileLayer(i, k, 2, 9)
-				elseif MapGenerator.getObject(o.mapG, i, k) == 7 then
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_BUSH3 then
 					o.map.setTileLayer(i, k, 2, 10)
-				elseif MapGenerator.getObject(o.mapG, i, k) == 8 then
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_BUSH4 then
 					o.map.setTileLayer(i, k, 2, 11)
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_STONE then
+					o.map.setTileLayer(i, k, 2, 24)	
 				else
 					o.map.setTileLayer(i, k, 2, 63)
 				end
 				--objects 2
-				if MapGenerator.getObject(o.mapG, i, k) == 2 then
+				if MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_TREE then
 					o.map.setTileLayer(i, k - 1, 3, 14)
+				elseif MapGenerator.getID(o.mapG, i, k) == MAP_MOUNTAIN then
+					o.map.setTileLayer(i, k, 3, 4)
+				elseif MapGenerator.getID(o.mapG, i, k) == MAP_MOUNTAIN_DARK then
+					o.map.setTileLayer(i, k, 3, 5)
 				else
 					o.map.setTileLayer(i, k - 1, 3, 63)
 				end
@@ -114,12 +124,13 @@ function love.game.newWorld()
 
 	o.draw = function()
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 1)
-		for i = 1, #o.pawns do
-			o.pawns[i].draw(o.offsetX, o.offsetY)
-		end
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 2)
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 3)
 		o.drawMapCursor()
+
+		for i = 1, #o.pawns do
+			o.pawns[i].draw(o.offsetX, o.offsetY)
+		end
 
 		o.hudLayer.draw()
 	end
