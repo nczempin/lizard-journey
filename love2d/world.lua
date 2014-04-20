@@ -21,6 +21,8 @@ function love.game.newWorld()
 	o.offsetX = 0
 	o.offsetY = 0
 
+	o.timeOfDay = 12.0
+	
 	--TODO right now we have just a "global" goal for pawns, since we just have one pawn and the goal is set with the mouse. For multiple pawns each should have its own goal
 	o.goalX = 7
 	o.goalY = 7
@@ -90,6 +92,11 @@ function love.game.newWorld()
 	end
 
 	o.update = function(dt)
+	-- update time of day
+		o.timeOfDay = (o.timeOfDay + dt)%24 -- one hour per second
+		
+	
+	-- handle scrolling and zooming
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
 

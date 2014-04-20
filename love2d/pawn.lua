@@ -35,6 +35,9 @@ function love.game.newPawn(id, world)
 
 		else
 
+--determine ambient temperature
+
+	
 
 --			if o.temperature <= 22 or o.temperature >= 56 then
 --				o.temperatureDelta = - o.temperatureDelta -- simplified temp change
