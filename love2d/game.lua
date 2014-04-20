@@ -2,6 +2,7 @@ love.game = {}
 
 require "world"
 require "external/gui/gui"
+require "conf"
 
 function love.game.newGame()
 	local o = {}
@@ -27,6 +28,10 @@ function love.game.newGame()
 	end
 
 	o.update = function(dt)
+        if o.state == states.PAUSED then
+            return
+        end
+        
 		if o.state == states.MAIN_MENU then
 			if o.playButton.hit then
 				o.setState(states.GAME_PLAY)
@@ -50,7 +55,20 @@ function love.game.newGame()
 			o.world.draw()
 		elseif o.state == states.CREDITS then
 			love.graphics.print("Credits!", o.x, o.y)
-		end
+		elseif o.state == states.PAUSED then
+            -- Draw world as backdrop
+            o.world.draw()
+            -- Draw transparent rectangle for the 'faded' effect
+            local w = love.window.getWidth()
+            local h = love.window.getHeight()
+            love.graphics.setColor(255, 255, 255, 96)
+            love.graphics.rectangle("fill", 0, 0, w, h)
+            -- Draw centered (H&V) text
+            love.graphics.setColor(0, 0, 0, 255)
+            local font = FONT_XLARGE
+            love.graphics.setFont(font)
+            love.graphics.printf("Paused.", 0, h/2 - font:getHeight()/2, w, "center")
+        end
 	end
 
 	o.setState = function(state)
