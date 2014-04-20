@@ -1,6 +1,6 @@
 require('math')
 local SPRITE_SIZE = 64 --this assumes rectangular sprites
-
+local EPSILON = 0.001
 function love.game.newPawn(id, world)
 	local o = {}
 	o.world = world
@@ -9,9 +9,9 @@ function love.game.newPawn(id, world)
 	o.x = 2
 	o.y = 3
 
-	o.speed = 2
-	o.velX = o.speed
-	o.velY = o.speed
+	o.maxSpeed = 2
+	o.velX = 0
+	o.velY = 0
 
 
 	o.name = id
@@ -27,6 +27,7 @@ function love.game.newPawn(id, world)
 	o.curAnimdt = 0
 
 	o.ambientTemperature = 33
+
 
 	o.update = function(dt)
 
@@ -47,9 +48,19 @@ function love.game.newPawn(id, world)
 		local wantX = o.world.goalX - o.x
 		local wantY = o.world.goalY - o.y
 		local dirX, dirY = love.game.normalize(wantX, wantY)
-		o.velX = dirX * o.speed
-		o.velY = dirY * o.speed
 
+		o.velX = dirX * o.maxSpeed
+		o.velY = dirY * o.maxSpeed
+		
+		--close enough
+		if (math.abs(wantX) < EPSILON)then
+			o.velX = 0
+			o.x = math.floor(o.x+0.5)
+		end
+		if (math.abs(wantY) <EPSILON)then
+			o.velY = 0
+			o.y = math.floor(o.y+0.5)
+		end
 
 
 		-- update position and possibly speed
@@ -62,35 +73,39 @@ function love.game.newPawn(id, world)
 		end
 		o.x = tmpX
 		o.y = tmpY
-		
+
+		--determine animation frame
+
 		o.curAnimdt = o.curAnimdt + dt
 		if o.curAnimdt > o.animspeed then
 			o.anim[1] = (o.anim[1] + 1) % o.animstates
 			o.curAnimdt = o.curAnimdt - o.animspeed
 		end
 
+		--determine facing
 		if math.abs(o.velX) > math.abs(o.velY) then
-			if o.velX < 0 then
+			if o.velX < EPSILON then
 				-- left
 				o.anim[2] = 3
-			elseif o.velX > 0 then
+			elseif o.velX > EPSILON then
 				--right
 				o.anim[2] = 2
 			end
 		else
-			if o.velY < 0 then
+			if o.velY < EPSILON then
 				-- up
 				o.anim[2] = 1
-			elseif o.velY > 0 then
+			elseif o.velY > EPSILON then
 				--down
 				o.anim[2] = 0
 			end
 		end
+
 	end
 
 	o.draw = function(x, y)
 		love.graphics.setColor(255,255,255)
-		
+
 		local quad = love.graphics.newQuad(o.anim[1] * o.spritesize, o.anim[2] * o.spritesize, o.spritesize, o.spritesize, o.image:getWidth(), o.image:getHeight())
 		love.graphics.draw( o.image, quad, (o.x * SPRITE_SIZE + x) * o.zoom, (o.y * SPRITE_SIZE + y) * o.zoom, 0, 2 * o.zoom, 2 * o.zoom)
 
