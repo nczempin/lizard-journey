@@ -28,6 +28,7 @@ function love.game.newPawn(id, world)
 
 	o.ambientTemperature = 33
 
+
 	o.update = function(dt)
 
 
@@ -47,13 +48,16 @@ function love.game.newPawn(id, world)
 		local wantX = o.world.goalX - o.x
 		local wantY = o.world.goalY - o.y
 		local dirX, dirY = love.game.normalize(wantX, wantY)
+
 		o.velX = dirX * o.maxSpeed
 		o.velY = dirY * o.maxSpeed
-		if (math.abs(o.velX) < EPSILON)then
+		if (math.abs(wantX) < EPSILON)then
 			o.velX = 0
+			o.x = math.floor(o.x+0.5)
 		end
-		if (math.abs(o.velY) < EPSILON)then
+		if (math.abs(wantY) <EPSILON)then
 			o.velY = 0
+			o.y = math.floor(o.y+0.5)
 		end
 
 
