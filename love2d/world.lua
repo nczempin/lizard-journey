@@ -3,13 +3,14 @@ require "map"
 require "pawn"
 require "mapGenerator"
 require "layer/hud"
+require('fire')
 
 function love.game.newWorld()
 	local o = {}
 	o.mapG = nil
 	o.map = nil
-	o.mapWidth = 32
-	o.mapHeight = 24
+	o.mapWidth = 128
+	o.mapHeight = 128
 	o.tileset = nil
 	o.offsetX = 0
 	o.offsetY = 0
@@ -20,6 +21,8 @@ function love.game.newWorld()
 	o.offsetX = 0
 	o.offsetY = 0
 
+	o.timeOfDay = 12.0
+	
 	--TODO right now we have just a "global" goal for pawns, since we just have one pawn and the goal is set with the mouse. For multiple pawns each should have its own goal
 	o.goalX = 7
 	o.goalY = 7
@@ -28,42 +31,57 @@ function love.game.newWorld()
 		o.mapG = MapGenerator.newMap(o.mapWidth, o.mapHeight)
 
 		o.tileset = love.game.newTileset("res/gfx/tileset.png", 32, 32, 1)
+		o.fireGraphics = love.graphics.newImage("res/gfx/tileset.png")
+		o.fireGraphics:setFilter("nearest","nearest")
 
 		o.map = love.game.newMap(o.mapWidth, o.mapHeight)
 		o.map.setTileset(o.tileset)
 		o.map.init()
+		o.fires = {}
 		--test
 		for i = 1, o.mapWidth do
 			for k = 1, o.mapHeight do
 				-- field
-				if MapGenerator.getID(o.mapG, i, k) == 1 then
+				if MapGenerator.getID(o.mapG, i, k) == MAP_PLAIN then
 					o.map.setTileLayer(i, k, 1, 0)
-				elseif MapGenerator.getID(o.mapG, i, k) == 2 then
+				elseif MapGenerator.getID(o.mapG, i, k) == MAP_MOUNTAIN then
+					o.map.setTileLayer(i, k, 1, 4)
+				elseif MapGenerator.getID(o.mapG, i, k) == MAP_PLAIN_DESERT then
 					o.map.setTileLayer(i, k, 1, 2)
+				elseif MapGenerator.getID(o.mapG, i, k) == MAP_MOUNTAIN_DARK then
+					o.map.setTileLayer(i, k, 1, 5)
 				end
 				--objects
-				if MapGenerator.getObject(o.mapG, i, k) == 1 then
+				if MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_WATER then
 					o.map.setTileLayer(i, k, 2, 3)
-				elseif MapGenerator.getObject(o.mapG, i, k) == 2 then
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_TREE then
 					o.map.setTileLayer(i, k, 2, 22)
-				elseif MapGenerator.getObject(o.mapG, i, k) == 4 then
-					o.map.setTileLayer(i, k, 2, 18)
-				elseif MapGenerator.getObject(o.mapG, i, k) == 5 then
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_FIREPLACE then
+					--o.map.setTileLayer(i, k, 2, 18)
+					o.fires[#o.fires + 1] = Fire.newFire(i, k, o.fireGraphics)
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_BUSH1 then
 					o.map.setTileLayer(i, k, 2, 8)
-				elseif MapGenerator.getObject(o.mapG, i, k) == 6 then
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_BUSH2 then
 					o.map.setTileLayer(i, k, 2, 9)
-				elseif MapGenerator.getObject(o.mapG, i, k) == 7 then
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_BUSH3 then
 					o.map.setTileLayer(i, k, 2, 10)
-				elseif MapGenerator.getObject(o.mapG, i, k) == 8 then
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_BUSH4 then
 					o.map.setTileLayer(i, k, 2, 11)
+				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_STONE then
+					o.map.setTileLayer(i, k, 2, 24)	
 				else
 					o.map.setTileLayer(i, k, 2, 63)
 				end
 				--objects 2
-				if MapGenerator.getObject(o.mapG, i, k) == 2 then
+				o.map.setTileLayer(i, k, 3, 63)
+				if MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_TREE then
 					o.map.setTileLayer(i, k - 1, 3, 14)
+				elseif MapGenerator.getID(o.mapG, i, k) == MAP_MOUNTAIN then
+					o.map.setTileLayer(i, k, 3, 4)
+				elseif MapGenerator.getID(o.mapG, i, k) == MAP_MOUNTAIN_DARK then
+					o.map.setTileLayer(i, k, 3, 5)
 				else
-					o.map.setTileLayer(i, k - 1, 3, 63)
+					--o.map.setTileLayer(i, k - 1, 3, 63)
 				end
 			end
 		end
@@ -76,6 +94,19 @@ function love.game.newWorld()
 	end
 
 	o.update = function(dt)
+	-- update time of day
+		o.timeOfDay = (o.timeOfDay + dt)%24 -- one hour per second
+		
+	
+	-- play ambient sounds
+		if love.sound.ambientSound then
+			love.sound.ambientSound.soundActive = true
+			love.sound.ambientSound.playAmbient()
+		else
+			love.sound.ambientSound = getAmbientSoundGenerator()
+		end
+		
+	-- handle scrolling and zooming
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
 
@@ -101,12 +132,15 @@ function love.game.newWorld()
 			o.pawns[i].update(dt)
 		end
 
-		for i = 1, o.mapWidth do
-			for k = 1, o.mapHeight do
-				if MapGenerator.getObject(o.mapG, i, k) == 4 then
-					o.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
-				end
-			end
+		-- for i = 1, o.mapWidth do
+			-- for k = 1, o.mapHeight do
+				-- if MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_FIREPLACE then
+					-- o.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
+				-- end
+			-- end
+		-- end
+		for i, v in pairs(o.fires) do
+			v.update(dt, o.pawns)
 		end
 
 		o.hudLayer.update(dt)
@@ -114,12 +148,16 @@ function love.game.newWorld()
 
 	o.draw = function()
 		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 1)
+		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 2)
+		for i,v in pairs(o.fires) do
+			v.draw(o.offsetX, o.offsetY)
+		end
+		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 3)
+		o.drawMapCursor()
+
 		for i = 1, #o.pawns do
 			o.pawns[i].draw(o.offsetX, o.offsetY)
 		end
-		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 2)
-		o.map.draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 3)
-		o.drawMapCursor()
 
 		o.hudLayer.draw()
 	end
@@ -130,6 +168,10 @@ function love.game.newWorld()
 		o.map.setZoom(o.zoom)
 		for i = 1, #o.pawns do
 			o.pawns[i].setZoom(o.zoom)
+		end
+		
+		for i, v in pairs(o.fires) do
+			v.setZoom(o.zoom)
 		end
 
 		o.offsetX = o.offsetX * 0.5
@@ -145,6 +187,9 @@ function love.game.newWorld()
 		o.map.setZoom(o.zoom)
 		for i = 1, #o.pawns do
 			o.pawns[i].setZoom(o.zoom)
+		end
+		for i, v in pairs(o.fires) do
+			v.setZoom(o.zoom)
 		end
 		o.offsetX = o.offsetX * 2
 		o.offsetY = o.offsetY * 2
@@ -165,6 +210,7 @@ print(o.zoom)
 			o.tileset.tileWidth * o.map.tileScale * o.zoom,
 			o.tileset.tileHeight * o.map.tileScale * o.zoom
 		)
+		G.setColor(255, 255, 255)
 	end
 
 	o.setGoal = function(map, x, y)

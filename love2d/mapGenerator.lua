@@ -6,7 +6,7 @@ MAP_UNDEFINED = 0
 MAP_PLAIN = 1
 MAP_MOUNTAIN = 2
 MAP_PLAIN_DESERT = 3
-MAP_MOUNTAIN_DARK = 2
+MAP_MOUNTAIN_DARK = 4
 
 MAP_OBJ_NOTHING = 0
 MAP_OBJ_WATER = 1
@@ -17,13 +17,15 @@ MAP_OBJ_BUSH1 = 5
 MAP_OBJ_BUSH2 = 6
 MAP_OBJ_BUSH3 = 7
 MAP_OBJ_BUSH4 = 8
-
+MAP_OBJ_STONE = 9
 
 MAP_WATER_PERCENTAGE = 0.15
 MAP_TREE_PERCENTAGE = 0.1
 MAP_FIREPLACE_PERCENTAGE = 0.1
+MAP_STONE_PERCENTAGE = 0.1
 
 function MapGenerator.newMap(width, height)
+	math.randomseed( os.time() )
 	local map = {}
 	local plain = {}
 	local mountain = {}
@@ -99,8 +101,19 @@ function MapGenerator.newMap(width, height)
 		print("Fire place: ", pos[1], pos[2])
 	end
 	
+	--create stones
+	local numStonePlaces = MAP_STONE_PERCENTAGE * countPlain
+	for i = 1, numStonePlaces do
+		local pos
+		local idx = math.random(#plain)
+		local pos = plain[idx]
+		table.remove(plain, idx)
+		map[pos[1]][pos[2]][2] = MAP_OBJ_STONE
+		print("Stone: ", pos[1], pos[2])
+	end
+	
 	MapGenerator.printMap(map)
-	print("Trees: ", numTrees, "Water: ", numWater, "Units: ", numUnits, "Fire places: ", numFirePlaces)
+	print("Trees: ", numTrees, "Water: ", numWater, "Units: ", numUnits, "Fire places: ", numFirePlaces, "Stones: ", numStonePlaces)
 	return map
 end
 
@@ -201,4 +214,12 @@ end
 
 function MapGenerator.getObject(map, x, y)
 	return map[x][y][2]
+end
+
+function MapGenerator.setID(map, x, y, id)
+	map[x][y][1] = id
+end
+
+function MapGenerator.setObject(map, x, y, obj)
+	map[x][y][2] = obj
 end

@@ -5,9 +5,9 @@
 -- @param width
 -- @param height
 -- @param name The Name of the button
--- @param path for an Image
+-- @param image An Image
 
-function love.gui.newButton(x, y, width, height, text)
+function love.gui.newButton(x, y, width, height, text, image)
 	local o = {}
 
 	--Attribute
@@ -24,9 +24,9 @@ function love.gui.newButton(x, y, width, height, text)
 	o.hover 		= false
 	o.hit			= false
 	o.down			= true
-	o.img			= nil
+	o.img			= image
 	o.colorNormal	= {255, 127, 0, 255}
-	o.colorHover	= {0, 127, 255, 255}
+	o.colorHover	= {128, 64, 0, 255}
 	o.colorDisabled	= {255, 255, 255, 63}
 
 	--Update button
@@ -50,38 +50,37 @@ function love.gui.newButton(x, y, width, height, text)
 			end
 
 			G.setBlendMode("alpha")
-			G.setColor(0, 0, 0, 31)
-			G.rectangle("fill", o.x, o.y, o.width, o.height)
-			G.setColor(0, 0, 0, 95)
-			G.setLineWidth(4)
-			G.rectangle("line", o.x, o.y, o.width, o.height)
-			G.setBlendMode("additive")
-			G.setColor(color[1], color[2], color[3], color[4])
-			G.setLineWidth(2)
-			G.rectangle("line", o.x, o.y, o.width, o.height)
-
-			if o.img then
-				G.setBlendMode("alpha")
+			--G.setColor(0, 0, 0, 31)
+			--G.rectangle("fill", o.x, o.y, o.width, o.height)
+			--G.setColor(0, 0, 0, 95)
+			--G.setLineWidth(4)
+			--G.rectangle("line", o.x, o.y, o.width, o.height)
+			--G.setBlendMode("additive")
+			--G.setColor(color[1], color[2], color[3], color[4])
+			--G.setLineWidth(2)
+			--G.rectangle("line", o.x, o.y, o.width, o.height)
+			if o.hover and o.img then
 				G.setColor(255, 255, 255)
-				G.draw(o.img, o.x + o.imgX, o.y + o.imgY)
+				G.draw(o.img, o.x, o.y)
 			end
 
 			if o.text then
+				G.setColor(81, 81, 81)
 				if o.font then
 					G.setFont(o.font)
 				end
 
 				if o.textX and o.textY then
-					G.setColor(0, 0, 0, 95)
-					G.printf(o.text, o.x + o.textX + 2, o.y + o.textY + 6, o.width, "left")
-					G.setBlendMode("additive")
-					G.setColor(color[1], color[2], color[3], color[4])
+					--G.setColor(81, 81, 81)
+					--G.printf(o.text, o.x + o.textX + 2, o.y + o.textY + 6, o.width, "left")
+					--G.setBlendMode("additive")
+					--G.setColor(color[1], color[2], color[3], color[4])
 					G.printf(o.text, o.x + o.textX, o.y + o.textY + 4, o.width, "left")					
 				else
-					G.setColor(0, 0, 0, 95)
-					G.printf(o.text, o.x + 2, o.y + 6, o.width, "center")
-					G.setBlendMode("additive")
-					G.setColor(color[1], color[2], color[3], color[4])
+					--G.setColor(81, 81, 81)
+					--G.printf(o.text, o.x + 2, o.y + 6, o.width, "center")
+					--G.setBlendMode("additive")
+					--G.setColor(color[1], color[2], color[3], color[4])
 					G.printf(o.text, o.x, o.y + 4, o.width, "center")
 				end
 
@@ -172,8 +171,8 @@ function love.gui.newButton(x, y, width, height, text)
 
 	--Set text
 	-- @param text
-	o.setFontSize = function(size)
-		o.font = G.newFont(size)
+	o.setFont = function(font)
+		o.font = font
 	end
 
 	--Set text

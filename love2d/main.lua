@@ -16,15 +16,16 @@ function love.load()
 	FONT_SIZE_LARGE = 24
 	FONT_SIZE_MEDIUM = 16
 	FONT_SIZE_SMALL = 8
-	FONT_XLARGE = G.newFont(FONT_SIZE_XLARGE)
-	FONT_LARGE = G.newFont(FONT_SIZE_LARGE)
-	FONT_MEDIUM= G.newFont(FONT_SIZE_MEDIUM)
-	FONT_SMALL = G.newFont(FONT_SIZE_SMALL)
+	local FONT_PATH = "res/fonts/alagard.ttf"
+	FONT_XLARGE = G.newFont(FONT_PATH, FONT_SIZE_XLARGE)
+	FONT_LARGE = G.newFont(FONT_PATH, FONT_SIZE_LARGE)
+	FONT_MEDIUM= G.newFont(FONT_PATH, FONT_SIZE_MEDIUM)
+	FONT_SMALL = G.newFont(FONT_PATH, FONT_SIZE_SMALL)
 
 	FONT = FONT_LARGE
 
 	lizGame = love.game.newGame()
-	lizGame.setVersion("v0.1.1")
+	lizGame.setVersion("v0.2.1")
 	lizGame.init()
 	love.sounds.initSounds()
 	love.sounds.playBgm("desertCowboy")
@@ -40,12 +41,25 @@ function love.draw()
 end
 
 function love.keypressed(key, code)
-	if key == "1" then
-		lizGame.setState(states.MAIN_MENU)
-	elseif key == "2" then
-		lizGame.setState(states.GAME_PLAY)
-	elseif key == "3" then
-		lizGame.setState(states.CREDITS)
+	if lizGame.state ~= states.PAUSED then
+		if key == "1" then
+			lizGame.setState(states.MAIN_MENU)
+		elseif key == "2" then
+			lizGame.setState(states.GAME_PLAY)
+		elseif key == "3" then
+			lizGame.setState(states.CREDITS)
+		end
+	end
+
+	-- Toggle pause, but only to/from GAME_PLAY
+	if lizGame.state == states.GAME_PLAY or lizGame.state == states.PAUSED then
+		if key == "p" then
+			if lizGame.state == states.GAME_PLAY then
+				lizGame.setState(states.PAUSED)
+			elseif lizGame.state == states.PAUSED then
+				lizGame.setState(states.GAME_PLAY)
+			end
+		end
 	end
 end
 
