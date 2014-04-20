@@ -51,6 +51,8 @@ function love.game.newPawn(id, world)
 
 		o.velX = dirX * o.maxSpeed
 		o.velY = dirY * o.maxSpeed
+		
+		--close enough
 		if (math.abs(wantX) < EPSILON)then
 			o.velX = 0
 			o.x = math.floor(o.x+0.5)
