@@ -40,7 +40,7 @@ function love.draw()
 end
 
 function love.keypressed(key, code)
-    if lizGame.state ~= states.paused then
+    if lizGame.state ~= states.PAUSED then
         if key == "1" then
             lizGame.setState(states.MAIN_MENU)
         elseif key == "2" then  
