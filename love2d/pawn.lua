@@ -37,10 +37,7 @@ function love.game.newPawn(id, world)
 
 
 	o.update = function(dt)
-
-		if o.state == "dead" then
-
-		else
+		--determine ambient temperature
 			local maxTemp = DEFAULT_AMBIENT_TEMPERATURE
 			for i, fire in pairs(o.world.fires) do
 				if fire.state > FIRE_STATE_ENLIGHT then
@@ -51,11 +48,13 @@ function love.game.newPawn(id, world)
 					end
 				end
 			end
-
-			--determine ambient temperature
 			local ambientDiff = maxTemp-o.ambientTemperature
 			o.heatAmbient(ambientDiff*dt)
 
+		if o.state == "dead" then
+
+		else
+	
 			--			if o.temperature <= 22 or o.temperature >= 56 then
 			--				o.temperatureDelta = - o.temperatureDelta -- simplified temp change
 			--			end
