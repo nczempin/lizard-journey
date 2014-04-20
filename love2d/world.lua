@@ -201,6 +201,7 @@ print(o.zoom)
 			o.tileset.tileWidth * o.map.tileScale * o.zoom,
 			o.tileset.tileHeight * o.map.tileScale * o.zoom
 		)
+		G.setColor(255, 255, 255)
 	end
 
 	o.setGoal = function(map, x, y)

@@ -4,6 +4,7 @@ require('mapGenerator')
 local SPRITE_SIZE = 64 --this assumes rectangular sprites --TODO this conflicts with o.spriteSize
 local EPSILON = 0.001
 local DIGGING_TIME = 0.5
+local DEFAULT_AMBIENT_TEMPERATURE = 33
 
 function love.game.newPawn(id, world)
 	local o = {}
@@ -23,7 +24,7 @@ function love.game.newPawn(id, world)
 	o.name = id
 
 	o.water = 100
-	o.temperature = 33
+	o.temperature = 0
 	o.temperatureDelta = 1
 	o.image = love.graphics.newImage("res/gfx/character.png")
 	o.spritesize = 32 --TODO this conflicts with the constant SPRITE_SIZE
@@ -32,7 +33,7 @@ function love.game.newPawn(id, world)
 	o.animspeed = 0.1
 	o.curAnimdt = 0
 
-	o.ambientTemperature = 33
+	o.ambientTemperature = DEFAULT_AMBIENT_TEMPERATURE
 
 
 	o.update = function(dt)
@@ -41,19 +42,20 @@ function love.game.newPawn(id, world)
 
 		else
 
---determine ambient temperature
+			--determine ambient temperature
+			local ambientDiff = DEFAULT_AMBIENT_TEMPERATURE-o.ambientTemperature
+			o.heatAmbient(ambientDiff*dt)
 
-	
+			--			if o.temperature <= 22 or o.temperature >= 56 then
+			--				o.temperatureDelta = - o.temperatureDelta -- simplified temp change
+			--			end
+			--o.temperature = o.temperature + dt * o.temperatureDelta
+			local tempDiff = o.ambientTemperature - o.temperature
+			o.temperature = o.temperature + 0.05*tempDiff*dt
 
---			if o.temperature <= 22 or o.temperature >= 56 then
---				o.temperatureDelta = - o.temperatureDelta -- simplified temp change
---			end
-		--o.temperature = o.temperature + dt * o.temperatureDelta
-		o.temperature = o.temperature - dt/2
-
-			o.water = o.water -0.01*o.temperature*o.temperature* dt --TODO: make this dependent on all sorts of other things
+			o.water = o.water -0.001*o.temperature*o.temperature* dt --TODO: make this dependent on all sorts of other things
 			if o.water <=0 then
-				--o.state = "dead"
+				o.state = "dead"
 			end
 
 			--update target coordinates
@@ -183,10 +185,10 @@ function love.game.newPawn(id, world)
 		o.zoom = zoom
 	end
 
-	o.heat = function(dt)
-		o.temperature = o.temperature + dt
+	o.heatAmbient = function(dt)
+		o.ambientTemperature= o.ambientTemperature + dt
 	end
-	
+
 	o.getPosition = function()
 		return o.x, o.y
 	end
