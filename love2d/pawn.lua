@@ -1,3 +1,4 @@
+require('math')
 local SPRITE_SIZE = 64 --this assumes rectangular sprites
 
 function love.game.newPawn(id, world)
@@ -18,6 +19,12 @@ function love.game.newPawn(id, world)
 	o.water = 100
 	o.temperature = 33
 	o.temperatureDelta = 1
+	o.image = love.graphics.newImage("res/gfx/character.png")
+	o.spritesize = 32
+	o.anim = {0, 0}
+	o.animstates = 2
+	o.animspeed = 0.1
+	o.curAnimdt = 0
 
 	o.update = function(dt)
 
@@ -51,12 +58,38 @@ function love.game.newPawn(id, world)
 		end
 		o.x = tmpX
 		o.y = tmpY
+		
+		o.curAnimdt = o.curAnimdt + dt
+		if o.curAnimdt > o.animspeed then
+			o.anim[1] = (o.anim[1] + 1) % o.animstates
+			o.curAnimdt = o.curAnimdt - o.animspeed
+		end
 
+		if math.abs(o.velX) > math.abs(o.velY) then
+			if o.velX < 0 then
+				-- left
+				o.anim[2] = 3
+			elseif o.velX > 0 then
+				--right
+				o.anim[2] = 2
+			end
+		else
+			if o.velY < 0 then
+				-- up
+				o.anim[2] = 1
+			elseif o.velY > 0 then
+				--down
+				o.anim[2] = 0
+			end
+		end
 	end
 
 	o.draw = function(x, y)
 		love.graphics.setColor(0,255,0)
-		love.graphics.rectangle("fill", (o.x * SPRITE_SIZE + x) * o.zoom, (o.y * SPRITE_SIZE + y) * o.zoom, SPRITE_SIZE * o.zoom,SPRITE_SIZE * o.zoom)
+		--love.graphics.rectangle("fill", (o.x * SPRITE_SIZE + x) * o.zoom, (o.y * SPRITE_SIZE + y) * o.zoom, SPRITE_SIZE * o.zoom,SPRITE_SIZE * o.zoom)
+		
+		local quad = love.graphics.newQuad(o.anim[1] * o.spritesize, o.anim[2] * o.spritesize, o.spritesize, o.spritesize, o.image:getWidth(), o.image:getHeight())
+		love.graphics.draw( o.image, quad, (o.x * SPRITE_SIZE + x) * o.zoom, (o.y * SPRITE_SIZE + y) * o.zoom, 0, 2 * o.zoom, 2 * o.zoom)
 
 		--show the target of this pawn
 		--TODO: only show when this pawn is selected / being followed
