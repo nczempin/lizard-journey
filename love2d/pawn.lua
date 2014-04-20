@@ -27,11 +27,13 @@ function love.game.newPawn(id, world)
 	o.temperature = 0
 	o.temperatureDelta = 1
 	o.image = love.graphics.newImage("res/gfx/character.png")
+	o.image:setFilter("nearest","nearest")
 	o.spritesize = 32 --TODO this conflicts with the constant SPRITE_SIZE
 	o.anim = {0, 0}
 	o.animstates = 8
 	o.animspeed = 0.1
 	o.curAnimdt = 0
+	o.lastIdle = 0.5
 
 	o.ambientTemperature = DEFAULT_AMBIENT_TEMPERATURE
 
@@ -159,24 +161,46 @@ function love.game.newPawn(id, world)
 		end
 
 		--determine facing
+		print(o.velX, o.velY, EPSILON)
 		if math.abs(o.velX) > math.abs(o.velY) then
-			if o.velX < EPSILON then
+			if o.velX < -EPSILON then
 				-- left
 				o.anim[2] = 4
 			elseif o.velX > EPSILON then
 				--right
 				o.anim[2] = 3
+			else
+				o.lastIdle = o.lastIdle - dt
+				if o.lastIdle < 0 then
+					if math.random() < 0.5 then
+						o.anim[2] = 6
+						o.lastIdle = 0.5
+					else
+						o.anim[2] = 7
+						o.lastIdle = 0.5
+					end
+				end
 			end
 		else
-			if o.velY < EPSILON then
+			if o.velY < -EPSILON then
 				-- up
 				o.anim[2] = 2
 			elseif o.velY > EPSILON then
 				--down
 				o.anim[2] = 1
+			else
+				o.lastIdle = o.lastIdle - dt
+				if o.lastIdle < 0 then
+					if math.random() < 0.5 then
+						o.anim[2] = 6
+						o.lastIdle = 0.5
+					else
+						o.anim[2] = 7
+						o.lastIdle = 0.5
+					end
+				end
 			end
 		end
-
 	end
 
 	o.draw = function(x, y)

@@ -32,6 +32,7 @@ function love.game.newWorld()
 
 		o.tileset = love.game.newTileset("res/gfx/tileset.png", 32, 32, 1)
 		o.fireGraphics = love.graphics.newImage("res/gfx/tileset.png")
+		o.fireGraphics:setFilter("nearest","nearest")
 
 		o.map = love.game.newMap(o.mapWidth, o.mapHeight)
 		o.map.setTileset(o.tileset)
