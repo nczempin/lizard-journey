@@ -45,19 +45,19 @@ function love.keypressed(key, code)
 		if key == "1" then
 			lizGame.setState(states.MAIN_MENU)
 		elseif key == "2" then
-			lizGame.setState(states.GAME_PLAY)
+			lizGame.setState(states.GAMEPLAY)
 		elseif key == "3" then
 			lizGame.setState(states.CREDITS)
 		end
 	end
 
 	-- Toggle pause, but only to/from GAME_PLAY
-	if lizGame.state == states.GAME_PLAY or lizGame.state == states.PAUSED then
+	if lizGame.state == states.GAMEPLAY or lizGame.state == states.PAUSED then
 		if key == "p" then
-			if lizGame.state == states.GAME_PLAY then
+			if lizGame.state == states.GAMEPLAY then
 				lizGame.setState(states.PAUSED)
 			elseif lizGame.state == states.PAUSED then
-				lizGame.setState(states.GAME_PLAY)
+				lizGame.setState(states.GAMEPLAY)
 			end
 		end
 	end

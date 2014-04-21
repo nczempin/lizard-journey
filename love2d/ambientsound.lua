@@ -94,7 +94,7 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 				end
 				--print("Amount of "..i..":"..tileAmount[i])
 			end
-			--print("Most used: "..mostUsed..", "..secondMostUsed)
+			print("Most used: "..mostUsed..", "..secondMostUsed)
 			-- play the right music file
 			if mostUsed == 1 then
 				love.sounds.playSound("riverLoop1")
@@ -102,7 +102,8 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 				love.sounds.playSound("birds")
 			elseif mostUsed == 4 then
 				love.sounds.playSound("fireplace")
-			elseif mostUsed == 5 then
+				--			elseif mostUsed == 5 then
+			else
 				love.sounds.playSound("bird")
 			end
 		end

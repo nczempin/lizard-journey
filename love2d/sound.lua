@@ -22,7 +22,7 @@ function love.sounds.addEnvSoundFile(sName,sFilePath,looping,loopsPerPlay)
 	o.loopsNo = loopsPerPlay
 	o.isPlaying = false
 	--o.playRandomly = playRand --NYI
-	--o.loopTime = loopT --time from the end to the restart of a looped sound file 
+	--o.loopTime = loopT --time from the end to the restart of a looped sound file
 	--o.randomTime = randT --time modifier to loopTime, restart of loop file will be loopTime+/-randomTime
 	love.sounds.envSounds[sName] = o
 	--print(love.sounds.envSounds[sName].filePath)
@@ -53,7 +53,7 @@ function love.sounds.playBgm(sName)
 			print("Warning: No music file found for "..sName)
 			return
 		end
-		if love.sounds.bgm[sName] and love.sounds.bgm.activeBgm then 
+		if love.sounds.bgm[sName] and love.sounds.bgm.activeBgm then
 			TEsound.stop(love.sounds.bgm.activeBgm,false) --Stopping old BackgroundMusic, this would be the perfect place for a soft transition from one bgm file to another
 		end
 		if love.sounds.bgm[sName].loop then
@@ -76,9 +76,8 @@ function love.sounds.playSound(sName, timeInMilliSeconds)
 	if love.sounds.envSounds[sName] then
 		if not love.sounds.envSounds[sName].isPlaying then
 			if timeInMilliSeconds ~= nil then
-				--startTime = love.timer.getTime()
+			--startTime = love.timer.getTime()
 			else
-				--print("playing sound "..sName..", "..love.sounds.envSounds[sName].filePath)
 				if love.sounds.envSounds[sName].loop then
 					TEsound.play(love.sounds.envSounds[sName].filePath,sName,LOVE_SOUND_SOUNDVOLUME,nil,nil)
 				else
@@ -86,6 +85,8 @@ function love.sounds.playSound(sName, timeInMilliSeconds)
 				end
 				love.sounds.envSounds[sName].isPlaying = true
 			end
+		else
+			print("playing sound "..sName..", "..love.sounds.envSounds[sName].filePath)
 		end
 	else
 		print("There is no sound file called "..sName)

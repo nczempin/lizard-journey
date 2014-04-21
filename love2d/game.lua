@@ -87,7 +87,7 @@ function love.game.newGame()
 
 		if o.state == states.MAIN_MENU then
 			if o.playButton.hit then
-				o.setState(states.GAME_PLAY)
+				o.setState(states.GAMEPLAY)
 				TEsound.stop(love.sounds.bgm.activeBgm,false)
 				--love.sounds.playBgm("lizardGuitarFx")
 			elseif o.creditsButton.hit then
@@ -97,7 +97,7 @@ function love.game.newGame()
 				love.event.quit()
 			end
 			o.menu.update(dt)
-		elseif o.state == states.GAME_PLAY then
+		elseif o.state == states.GAMEPLAY then
 			o.world.update(dt)
 		end
 	end
@@ -119,7 +119,7 @@ function love.game.newGame()
 			--G.rectangle("fill", love.window.getWidth()/2 - 20, love.window.getHeight()/2 - 20, 40, 40)
 
 			G.setColor(255, 255, 255)
-		elseif o.state == states.GAME_PLAY then
+		elseif o.state == states.GAMEPLAY then
 			o.world.draw()
 		elseif o.state == states.CREDITS then
 			G.print("Credits!", o.x, o.y)
