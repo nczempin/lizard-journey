@@ -77,17 +77,19 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 						if soundMapValue == 4 then
 							print("fire might be at "..i+o.origX-o.listeningRadius..", "..j+o.origY-o.listeningRadius)
 							for k=1,#lizGame.world.fires do
-								if lizGame.world.fires[k].y == j+o.origY-o.listeningRadius and lizGame.world.fires[k].x == i+o.origX-o.listeningRadius then 
+								local fire = lizGame.world.fires[k]
+								print ("looking at fireplace: "..fire.x..", ".. fire.y);
+								if fire.y == j + o.origY - o.listeningRadius and fire.x == i +o.origX - o.listeningRadius then
 									print ("found fire")
 									if lizGame.world.fires[k].state ~= 0 then
-									tileAmount[soundMapValue] = tileAmount[soundMapValue] + 1
+										tileAmount[soundMapValue] = tileAmount[soundMapValue] + 1
 										print("burning fire added")
 									end
 									break
 								end
 							end
 						else
-						
+
 							tileAmount[soundMapValue] = tileAmount[soundMapValue] + 1
 						end
 					end
@@ -106,7 +108,7 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 				--print("Amount of "..i..":"..tileAmount[i])
 			end
 			--print("Most used: "..mostUsed..", "..secondMostUsed)
-			
+
 			-- play the right music file
 			if mostUsed == 1 or secondMostUsed == 1 then
 				love.sounds.playSound("riverLoop1")
@@ -122,7 +124,7 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 			end
 			if mostUsed == 4 or secondMostUsed == 4 then
 				love.sounds.playSound("fireplace")
-			--	elseif mostUsed == 5 then
+				--	elseif mostUsed == 5 then
 			else
 				love.sounds.stopSound("fireplace")
 			end
