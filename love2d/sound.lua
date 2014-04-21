@@ -11,6 +11,10 @@ love.sounds.envSounds = {} -- envSounds[name], look at addEnvSoundFile() for mor
 love.sounds.ambientSound = getAmbientSoundGenerator()
 love.sounds.bgm = {} --love.sounds.bgm[name], look at addBgmFile() for more details
 love.sounds.bgm.activeBgm = nil --this helps making sure that only one BGM plays at a time
+love.sounds.soundRandomizer = love.math.newRandomGenerator(os.time())
+for i = 1,35 do
+	love.sounds.soundRandomizer:random()
+end
 
 -- example: love.sounds.addSoundFile("MainSound","sounds/MainSoundFile.mp3",true)
 -- only use this function in soundinit.lua!
@@ -71,23 +75,24 @@ end
 -- love.sounds.playSound("fireplace")
 -- @param sound name as specified in soundInit
 -- @param  Time to Wait to Play the Sound in Milliseconds, inactive at the moment (sound won't play if you set this to a value anyway)
-function love.sounds.playSound(sName, timeInMilliSeconds)
+function love.sounds.playSound(sName, timeInMilliSeconds,pitch)
 	--print(love.sounds.envSounds[sName].isPlaying)
 	if love.sounds.envSounds[sName] then
-		if not love.sounds.envSounds[sName].isPlaying then
+		---if not love.sounds.envSounds[sName].isPlaying then
 			if timeInMilliSeconds ~= nil then
 			--startTime = love.timer.getTime()
 			else
 				if love.sounds.envSounds[sName].loop then
-					TEsound.play(love.sounds.envSounds[sName].filePath,sName,LOVE_SOUND_SOUNDVOLUME,nil,nil)
+					TEsound.play(love.sounds.envSounds[sName].filePath,sName,LOVE_SOUND_SOUNDVOLUME,pitch,nil)
 				else
-					TEsound.playLooping(love.sounds.envSounds[sName].filePath,sName,love.sounds.envSounds[sName].loopsNo,LOVE_SOUND_SOUNDVOLUME,nil,nil)
+					TEsound.playLooping(love.sounds.envSounds[sName].filePath,sName,love.sounds.envSounds[sName].loopsNo,LOVE_SOUND_SOUNDVOLUME,pitch,nil)
 				end
-				love.sounds.envSounds[sName].isPlaying = true
+				---love.sounds.envSounds[sName].isPlaying = true
 			end
-		else
 			print("playing sound "..sName..", "..love.sounds.envSounds[sName].filePath)
-		end
+		---else
+		---	print("Sound "..sName.." is already playing!")
+		---end
 	else
 		print("There is no sound file called "..sName)
 	end
@@ -96,7 +101,7 @@ end
 --Stops the Background music
 function love.sounds.stopSound(sName)
 	TEsound.stop(sName,false)
-	love.sounds.envSounds.sName.isPlaying = false
+	love.sounds.envSounds[sName].isPlaying = false
 end
 
 --Sets the Background Volume
