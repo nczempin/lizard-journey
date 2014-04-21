@@ -62,7 +62,7 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 	end
 
 	o.playAmbient = function()
-		print "."
+		--print "."
 		if o.soundActive and lizGame.state == states.GAMEPLAY then
 			o.setOrigin()
 			o.updateSoundMap()
@@ -76,13 +76,10 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 					local soundMapValue = o.soundMap[i][j]
 					if i+j>=o.listeningRadius and soundMapValue>0 then
 						if soundMapValue == 4 then
-							--print("fire might be at "..i+o.origX-o.listeningRadius..", "..j+o.origY-o.listeningRadius)
 							for k=1,#lizGame.world.fires do
-								if lizGame.world.fires[k].y == j+o.origY-o.listeningRadius and lizGame.world.fires[k].x == i+o.origX-o.listeningRadius then 
-									--print ("found fire")
+								if lizGame.world.fires[k].y == j+o.origY-o.listeningRadius-1 and lizGame.world.fires[k].x == i+o.origX-o.listeningRadius-1 then 
 									if lizGame.world.fires[k].state ~= 0 then
 									tileAmount[soundMapValue] = tileAmount[soundMapValue] + 1
-										--print("burning fire added")
 									end
 									break
 								end
