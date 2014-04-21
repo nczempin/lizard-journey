@@ -64,6 +64,10 @@ function love.keypressed(key, code)
 end
 
 function love.mousepressed(x, y, key)
+	if lizGame.state == states.CREDITS then
+		lizGame.setState(states.MAIN_MENU)
+	end
+	
 	if(key == "wu") then
 		lizGame.world.zoomIn()
 	elseif(key == "wd") then

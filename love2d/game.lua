@@ -43,9 +43,9 @@ function love.game.newGame()
 				end
 			end
 			
-			o.creditsFont = FONT_MEDIUM
+			o.peopleFont = FONT_MEDIUM
 			local nLines = select(2, o.peopleTextual:gsub('\n', '\n'))
-			o.creditsHPos = W.getHeight()/2 - .75*nLines/2*o.creditsFont:getHeight()
+			o.creditsHPos = W.getHeight()/2 - .75*nLines/2*o.peopleFont:getHeight()
 		end
 	end
 	
@@ -148,9 +148,15 @@ function love.game.newGame()
 		
 		local hh = W.getHeight()/2
 		local w = W.getWidth()
-		G.setFont(o.creditsFont)
+		G.setFont(o.peopleFont)
 		G.setColor(81, 81, 81)
 		G.printf(o.peopleTextual, 0, o.creditsHPos, w, "center")
+		G.setColor(255, 255, 255)
+		
+		G.setFont(FONT_LARGE)
+		G.setColor(120, 118, 112)
+		G.printf("Click anywhere to exit.", 0, W.getHeight()*.85, w, "center")
+		
 		G.setColor(255, 255, 255)
 	end
 	
