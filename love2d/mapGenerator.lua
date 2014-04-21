@@ -59,7 +59,7 @@ function MapGenerator.newMap(width, height)
 		table.remove(plain, idx)
 		local ttype = math.random(#plainTypes)
 		map[pos[1]][pos[2]][2] = treeTypes[ttype]
-		print("Tree: ", pos[1], pos[2])
+		--print("Tree: ", pos[1], pos[2])
 	end
 	
 	-- create start point
@@ -69,7 +69,7 @@ function MapGenerator.newMap(width, height)
 		local pos = plain[idx]
 		table.remove(plain, idx)
 		map[pos[1]][pos[2]][2] = MAP_OBJ_START
-		print("Unit: ", pos[1], pos[2])
+		--print("Unit: ", pos[1], pos[2])
 	end
 	
 	-- create water
@@ -87,7 +87,7 @@ function MapGenerator.newMap(width, height)
 			pos = mountain[idx]
 			waterToPlace = waterToPlace - MapGenerator.generateWater(pos[1], pos[2], {plain, mountain}, map, width, height, maxSize)
 		end
-		print("Water: ", pos[1], pos[2], "@", maxSize)
+		--print("Water: ", pos[1], pos[2], "@", maxSize)
 	end
 	
 	--create fire places
@@ -98,7 +98,7 @@ function MapGenerator.newMap(width, height)
 		local pos = plain[idx]
 		table.remove(plain, idx)
 		map[pos[1]][pos[2]][2] = MAP_OBJ_FIREPLACE
-		print("Fire place: ", pos[1], pos[2])
+		--print("Fire place: ", pos[1], pos[2])
 	end
 	
 	--create stones
@@ -109,7 +109,7 @@ function MapGenerator.newMap(width, height)
 		local pos = plain[idx]
 		table.remove(plain, idx)
 		map[pos[1]][pos[2]][2] = MAP_OBJ_STONE
-		print("Stone: ", pos[1], pos[2])
+		--print("Stone: ", pos[1], pos[2])
 	end
 	
 	MapGenerator.printMap(map)
@@ -203,7 +203,7 @@ function MapGenerator.printMap(map)
 		for j, v in pairs(v) do
 			line = line .. (v[1] + 2 * v[2]) .. " "
 		end
-		print(line)
+		--print(line)
 	end
 end
 

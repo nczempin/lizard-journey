@@ -193,7 +193,7 @@ function love.game.newWorld()
 		end
 		o.offsetX = o.offsetX * 2
 		o.offsetY = o.offsetY * 2
-print(o.zoom)
+--print(o.zoom)
 		o.offsetX = o.offsetX + (love.mouse.getX() - o.offsetX * o.zoom) / (o.zoom * 2)
 		o.offsetY = o.offsetY + (love.mouse.getY() - o.offsetY * o.zoom) / (o.zoom * 2)
 	end

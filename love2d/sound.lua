@@ -15,7 +15,7 @@ love.sounds.bgm.activeBgm = nil --this helps making sure that only one BGM plays
 -- example: love.sounds.addSoundFile("MainSound","sounds/MainSoundFile.mp3",true)
 -- only use this function in soundinit.lua!
 function love.sounds.addEnvSoundFile(sName,sFilePath,looping,loopsPerPlay)
-	print ("trying to add sound "..sName.." from "..sFilePath)
+	--print ("trying to add sound "..sName.." from "..sFilePath)
 	local o = {}
 	o.filePath = sFilePath
 	o.loop = looping
@@ -25,19 +25,19 @@ function love.sounds.addEnvSoundFile(sName,sFilePath,looping,loopsPerPlay)
 	--o.loopTime = loopT --time from the end to the restart of a looped sound file 
 	--o.randomTime = randT --time modifier to loopTime, restart of loop file will be loopTime+/-randomTime
 	love.sounds.envSounds[sName] = o
-	print(love.sounds.envSounds[sName].filePath)
+	--print(love.sounds.envSounds[sName].filePath)
 end
 
 -- mostly the same as addEnvSoundFile()
 -- only use this function in soundinit.lua!
 function love.sounds.addBgmSoundFile(sName,sFilePath,looping)
-	print("trying to add bgm "..sName..", "..sFilePath)
+	--print("trying to add bgm "..sName..", "..sFilePath)
 	local o = {}
 	o.filePath = sFilePath
 	o.loop = looping
 	o.isPlaying = false
 	love.sounds.bgm[sName] = o
-	print(love.sounds.bgm[sName].filePath)
+	--print(love.sounds.bgm[sName].filePath)
 end
 
 -- local startTime = 0 -- this is not used right now
@@ -72,7 +72,7 @@ end
 -- @param sound name as specified in soundInit
 -- @param  Time to Wait to Play the Sound in Milliseconds, inactive at the moment (sound won't play if you set this to a value anyway)
 function love.sounds.playSound(sName, timeInMilliSeconds)
-	print(love.sounds.envSounds[sName].isPlaying)
+	--print(love.sounds.envSounds[sName].isPlaying)
 	if love.sounds.envSounds[sName] then
 		if not love.sounds.envSounds[sName].isPlaying then
 			if timeInMilliSeconds ~= nil then
