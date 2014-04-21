@@ -62,6 +62,7 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 	end
 
 	o.playAmbient = function()
+		print "."
 		if o.soundActive and lizGame.state == states.GAME_PLAY then
 			o.setOrigin()
 			o.updateSoundMap()

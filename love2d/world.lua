@@ -22,7 +22,7 @@ function love.game.newWorld()
 	o.offsetY = 0
 
 	o.timeOfDay = 12.0
-	
+	o.soundWaitTimer = 0
 	--TODO right now we have just a "global" goal for pawns, since we just have one pawn and the goal is set with the mouse. For multiple pawns each should have its own goal
 	o.goalX = 7
 	o.goalY = 7
@@ -68,7 +68,7 @@ function love.game.newWorld()
 				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_BUSH4 then
 					o.map.setTileLayer(i, k, 2, 11)
 				elseif MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_STONE then
-					o.map.setTileLayer(i, k, 2, 24)	
+					o.map.setTileLayer(i, k, 2, 24)
 				else
 					o.map.setTileLayer(i, k, 2, 63)
 				end
@@ -81,7 +81,7 @@ function love.game.newWorld()
 				elseif MapGenerator.getID(o.mapG, i, k) == MAP_MOUNTAIN_DARK then
 					o.map.setTileLayer(i, k, 3, 5)
 				else
-					--o.map.setTileLayer(i, k - 1, 3, 63)
+				--o.map.setTileLayer(i, k - 1, 3, 63)
 				end
 			end
 		end
@@ -94,19 +94,22 @@ function love.game.newWorld()
 	end
 
 	o.update = function(dt)
-	-- update time of day
+		-- update time of day
 		o.timeOfDay = (o.timeOfDay + dt)%24 -- one hour per second
-		
-	
-	-- play ambient sounds
-		if love.sound.ambientSound then
-			love.sound.ambientSound.soundActive = true
-			love.sound.ambientSound.playAmbient()
-		else
-			love.sound.ambientSound = getAmbientSoundGenerator()
+
+
+		-- play ambient sounds
+		o.soundWaitTimer = o.soundWaitTimer + dt
+		if o.soundWaitTimer >= 1 then
+			o.soundWaitTimer = o.soundWaitTimer -1
+			if love.sound.ambientSound then
+				love.sound.ambientSound.soundActive = true
+				love.sound.ambientSound.playAmbient()
+			else
+				love.sound.ambientSound = getAmbientSoundGenerator()
+			end
 		end
-		
-	-- handle scrolling and zooming
+		-- handle scrolling and zooming
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
 
@@ -133,11 +136,11 @@ function love.game.newWorld()
 		end
 
 		-- for i = 1, o.mapWidth do
-			-- for k = 1, o.mapHeight do
-				-- if MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_FIREPLACE then
-					-- o.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
-				-- end
-			-- end
+		-- for k = 1, o.mapHeight do
+		-- if MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_FIREPLACE then
+		-- o.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
+		-- end
+		-- end
 		-- end
 		for i, v in pairs(o.fires) do
 			v.update(dt, o.pawns)
@@ -169,7 +172,7 @@ function love.game.newWorld()
 		for i = 1, #o.pawns do
 			o.pawns[i].setZoom(o.zoom)
 		end
-		
+
 		for i, v in pairs(o.fires) do
 			v.setZoom(o.zoom)
 		end
@@ -193,7 +196,7 @@ function love.game.newWorld()
 		end
 		o.offsetX = o.offsetX * 2
 		o.offsetY = o.offsetY * 2
---print(o.zoom)
+		--print(o.zoom)
 		o.offsetX = o.offsetX + (love.mouse.getX() - o.offsetX * o.zoom) / (o.zoom * 2)
 		o.offsetY = o.offsetY + (love.mouse.getY() - o.offsetY * o.zoom) / (o.zoom * 2)
 	end
