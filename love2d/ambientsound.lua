@@ -3,12 +3,12 @@ require "mapGenerator"
 -- THIS IS ONLY THE SOUND PRODUCED BY THE AMBIENT (TODO the ambient consists of everything that is on the normal world map right now)
 -- for sound produced by objects (e.g. the player or a door or an enemy) look at objectsound.lua (NYI)
 --[[ possible sound sources:
-	1. player/selected character
-	2. map center
+1. player/selected character
+2. map center
 --]]
 --[[ possible values for the SoundMap:
-	nil/0: no sound at all -- other tile or out of map
-	1: birds -- just for testing
+nil/0: no sound at all -- other tile or out of map
+1: birds -- just for testing
 --]]
 
 function getAmbientSoundGenerator() --not nice but this cannot be part of the namespace "love.sounds.*"
@@ -18,10 +18,10 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 	o.origX = 0
 	o.origY = 0
 	o.soundMap = {}
-	-- call this method once at initialization and every time the listening radius is changed 
+	-- call this method once at initialization and every time the listening radius is changed
 	o.resetSoundMap = function()
 		local tempSoundMap = {}
-		for i = 1,2*o.listeningRadius+1 do 
+		for i = 1,2*o.listeningRadius+1 do
 			tempSoundMap[i] = {}
 			for j = 1, 2*o.listeningRadius+1 do
 				tempSoundMap[i][j] = 0 --this variable should hold the sound name
@@ -72,7 +72,7 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 			for i = 1,2*o.listeningRadius+1 do
 				for j = 1, 2*o.listeningRadius+1 do
 					--print("trying to insert "..o.soundMap[i][j])
-					--tileAmount[o.soundMap[i][j]] and 
+					--tileAmount[o.soundMap[i][j]] and
 					local soundMapValue = o.soundMap[i][j]
 					if soundMapValue>0 then
 						tileAmount[soundMapValue] = tileAmount[soundMapValue] + 1
@@ -86,8 +86,10 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 			for i=1,#tileAmount do
 				if tileAmount[i]>mostUsedAmount then
 					secondMostUsed = mostUsed
-					mostUsed = i
-					mostUsedAmount = tileAmount[i]
+					if i ~= 4 then --TODO temporarily disable fireplaces, because they should only make a sound when they are lit
+						mostUsed = i
+						mostUsedAmount = tileAmount[i]
+					end
 				end
 				--print("Amount of "..i..":"..tileAmount[i])
 			end
