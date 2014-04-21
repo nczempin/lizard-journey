@@ -9,8 +9,8 @@ function love.game.newWorld()
 	local o = {}
 	o.mapG = nil
 	o.map = nil
-	o.mapWidth = 128
-	o.mapHeight = 128
+	o.mapWidth = 16
+	o.mapHeight = 16
 	o.tileset = nil
 	o.offsetX = 0
 	o.offsetY = 0
