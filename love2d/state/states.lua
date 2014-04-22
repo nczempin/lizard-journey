@@ -16,7 +16,10 @@ states.PAUSED = states[9]
 
 FSM = require "love2d/external/fsm"
 
-function action1() print("transition from mm to gp") end
+function action1()
+	print("transition from mm to gp")
+	return "hurz"
+end
 
 function action2() print("transition from gp to mm") end
 
@@ -41,7 +44,8 @@ if state and state.action then
 end
 -- Respond on "event" and last set "state"
 local action = fsm:fire("startGame")
-fsm:fire("main_menu") --nothing should happen
+print (action)
+fsm:fire("gotoMainMenu")
 
 print("Current FSM state: " .. fsm:get())
 
