@@ -96,6 +96,3 @@ love.game.newStateManager = function()
 	end
 	return o
 end
-
-local sm = love.game.newStateManager()
-sm.use()
