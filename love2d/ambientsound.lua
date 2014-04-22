@@ -79,12 +79,13 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 							for k=1,#lizGame.world.fires do
 								if lizGame.world.fires[k].y == j+o.origY-o.listeningRadius-1 and lizGame.world.fires[k].x == i+o.origX-o.listeningRadius-1 then 
 									if lizGame.world.fires[k].state ~= 0 then
-									tileAmount[soundMapValue] = tileAmount[soundMapValue] + 1
+										tileAmount[soundMapValue] = tileAmount[soundMapValue] + 1
 									end
 									break
 								end
 							end
 						else
+
 							tileAmount[soundMapValue] = tileAmount[soundMapValue] + 1
 						end
 					end
@@ -103,7 +104,7 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 				--print("Amount of "..i..":"..tileAmount[i])
 			end
 			--print("Most used: "..mostUsed..", "..secondMostUsed)
-			
+
 			-- play the right music file
 			if mostUsed == 1 or secondMostUsed == 1 then
 				love.sounds.playSound("riverLoop1")
@@ -119,7 +120,7 @@ function getAmbientSoundGenerator() --not nice but this cannot be part of the na
 			end
 			if mostUsed == 4 or secondMostUsed == 4 then
 				love.sounds.playSound("fireplace")
-			--	elseif mostUsed == 5 then
+				--	elseif mostUsed == 5 then
 			else
 				love.sounds.stopSound("fireplace")
 			end
