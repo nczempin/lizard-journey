@@ -31,7 +31,7 @@ love.game.newStateManager = function()
 	--states.PAUSED = states[9]
 
 
-	o.FSM = require "love2d/external/fsm"
+	o.FSM = require "external/fsm"
 
 	local function action1()
 		print("transition from mm to gp")
