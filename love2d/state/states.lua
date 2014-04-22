@@ -24,8 +24,11 @@ love.game.newStateManager = function()
 	end
 
 	local mmKeypressed = function (key, code)
-		print "main menu 1"
-
+		print ("key: ",key)
+		if key == "1"then
+			print "1"
+			o.fsm:fire("startGame")
+		end
 	end
 	local mmMousepressed = function (x,y,key)
 		print ("main menu mouse: ",x,y,key)
@@ -127,7 +130,7 @@ love.game.newStateManager = function()
 
 		if state and state.actions then
 			if state.actions["keypressed"] then
-				state.actions.keypressed()
+				state.actions.keypressed(key, code)
 			end
 		end
 
