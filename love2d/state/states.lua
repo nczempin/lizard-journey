@@ -22,13 +22,19 @@ love.game.newStateManager = function()
 		print "playing da game"
 	end
 	gpState.actions["update"] = gpUp
-	o.states = {main_menu=mmState,gameplay=gpState}
+
+	local creditsState = {name = "credits"}
+	creditsState.actions = {}
+	local pausedState = {name = "paused"}
+	pausedState.actions = {}
+
+	o.states = {main_menu=mmState,gameplay=gpState,credits=creditsState,paused=pausedState}
 
 
 	o.states.MAIN_MENU = o.states["main_menu"]
 	o.states.GAMEPLAY = o.states["gameplay"]
-	--states.CREDITS = states[5]
-	--states.PAUSED = states[9]
+	o.states.CREDITS = o.states["credits"]
+	o.states.PAUSED = o.states["paused"]
 
 
 	o.FSM = require "external/fsm"

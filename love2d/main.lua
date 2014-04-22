@@ -41,15 +41,20 @@ function love.draw()
 end
 
 function love.keypressed(key, code)
-	if lizGame.state ~= lizGame.stateManager.states.PAUSED then
+	print (key)
+	if lizGame.state == lizGame.stateManager.states.PAUSED then
+		print "paused"
+	else
 		if key == "1" then
 			lizGame.setState(lizGame.stateManager.states.MAIN_MENU)
 		elseif key == "2" then
+			print "2"
 			lizGame.setState(lizGame.stateManager.states.GAMEPLAY)
 		elseif key == "3" then
 			lizGame.setState(lizGame.stateManager.states.CREDITS)
 		end
 	end
+
 
 	-- Toggle pause, but only to/from GAME_PLAY
 	if lizGame.state == lizGame.stateManager.states.GAMEPLAY or lizGame.state == lizGame.stateManager.states.PAUSED then
@@ -65,7 +70,7 @@ end
 
 function love.mousepressed(x, y, key)
 	if lizGame.state ==  lizGame.stateManager.states.CREDITS then
-		lizGame.setState(lizGame.stateManager.MAIN_MENU)
+		lizGame.setState(lizGame.stateManager.states.MAIN_MENU)
 	end
 
 	if(key == "wu") then
