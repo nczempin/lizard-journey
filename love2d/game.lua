@@ -196,15 +196,15 @@ function love.game.newGame()
 		o.state = state
 
 		--change music depending on state. TODO. put this into a separate state object
-		TEsound.stop(S.bgm.activeBgm,false)
 		if o.state == states.MAIN_MENU then
 			love.sounds.playBgm("lizardViolinSession")
 		elseif o.state == states.GAMEPLAY then
-		-- ingame music is disabled for now
+			-- ingame music is disabled for now
+			love.sounds.playBgm(nil)
 		elseif o.state == states.CREDITS then
 			S.playBgm("battleIntro")
 		elseif o.state == states.PAUSED then
-			--TODO pick some pause music
+		--TODO pick some pause music
 		end
 	end
 
