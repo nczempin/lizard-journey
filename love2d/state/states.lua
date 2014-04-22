@@ -2,12 +2,23 @@
 -- GameStates:0=MainMenu, 1=inGame, 2=Load, 3=Settings, 4=Game Over, 5 = Credits
 states = {"main menu", "gameplay", "load", "settings", "game over", "credits", "settings/video","settings/video/advanced", "paused"}
 local mmState = {name= "main_menu"}
-mmState.action = function()
-	print "hello"
-end
+mmState.actions = {}
 
-local gpState = {name = "gameplay"}
+local mmUp = function()
+	print "update main menu"
+end
+mmState.actions["update"] = mmUp
+
+local gpState = {name= "gameplay"}
+gpState.actions = {}
+
+local gpUp = function()
+	print "playing da game"
+end
+gpState.actions["update"] = gpUp
 states = {main_menu=mmState,gameplay=gpState}
+
+
 states.MAIN_MENU = states["main_menu"]
 states.GAMEPLAY = states["gameplay"]
 states.CREDITS = states[5]
@@ -32,22 +43,40 @@ local myStateTransitionTable = {
 
 -- Create your instance of a finite state machine
 fsm = FSM.new(myStateTransitionTable)
+local genericUpdate = function(name)
+	local state = states[name]
+
+	print "update action..."
+	if state and state.actions then
+		if state.actions["update"] then
+			state.actions.update()
+		end
+	end
+	print "...update done."
+end
 
 -- Use your finite state machine
 -- which starts by default with the first defined state
-local name = fsm:get()
-print("Current FSM state: " .. name)
+local stateId = fsm:get()
 
-local state = states[name]
-if state and state.action then
-	state.action()
-end
+
+
+print("Starting FSM state: " .. stateId)
+genericUpdate(stateId)
 -- Respond on "event" and last set "state"
-local action = fsm:fire("startGame")
-print (action)
-fsm:fire("gotoMainMenu")
+local actionResult = fsm:fire("startGame")
+print (actionResult) -- just testing return value
+stateId = fsm:get()
+genericUpdate(stateId)
 
-print("Current FSM state: " .. fsm:get())
+actionResult = fsm:fire("gotoMainMenu")
+
+print (actionResult) -- just testing return value
+
+stateId = fsm:get()
+
+print("Current FSM state: " .. stateId)
+genericUpdate(stateId)
 
 
 state = fsm:get()
