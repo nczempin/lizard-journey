@@ -30,8 +30,7 @@ function love.game.newGame()
 		if not o.peopleTextual then
 			o.people = {
 				"Markus Vill", "Nicolai Czempin", "Bernd Hildebrandt",
-				"Marcus Ihde", "Meral Leyla", "Aldo Briessmann",
-				"Sotos", "Terence-Lee Davis", "Francisco Pinto",
+				"Marcus Ihde", "Meral Leyla", "Aldo Briessmann", "Terence-Lee Davis", "Francisco Pinto",
 			}
 			table.sort(o.people) -- 2lazy
 
@@ -153,9 +152,9 @@ function love.game.newGame()
 		G.printf(o.peopleTextual, 0, o.creditsHPos, w, "center")
 		G.setColor(255, 255, 255)
 
-		G.setFont(FONT_LARGE)
-		G.setColor(120, 118, 112)
-		G.printf("Click anywhere to exit.", 0, W.getHeight()*.85, w, "center")
+--		G.setFont(FONT_LARGE)
+--		G.setColor(120, 118, 112)
+--		G.printf("Click anywhere to exit.", 0, W.getHeight()*.85, w, "center")
 
 		G.setColor(255, 255, 255)
 	end
