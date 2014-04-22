@@ -6,7 +6,7 @@ require "conf"
 
 function love.game.newGame()
 	local o = {}
-	o.state = 1
+	--o.state = 1
 	o.world = nil
 	o.version = "0.0.0"
 
@@ -106,23 +106,7 @@ function love.game.newGame()
 	end
 
 	o.update = function(dt)
-		if o.state ==  o.stateManager.states.PAUSED then
-			return
-		end
-
-		if o.state ==  o.stateManager.states.MAIN_MENU then
-			if o.playButton.hit then
-				o.setState( o.stateManager.states.GAMEPLAY)
-				--S.playBgm("lizardGuitarFx")
-			elseif o.creditsButton.hit then
-				o.setState( o.stateManager.states.CREDITS)
-			elseif o.exitButton.hit then
-				love.event.quit()
-			end
-			o.menu.update(dt)
-		elseif o.state ==  o.stateManager.states.GAMEPLAY then
-			o.world.update(dt)
-		end
+		o.stateManager.update()
 	end
 
 	o.drawBackgroundImage = function()
@@ -177,20 +161,22 @@ function love.game.newGame()
 	end
 
 	o.draw = function()
-		if o.state ==  o.stateManager.states.MAIN_MENU then
-			o.drawBackgroundImage()
-			o.menu.draw()
-			o.drawTitle("The Tale of Some Reptile")
-			-- debug
-			--G.setColor(255, 0, 0)
-			--G.rectangle("fill", W.getWidth()/2 - 20, W.getHeight()/2 - 20, 40, 40)
-		elseif o.state == o.stateManager.states.GAMEPLAY then
-			o.world.draw()
-		elseif o.state ==  o.stateManager.states.CREDITS then
-			o.drawCredits()
-		elseif o.state ==  o.stateManager.states.PAUSED then
-			o.drawPause()
-		end
+		o.stateManager.draw()
+
+		--		if o.state ==  o.stateManager.states.MAIN_MENU then
+		--			o.drawBackgroundImage()
+		--			o.menu.draw()
+		--			o.drawTitle("The Tale of Some Reptile")
+		--			-- debug
+		--			--G.setColor(255, 0, 0)
+		--			--G.rectangle("fill", W.getWidth()/2 - 20, W.getHeight()/2 - 20, 40, 40)
+		--		elseif o.state == o.stateManager.states.GAMEPLAY then
+		--			o.world.draw()
+		--		elseif o.state ==  o.stateManager.states.CREDITS then
+		--			o.drawCredits()
+		--		elseif o.state ==  o.stateManager.states.PAUSED then
+		--			o.drawPause()
+		--		end
 	end
 
 	o.setState = function(state)

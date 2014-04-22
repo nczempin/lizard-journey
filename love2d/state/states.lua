@@ -11,9 +11,21 @@ love.game.newStateManager = function()
 	mmState.actions = {}
 
 	local mmUp = function()
-		print "update main menu"
+		if lizGame.playButton.hit then
+			o.fsm:fire("startGame")
+		end
+	end
+
+	local mmDraw = function()
+		lizGame.drawBackgroundImage()
+		lizGame.menu.draw()
+		lizGame.drawTitle("The Tale of Some Reptile")
+
 	end
 	mmState.actions["update"] = mmUp
+	mmState.actions["draw"] = mmDraw
+
+
 
 	local gpState = {name= "gameplay"}
 	gpState.actions = {}
@@ -21,6 +33,8 @@ love.game.newStateManager = function()
 	local gpUp = function()
 		print "playing da game"
 	end
+
+
 	gpState.actions["update"] = gpUp
 
 	local creditsState = {name = "credits"}
@@ -58,13 +72,13 @@ love.game.newStateManager = function()
 	local genericUpdate = function(name)
 		local state = o.states[name]
 
-		print "update action..."
+		--print "update action..."
 		if state and state.actions then
 			if state.actions["update"] then
 				state.actions.update()
 			end
 		end
-		print "...update done."
+		--		print "...update done."
 	end
 	o.use = function()
 		-- Use your finite state machine
@@ -94,5 +108,49 @@ love.game.newStateManager = function()
 		state = o.fsm:get()
 		print (state)
 	end
+	o.mousepressed = function(x,y,key)
+		print("mouse: ",x,y,key)
+	end
+
+	o.update = function()
+		local stateId = o.fsm:get()
+		local state = o.states[stateId]
+
+		--print "update action..."
+		if state and state.actions then
+			if state.actions.update then
+				state.actions.update()
+			end
+		end
+		o.draw = function()
+			local stateId = o.fsm:get()
+			local state = o.states[stateId]
+
+			if state and state.actions then
+				if state.actions.draw then
+					state.actions.draw()
+				end
+			end
+		end
+		--		if o.state ==  o.stateManager.states.PAUSED then
+		--			return
+		--		end
+
+		--		if o.state ==  o.stateManager.states.MAIN_MENU then
+		--			if o.playButton.hit then
+		--				o.setState( o.stateManager.states.GAMEPLAY)
+		--				--S.playBgm("lizardGuitarFx")
+		--			elseif o.creditsButton.hit then
+		--				o.setState( o.stateManager.states.CREDITS)
+		--			elseif o.exitButton.hit then
+		--				love.event.quit()
+		--			end
+		--			o.menu.update(dt)
+		--		elseif o.state ==  o.stateManager.states.GAMEPLAY then
+		--			o.world.update(dt)
+		--		end
+	end
+
+
 	return o
 end

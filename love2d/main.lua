@@ -69,21 +69,23 @@ function love.keypressed(key, code)
 end
 
 function love.mousepressed(x, y, key)
-	if lizGame.state ==  lizGame.stateManager.states.CREDITS then
-		lizGame.setState(lizGame.stateManager.states.MAIN_MENU)
-	end
+	lizGame.stateManager.mousepressed(x,y,key)
 
-	if(key == "wu") then
-		lizGame.world.zoomIn()
-	elseif(key == "wd") then
-		lizGame.world.zoomOut()
-	elseif (key == "l")then
-		local map = lizGame.world.map
-		lizGame.world.setGoal(map, x,y)
-	elseif (key == "m")then
-		lizGame.world.dragX = x - lizGame.world.offsetX * lizGame.world.zoom
-		lizGame.world.dragY = y - lizGame.world.offsetY * lizGame.world.zoom
-	end
+	--	if lizGame.state ==  lizGame.stateManager.states.CREDITS then
+	--		lizGame.setState(lizGame.stateManager.states.MAIN_MENU)
+	--	end
+	--
+	--	if(key == "wu") then
+	--		lizGame.world.zoomIn()
+	--	elseif(key == "wd") then
+	--		lizGame.world.zoomOut()
+	--	elseif (key == "l")then
+	--		local map = lizGame.world.map
+	--		lizGame.world.setGoal(map, x,y)
+	--	elseif (key == "m")then
+	--		lizGame.world.dragX = x - lizGame.world.offsetX * lizGame.world.zoom
+	--		lizGame.world.dragY = y - lizGame.world.offsetY * lizGame.world.zoom
+	--	end
 end
 
 function love.mousereleased(x, y, key)
