@@ -14,6 +14,7 @@ function love.game.newGame()
 	o.y = 20
 	o.xVel = 0.1
 	o.yVel = -0.1
+	o.stateManager = love.game.newStateManager()
 
 	o.init = function()
 		o.world = love.game.newWorld()
@@ -22,7 +23,7 @@ function love.game.newGame()
 		o.setupMenu()
 		o.setupCredits()
 
-		o.setState(states.MAIN_MENU) -- set the starting state
+		o.setState(o.stateManager.states.MAIN_MENU) -- set the starting state
 	end
 
 	-- TODO own class for credits
@@ -105,21 +106,21 @@ function love.game.newGame()
 	end
 
 	o.update = function(dt)
-		if o.state == states.PAUSED then
+		if o.state ==  o.stateManager.states.PAUSED then
 			return
 		end
 
-		if o.state == states.MAIN_MENU then
+		if o.state ==  o.stateManager.states.MAIN_MENU then
 			if o.playButton.hit then
-				o.setState(states.GAMEPLAY)
+				o.setState( o.stateManager.states.GAMEPLAY)
 				--S.playBgm("lizardGuitarFx")
 			elseif o.creditsButton.hit then
-				o.setState(states.CREDITS)
+				o.setState( o.stateManager.states.CREDITS)
 			elseif o.exitButton.hit then
 				love.event.quit()
 			end
 			o.menu.update(dt)
-		elseif o.state == states.GAMEPLAY then
+		elseif o.state ==  o.stateManager.states.GAMEPLAY then
 			o.world.update(dt)
 		end
 	end
@@ -176,18 +177,18 @@ function love.game.newGame()
 	end
 
 	o.draw = function()
-		if o.state == states.MAIN_MENU then
+		if o.state ==  o.stateManager.states.MAIN_MENU then
 			o.drawBackgroundImage()
 			o.menu.draw()
 			o.drawTitle("The Tale of Some Reptile")
 			-- debug
 			--G.setColor(255, 0, 0)
 			--G.rectangle("fill", W.getWidth()/2 - 20, W.getHeight()/2 - 20, 40, 40)
-		elseif o.state == states.GAMEPLAY then
+		elseif o.state == o.stateManager.states.GAMEPLAY then
 			o.world.draw()
-		elseif o.state == states.CREDITS then
+		elseif o.state ==  o.stateManager.states.CREDITS then
 			o.drawCredits()
-		elseif o.state == states.PAUSED then
+		elseif o.state ==  o.stateManager.states.PAUSED then
 			o.drawPause()
 		end
 	end
@@ -196,14 +197,14 @@ function love.game.newGame()
 		o.state = state
 
 		--change music depending on state. TODO. put this into a separate state object
-		if o.state == states.MAIN_MENU then
+		if o.state == o.stateManager.states.MAIN_MENU then
 			love.sounds.playBgm("lizardViolinSession")
-		elseif o.state == states.GAMEPLAY then
+		elseif o.state ==  o.stateManager.states.GAMEPLAY then
 			-- ingame music is disabled for now
 			love.sounds.playBgm(nil)
-		elseif o.state == states.CREDITS then
+		elseif o.state ==  o.stateManager.states.CREDITS then
 			S.playBgm("battleIntro")
-		elseif o.state == states.PAUSED then
+		elseif o.state ==  o.stateManager.states.PAUSED then
 		--TODO pick some pause music
 		end
 	end
