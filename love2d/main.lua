@@ -65,7 +65,7 @@ end
 
 function love.mousepressed(x, y, key)
 	if lizGame.state ==  lizGame.stateManager.states.CREDITS then
-		lizGame.setState(lizGame.stateManager..MAIN_MENU)
+		lizGame.setState(lizGame.stateManager.MAIN_MENU)
 	end
 
 	if(key == "wu") then
