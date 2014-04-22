@@ -23,7 +23,7 @@ function love.game.newGame()
 		o.setupMenu()
 		o.setupCredits()
 
-		o.setState(o.stateManager.states.MAIN_MENU) -- set the starting state
+		--o.setState(o.stateManager.states.MAIN_MENU) -- set the starting state
 	end
 
 	-- TODO own class for credits
