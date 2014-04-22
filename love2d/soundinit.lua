@@ -24,7 +24,7 @@ function love.sounds.initSounds()
 	love.sounds.addBgmSoundFile("heroicMoments","res/music/Heroic_Moments.mp3",true)
 	love.sounds.addBgmSoundFile("lizardGuitarFx","res/music/lizard_guitar_fx.mp3",true)
 	love.sounds.addBgmSoundFile("lizardGuitarSlow","res/music/lizard_guitar_slow.mp3",true)
-	love.sounds.addBgmSoundFile("lizardGuitarSession","res/music/lizard_violin_session.mp3",true)
+	love.sounds.addBgmSoundFile("lizardViolinSession","res/music/lizard_violin_session.mp3",true)
 	love.sounds.addBgmSoundFile("magicalTale","res/music/Magical_Tale.mp3",true)
 	love.sounds.addBgmSoundFile("lizardIndustrial","res/music/lizard_industrial.mp3",true)
 end

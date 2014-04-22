@@ -24,13 +24,13 @@ function love.game.newGame()
 
 		o.setState(states.MAIN_MENU) -- set the starting state (use e. g. MAIN_MENU if you work on the menus)
 	end
-	
+
 	-- TODO own class for credits
 	o.setupCredits = function()
 		if not o.peopleTextual then
 			o.people = {
 				"Markus Vill", "Nicolai Czempin", "Bernd Hildebrandt",
-				"Marcus Ihde", "Meral Leyla", "Aldo Briessmann", 
+				"Marcus Ihde", "Meral Leyla", "Aldo Briessmann",
 				"Sotos", "Terence-Lee Davis", "Francisco Pinto",
 			}
 			table.sort(o.people) -- 2lazy
@@ -42,13 +42,13 @@ function love.game.newGame()
 					o.peopleTextual = o.peopleTextual .. "\n\n"
 				end
 			end
-			
+
 			o.peopleFont = FONT_MEDIUM
 			local nLines = select(2, o.peopleTextual:gsub('\n', '\n'))
 			o.creditsHPos = W.getHeight()/2 - .75*nLines/2*o.peopleFont:getHeight()
 		end
 	end
-	
+
 	-- TODO move this method elsewhere
 	o.setupMenu = function()
 		o.menu = love.gui.newGui()
@@ -113,11 +113,11 @@ function love.game.newGame()
 		if o.state == states.MAIN_MENU then
 			if o.playButton.hit then
 				o.setState(states.GAMEPLAY)
-				TEsound.stop(S.bgm.activeBgm,false)
+				TEsound.stop(S.bgm.activeBgm,false) --TODO ingame music disabled for now, so we can hear the fx better
 				--S.playBgm("lizardGuitarFx")
 			elseif o.creditsButton.hit then
 				o.setState(states.CREDITS)
-				S.playBgm("lizardGuitarSlow")
+				S.playBgm("battleIntro")
 			elseif o.exitButton.hit then
 				love.event.quit()
 			end
@@ -126,14 +126,14 @@ function love.game.newGame()
 			o.world.update(dt)
 		end
 	end
-	
+
 	o.drawBackgroundImage = function()
 		G.setColor(255, 255, 255)
 		G.draw(o.backgroundImage, 0, 0, 0,
 			W.getWidth()/o.backgroundImage:getWidth(),
 			W.getHeight()/o.backgroundImage:getHeight())
 	end
-	
+
 	o.drawTitle = function(titleText)
 		local font = FONT_XLARGE
 		G.setFont(font)
@@ -141,25 +141,25 @@ function love.game.newGame()
 		G.printf(titleText, 0, W.getHeight()/4 - font:getHeight()/2, W.getWidth(), "center")
 		G.setColor(255, 255, 255)
 	end
-	
+
 	o.drawCredits = function()
 		o.drawBackgroundImage()
 		o.drawTitle("Credits")
-		
+
 		local hh = W.getHeight()/2
 		local w = W.getWidth()
 		G.setFont(o.peopleFont)
 		G.setColor(81, 81, 81)
 		G.printf(o.peopleTextual, 0, o.creditsHPos, w, "center")
 		G.setColor(255, 255, 255)
-		
+
 		G.setFont(FONT_LARGE)
 		G.setColor(120, 118, 112)
 		G.printf("Click anywhere to exit.", 0, W.getHeight()*.85, w, "center")
-		
+
 		G.setColor(255, 255, 255)
 	end
-	
+
 	o.drawPause = function()
 		-- Draw world as backdrop
 		G.setColor(255, 255, 255, 255)

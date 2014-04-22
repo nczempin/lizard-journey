@@ -25,10 +25,10 @@ function love.load()
 	FONT = FONT_LARGE
 
 	lizGame = love.game.newGame()
-	lizGame.setVersion("v0.2.1")
+	lizGame.setVersion("v0.3.1")
 	lizGame.init()
 	love.sounds.initSounds()
-	love.sounds.playBgm("desertCowboy")
+	love.sounds.playBgm("lizardViolinSession")
 end
 
 function love.update(dt)
@@ -36,7 +36,7 @@ function love.update(dt)
 end
 
 function love.draw()
-	love.window.setTitle("Lizard Journey (FPS:" .. love.timer.getFPS() .. ")")
+	love.window.setTitle("Lizard's Journey (FPS:" .. love.timer.getFPS() .. ")")
 	lizGame.draw()
 end
 
