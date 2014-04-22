@@ -22,7 +22,7 @@ function love.game.newGame()
 		o.setupMenu()
 		o.setupCredits()
 
-		o.setState(states.MAIN_MENU) -- set the starting state (use e. g. MAIN_MENU if you work on the menus)
+		o.setState(states.MAIN_MENU) -- set the starting state
 	end
 
 	-- TODO own class for credits
@@ -112,11 +112,9 @@ function love.game.newGame()
 		if o.state == states.MAIN_MENU then
 			if o.playButton.hit then
 				o.setState(states.GAMEPLAY)
-				TEsound.stop(S.bgm.activeBgm,false) --TODO ingame music disabled for now, so we can hear the fx better
 				--S.playBgm("lizardGuitarFx")
 			elseif o.creditsButton.hit then
 				o.setState(states.CREDITS)
-				S.playBgm("battleIntro")
 			elseif o.exitButton.hit then
 				love.event.quit()
 			end
@@ -152,9 +150,9 @@ function love.game.newGame()
 		G.printf(o.peopleTextual, 0, o.creditsHPos, w, "center")
 		G.setColor(255, 255, 255)
 
---		G.setFont(FONT_LARGE)
---		G.setColor(120, 118, 112)
---		G.printf("Click anywhere to exit.", 0, W.getHeight()*.85, w, "center")
+		--		G.setFont(FONT_LARGE)
+		--		G.setColor(120, 118, 112)
+		--		G.printf("Click anywhere to exit.", 0, W.getHeight()*.85, w, "center")
 
 		G.setColor(255, 255, 255)
 	end
@@ -196,6 +194,18 @@ function love.game.newGame()
 
 	o.setState = function(state)
 		o.state = state
+
+		--change music depending on state. TODO. put this into a separate state object
+		TEsound.stop(S.bgm.activeBgm,false)
+		if o.state == states.MAIN_MENU then
+			love.sounds.playBgm("lizardViolinSession")
+		elseif o.state == states.GAMEPLAY then
+		-- ingame music is disabled for now
+		elseif o.state == states.CREDITS then
+			S.playBgm("battleIntro")
+		elseif o.state == states.PAUSED then
+			--TODO pick some pause music
+		end
 	end
 
 	o.setVersion = function(version)

@@ -23,12 +23,12 @@ function love.load()
 	FONT_SMALL = G.newFont(FONT_PATH, FONT_SIZE_SMALL)
 
 	FONT = FONT_LARGE
+	love.sounds.initSounds()
+
 
 	lizGame = love.game.newGame()
 	lizGame.setVersion("v0.3.1")
 	lizGame.init()
-	love.sounds.initSounds()
-	love.sounds.playBgm("lizardViolinSession")
 end
 
 function love.update(dt)
@@ -67,7 +67,7 @@ function love.mousepressed(x, y, key)
 	if lizGame.state == states.CREDITS then
 		lizGame.setState(states.MAIN_MENU)
 	end
-	
+
 	if(key == "wu") then
 		lizGame.world.zoomIn()
 	elseif(key == "wd") then
