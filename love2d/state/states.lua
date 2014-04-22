@@ -22,8 +22,20 @@ love.game.newStateManager = function()
 		lizGame.drawTitle("The Tale of Some Reptile")
 
 	end
+
+	local mmKeypressed = function (key, code)
+		print "main menu 1"
+
+	end
+	local mmMousepressed = function (x,y,key)
+		print ("main menu mouse: ",x,y,key)
+
+	end
 	mmState.actions["update"] = mmUp
 	mmState.actions["draw"] = mmDraw
+	mmState.actions["keypressed"] = mmKeypressed
+	mmState.actions["mousepressed"] = mmMousepressed
+
 
 
 
@@ -108,8 +120,35 @@ love.game.newStateManager = function()
 		state = o.fsm:get()
 		print (state)
 	end
+
+	o.keypressed = function(key,code)
+		local		stateId = o.fsm:get()
+		local state = o.states[stateId]
+
+		if state and state.actions then
+			if state.actions["keypressed"] then
+				state.actions.keypressed()
+			end
+		end
+
+		--		if key == "1" then
+		--			lizGame.setState(lizGame.stateManager.states.MAIN_MENU)
+		--		elseif key == "2" then
+		--			print "2"
+		--			lizGame.setState(lizGame.stateManager.states.GAMEPLAY)
+		--		elseif key == "3" then
+		--			print "3"
+		--			lizGame.setState(lizGame.stateManager.states.CREDITS)
+		--		end
+	end
 	o.mousepressed = function(x,y,key)
-		print("mouse: ",x,y,key)
+		local		stateId = o.fsm:get()
+		local state = o.states[stateId]
+		if state and state.actions then
+			if state.actions["mousepressed"] then
+				state.actions.mousepressed(x,y,key)
+			end
+		end
 	end
 
 	o.update = function()
