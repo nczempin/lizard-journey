@@ -48,25 +48,32 @@ end
 
 -- Functions for playing sounds
 -- plays background music
+
 -- example:
 -- love.sounds.playBgm("battleIntro")
--- @param filepath to BackgroundMusicFile
+-- @param filepath to BackgroundMusicFile, or nil to stop playing bgm
 function love.sounds.playBgm(sName)
-	if not love.sounds.bgm[sName].isPlaying then
-		if not love.sounds.bgm[sName] then
+	if not sName or not love.sounds.bgm[sName].isPlaying then
+		if sName and not love.sounds.bgm[sName] then
 			print("Warning: No music file found for "..sName)
-			return
 		end
-		if love.sounds.bgm[sName] and love.sounds.bgm.activeBgm then
+		if love.sounds.bgm.activeBgm  then
 			TEsound.stop(love.sounds.bgm.activeBgm,false) --Stopping old BackgroundMusic, this would be the perfect place for a soft transition from one bgm file to another
+			love.sounds.bgm[love.sounds.bgm.activeBgm].isPlaying = false
 		end
-		if love.sounds.bgm[sName].loop then
+		if not sName then
+		--do nothing; nil means "stop playing"
+		elseif love.sounds.bgm[sName].loop then
 			TEsound.playLooping(love.sounds.bgm[sName].filePath,sName,nil,LOVE_SOUND_BGMUSICVOLUME)
 		else
 			TEsound.play(love.sounds.bgm[sName].filePath,sName,nil,LOVE_SOUND_BGMUSICVOLUME)
 		end
 		love.sounds.bgm.activeBgm = sName
-		love.sounds.bgm[sName].isPlaying = true
+		if sName then
+			love.sounds.bgm[sName].isPlaying = true
+		end
+	else
+		print ("Already playing "..sName)
 	end
 end
 
@@ -79,17 +86,17 @@ function love.sounds.playSound(sName, timeInMilliSeconds,pitch)
 	--print(love.sounds.envSounds[sName].isPlaying)
 	if love.sounds.envSounds[sName] then
 		---if not love.sounds.envSounds[sName].isPlaying then
-			if timeInMilliSeconds ~= nil then
-			--startTime = love.timer.getTime()
+		if timeInMilliSeconds ~= nil then
+		--startTime = love.timer.getTime()
+		else
+			if love.sounds.envSounds[sName].loop then
+				TEsound.play(love.sounds.envSounds[sName].filePath,sName,LOVE_SOUND_SOUNDVOLUME,pitch,nil)
 			else
-				if love.sounds.envSounds[sName].loop then
-					TEsound.play(love.sounds.envSounds[sName].filePath,sName,LOVE_SOUND_SOUNDVOLUME,pitch,nil)
-				else
-					TEsound.playLooping(love.sounds.envSounds[sName].filePath,sName,love.sounds.envSounds[sName].loopsNo,LOVE_SOUND_SOUNDVOLUME,pitch,nil)
-				end
-				---love.sounds.envSounds[sName].isPlaying = true
+				TEsound.playLooping(love.sounds.envSounds[sName].filePath,sName,love.sounds.envSounds[sName].loopsNo,LOVE_SOUND_SOUNDVOLUME,pitch,nil)
 			end
-			print("playing sound "..sName..", "..love.sounds.envSounds[sName].filePath)
+			---love.sounds.envSounds[sName].isPlaying = true
+		end
+		print("playing sound "..sName..", "..love.sounds.envSounds[sName].filePath)
 		---else
 		---	print("Sound "..sName.." is already playing!")
 		---end
@@ -99,10 +106,28 @@ function love.sounds.playSound(sName, timeInMilliSeconds,pitch)
 end
 
 --Stops the Background music
+function love.sounds.stopBgm()
+	if love.sounds.bgm.activeBgm then
+		TEsound.stop(love.sounds.bgm.activeBgm,true)
+		if love.sounds.envSounds[love.sounds.bgm.activeBgm] then
+			love.sounds.envSounds[love.sounds.bgm.activeBgm].isPlaying = false
+		end
+	end
+end
+
 function love.sounds.stopSound(sName)
 	TEsound.stop(sName,false)
 	love.sounds.envSounds[sName].isPlaying = false
 end
+--[[ TODO
+function love.sounds.stopAllSounds()
+for k,v in pairs(TEsound.findTag("all")) do
+print ("k, v:"..k..", "..v)
+TEsound.stop(v, true)
+love.sounds.envSounds[k].isPlaying = false
+end
+end
+--]]
 
 --Sets the Background Volume
 --@param volume from 0 to 1
