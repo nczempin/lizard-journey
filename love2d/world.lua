@@ -140,61 +140,11 @@ function love.game.newWorld()
 	end
 
 	o.update = function(dt)
-		-- update time of day
-		o.timeOfDay = (o.timeOfDay + dt)%24 -- one hour per second
 
-
-		-- play ambient sounds
-		o.soundWaitTimer = o.soundWaitTimer + dt
-		if o.soundWaitTimer >= 1 then
-			o.soundWaitTimer = o.soundWaitTimer -1
-			if love.sound.ambientSound then
-				love.sound.ambientSound.soundActive = true
-				love.sound.ambientSound.playAmbient()
-			else
-				love.sound.ambientSound = getAmbientSoundGenerator()
-			end
+		if  lizGame.state == lizGame.stateManager.states.GAMEPLAY then
+		lizGame.stateManager.states.GAMEPLAY.update()
 		end
-		-- handle scrolling and zooming
-		local mx = love.mouse.getX()
-		local my = love.mouse.getY()
-
-		if love.mouse.isDown("m") then
-			o.offsetX = (mx - o.dragX) / lizGame.world.zoom
-			o.offsetY = (my - o.dragY) / lizGame.world.zoom
-		end
-
-		if love.keyboard.isDown("left") then
-			o.offsetX = o.offsetX + dt * 500
-		elseif love.keyboard.isDown("right") then
-			o.offsetX = o.offsetX - dt * 500
-		end
-
-		if love.keyboard.isDown("up") then
-			o.offsetY = o.offsetY + dt * 500
-		elseif love.keyboard.isDown("down") then
-			o.offsetY = o.offsetY - dt * 500
-		end
-
-		--o.map.update(dt)
-		for i = 1, #o.pawns do
-			o.pawns[i].update(dt)
-		end
-
-		-- for i = 1, o.mapWidth do
-		-- for k = 1, o.mapHeight do
-		-- if MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_FIREPLACE then
-		-- o.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
-		-- end
-		-- end
-		-- end
-		for i, v in pairs(o.fires) do
-			v.update(dt, o.pawns)
-		end
-
-		o.hudLayer.update(dt)
 	end
-
 	o.draw = function()
 		o.layer[1].draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 0, o.zoom * 2, o.zoom * 2)
 		o.layer[2].draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 0, o.zoom * 2, o.zoom * 2)
