@@ -45,8 +45,8 @@ love.game.newStateManager = function()
 	local gpState = {name= "gameplay"}
 	gpState.actions = {}
 
-	local gpUp = function()
-	--o.states.GAMEPLAY.update(dt)
+	local gpUp = function(dt)
+		o.states.GAMEPLAY.update(dt)
 	end
 	local gpDraw = function()
 		--print "drawing da game"
@@ -69,7 +69,7 @@ love.game.newStateManager = function()
 
 	o.states.GAMEPLAY = o.states["gameplay"]
 
-	o.states.GAMEPLAY.soundWaitTimer = 0
+	o.soundWaitTimer = 0 --TODO this needs to be gameplay-specific
 
 	o.states.GAMEPLAY.update = function(dt)
 
@@ -85,33 +85,33 @@ love.game.newStateManager = function()
 			end
 		end
 		-- update time of day
-		o.timeOfDay = (o.timeOfDay + dt)%24 -- one hour per second
+		lizGame.world.timeOfDay = (lizGame.world.timeOfDay + dt)%24 -- one hour per second
 
 		-- handle scrolling and zooming
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
 
-		if love.mouse.isDown("m") then
-			o.offsetX = (mx - o.dragX) / lizGame.world.zoom
-			o.offsetY = (my - o.dragY) / lizGame.world.zoom
-		end
-
-		if love.keyboard.isDown("left") then
-			o.offsetX = o.offsetX + dt * 500
-		elseif love.keyboard.isDown("right") then
-			o.offsetX = o.offsetX - dt * 500
-		end
-
-		if love.keyboard.isDown("up") then
-			o.offsetY = o.offsetY + dt * 500
-		elseif love.keyboard.isDown("down") then
-			o.offsetY = o.offsetY - dt * 500
-		end
+		--		if love.mouse.isDown("m") then
+		--			o.offsetX = (mx - o.dragX) / lizGame.world.zoom
+		--			o.offsetY = (my - o.dragY) / lizGame.world.zoom
+		--		end
+		--
+		--		if love.keyboard.isDown("left") then
+		--			o.offsetX = o.offsetX + dt * 500
+		--		elseif love.keyboard.isDown("right") then
+		--			o.offsetX = o.offsetX - dt * 500
+		--		end
+		--
+		--		if love.keyboard.isDown("up") then
+		--			o.offsetY = o.offsetY + dt * 500
+		--		elseif love.keyboard.isDown("down") then
+		--			o.offsetY = o.offsetY - dt * 500
+		--		end
 
 		--o.map.update(dt)
-		for i = 1, #o.pawns do
-			o.pawns[i].update(dt)
-		end
+		--		for i = 1, #o.pawns do
+		--			o.pawns[i].update(dt)
+		--		end
 
 		-- for i = 1, o.mapWidth do
 		-- for k = 1, o.mapHeight do
@@ -120,11 +120,11 @@ love.game.newStateManager = function()
 		-- end
 		-- end
 		-- end
-		for i, v in pairs(o.fires) do
-			v.update(dt, o.pawns)
-		end
-
-		o.hudLayer.update(dt)
+--		for i, v in pairs(o.fires) do
+--			v.update(dt, o.pawns)
+--		end
+--
+--		lizGame.world.hudLayer.update(dt)
 
 	end
 	o.states.CREDITS = o.states["credits"]
@@ -149,44 +149,16 @@ love.game.newStateManager = function()
 
 	-- Create your instance of a finite state machine
 	o.fsm = o.FSM.new(myStateTransitionTable)
-	local genericUpdate = function(name)
+	local genericUpdate = function(name, dt)
 		local state = o.states[name]
 
 		--print "update action..."
 		if state and state.actions then
 			if state.actions["update"] then
-				state.actions.update()
+				state.actions.update(dt)
 			end
 		end
 		--		print "...update done."
-	end
-	o.use = function()
-		-- Use your finite state machine
-		-- which starts by default with the first defined state
-		local stateId = o.fsm:get()
-
-
-
-		print("Starting FSM state: " .. stateId)
-		genericUpdate(stateId)
-		-- Respond on "event" and last set "state"
-		local actionResult = o.fsm:fire("startGame")
-		print (actionResult) -- just testing return value
-		stateId = o.fsm:get()
-		genericUpdate(stateId)
-
-		actionResult = o.fsm:fire("gotoMainMenu")
-
-		print (actionResult) -- just testing return value
-
-		stateId = o.fsm:get()
-
-		print("Current FSM state: " .. stateId)
-		genericUpdate(stateId)
-
-
-		state = o.fsm:get()
-		print (state)
 	end
 
 	o.keypressed = function(key,code)
@@ -219,14 +191,14 @@ love.game.newStateManager = function()
 		end
 	end
 
-	o.update = function()
+	o.update = function(dt)
 		local stateId = o.fsm:get()
 		local state = o.states[stateId]
 
 		--print "update action..."
 		if state and state.actions then
 			if state.actions.update then
-				state.actions.update()
+				state.actions.update(dt)
 			end
 		end
 	end

@@ -106,7 +106,7 @@ function love.game.newGame()
 	end
 
 	o.update = function(dt)
-		o.stateManager.update()
+		o.stateManager.update(dt)
 	end
 
 	o.drawBackgroundImage = function()
