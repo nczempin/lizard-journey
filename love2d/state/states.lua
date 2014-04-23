@@ -91,10 +91,10 @@ love.game.newStateManager = function()
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
 
-		--		if love.mouse.isDown("m") then
-		--			o.offsetX = (mx - o.dragX) / lizGame.world.zoom
-		--			o.offsetY = (my - o.dragY) / lizGame.world.zoom
-		--		end
+				if love.mouse.isDown("m") then
+					lizGame.world.offsetX = (mx - lizGame.world.dragX) / lizGame.world.zoom
+					lizGame.world.offsetY = (my - lizGame.world.dragY) / lizGame.world.zoom
+				end
 		--
 		--		if love.keyboard.isDown("left") then
 		--			o.offsetX = o.offsetX + dt * 500
