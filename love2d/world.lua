@@ -23,7 +23,6 @@ function love.game.newWorld()
 	o.offsetY = 0
 
 	o.timeOfDay = 12.0
-	o.soundWaitTimer = 0
 	--TODO right now we have just a "global" goal for pawns, since we just have one pawn and the goal is set with the mouse. For multiple pawns each should have its own goal
 	o.goalX = 7
 	o.goalY = 7

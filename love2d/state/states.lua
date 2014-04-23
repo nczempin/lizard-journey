@@ -46,11 +46,16 @@ love.game.newStateManager = function()
 	gpState.actions = {}
 
 	local gpUp = function()
-		print "playing da game"
+	--o.states.GAMEPLAY.update(dt)
+	end
+	local gpDraw = function()
+		--print "drawing da game"
+		lizGame.world.draw()
 	end
 
 
 	gpState.actions["update"] = gpUp
+	gpState.actions["draw"] = gpDraw
 
 	local creditsState = {name = "credits"}
 	creditsState.actions = {}
@@ -63,7 +68,10 @@ love.game.newStateManager = function()
 	o.states.MAIN_MENU = o.states["main_menu"]
 
 	o.states.GAMEPLAY = o.states["gameplay"]
-	o.states.gameplay.update = function(dt)
+
+	o.states.GAMEPLAY.soundWaitTimer = 0
+
+	o.states.GAMEPLAY.update = function(dt)
 
 		-- play ambient sounds
 		o.soundWaitTimer = o.soundWaitTimer + dt
@@ -221,34 +229,35 @@ love.game.newStateManager = function()
 				state.actions.update()
 			end
 		end
-		o.draw = function()
-			local stateId = o.fsm:get()
-			local state = o.states[stateId]
+	end
+	o.draw = function()
+		local stateId = o.fsm:get()
+		local state = o.states[stateId]
 
-			if state and state.actions then
-				if state.actions.draw then
-					state.actions.draw()
-				end
+		if state and state.actions then
+			if state.actions.draw then
+				state.actions.draw()
 			end
 		end
-		--		if o.state ==  o.stateManager.states.PAUSED then
-		--			return
-		--		end
-
-		--		if o.state ==  o.stateManager.states.MAIN_MENU then
-		--			if o.playButton.hit then
-		--				o.setState( o.stateManager.states.GAMEPLAY)
-		--				--S.playBgm("lizardGuitarFx")
-		--			elseif o.creditsButton.hit then
-		--				o.setState( o.stateManager.states.CREDITS)
-		--			elseif o.exitButton.hit then
-		--				love.event.quit()
-		--			end
-		--			o.menu.update(dt)
-		--		elseif o.state ==  o.stateManager.states.GAMEPLAY then
-		--			o.world.update(dt)
-		--		end
 	end
+	--		if o.state ==  o.stateManager.states.PAUSED then
+	--			return
+	--		end
+
+	--		if o.state ==  o.stateManager.states.MAIN_MENU then
+	--			if o.playButton.hit then
+	--				o.setState( o.stateManager.states.GAMEPLAY)
+	--				--S.playBgm("lizardGuitarFx")
+	--			elseif o.creditsButton.hit then
+	--				o.setState( o.stateManager.states.CREDITS)
+	--			elseif o.exitButton.hit then
+	--				love.event.quit()
+	--			end
+	--			o.menu.update(dt)
+	--		elseif o.state ==  o.stateManager.states.GAMEPLAY then
+	--			o.world.update(dt)
+	--		end
+
 
 
 	return o
