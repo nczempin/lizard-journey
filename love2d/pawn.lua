@@ -1,7 +1,7 @@
 require('math')
 require('mapGenerator')
 
-local SPRITE_SIZE = 64 --this assumes rectangular sprites --TODO this conflicts with o.spriteSize
+local SPRITE_SIZE = 32 --this assumes rectangular sprites --TODO this conflicts with o.spriteSize
 local EPSILON = 0.001
 local DIGGING_TIME = 0.5
 local DEFAULT_AMBIENT_TEMPERATURE = 33
@@ -127,12 +127,12 @@ function love.game.newPawn(id, world)
 						if o.diggingTimeLeft < 0 then
 							if tileId == MAP_MOUNTAIN_DARK then
 								MapGenerator.setID(o.world.mapG, x, y, MAP_PLAIN)
-								o.world.map.setTileLayer(x, y, 1, 0)
-								o.world.map.setTileLayer(x, y, 3, 63)
+								o.world.layer[1].setTile(x, y, 0)
+								o.world.layer[3].setTile(x, y, 63)
 							elseif tileId == MAP_MOUNTAIN then
 								MapGenerator.setID(o.world.mapG, x, y, MAP_PLAIN)
-								o.world.map.setTileLayer(x, y, 1, 0)
-								o.world.map.setTileLayer(x, y, 3, 63)
+								o.world.layer[1].setTile(x, y, 0)
+								o.world.layer[3].setTile(x, y, 63)
 							end
 							-- change tile to floor
 						end
@@ -209,12 +209,12 @@ function love.game.newPawn(id, world)
 			love.graphics.setColor(255,255,255)
 
 			local quad = love.graphics.newQuad(4 * o.spritesize, 0 * o.spritesize, o.spritesize, o.spritesize, o.image:getWidth(), o.image:getHeight())
-			love.graphics.draw( o.image, quad, xx, yy, 0, 2 * o.zoom, 2 * o.zoom) -- the magic 2 possibly comes from the inconsistency between the sprite size constants
+			love.graphics.draw( o.image, quad, xx, yy, 0, o.zoom, o.zoom) -- the magic 2 possibly comes from the inconsistency between the sprite size constants
 		else
 			love.graphics.setColor(255,255,255)
 
 			local quad = love.graphics.newQuad(o.anim[1] * o.spritesize, o.anim[2] * o.spritesize, o.spritesize, o.spritesize, o.image:getWidth(), o.image:getHeight())
-			love.graphics.draw( o.image, quad, xx, yy, 0, 2 * o.zoom, 2 * o.zoom) -- the magic 2 possibly comes from the inconsistency between the sprite size constants
+			love.graphics.draw( o.image, quad, xx, yy, 0, o.zoom, o.zoom) -- the magic 2 possibly comes from the inconsistency between the sprite size constants
 
 			--show the target of this pawn
 			--TODO: only show when this pawn is selected / being followed
