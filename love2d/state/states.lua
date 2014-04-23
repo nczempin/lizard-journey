@@ -95,18 +95,18 @@ love.game.newStateManager = function()
 					lizGame.world.offsetX = (mx - lizGame.world.dragX) / lizGame.world.zoom
 					lizGame.world.offsetY = (my - lizGame.world.dragY) / lizGame.world.zoom
 				end
-		--
-		--		if love.keyboard.isDown("left") then
-		--			o.offsetX = o.offsetX + dt * 500
-		--		elseif love.keyboard.isDown("right") then
-		--			o.offsetX = o.offsetX - dt * 500
-		--		end
-		--
-		--		if love.keyboard.isDown("up") then
-		--			o.offsetY = o.offsetY + dt * 500
-		--		elseif love.keyboard.isDown("down") then
-		--			o.offsetY = o.offsetY - dt * 500
-		--		end
+		
+				if love.keyboard.isDown("left") then
+					lizGame.world.offsetX = lizGame.world.offsetX + dt * 500
+				elseif love.keyboard.isDown("right") then
+					lizGame.world.offsetX = lizGame.world.offsetX - dt * 500
+				end
+		
+				if love.keyboard.isDown("up") then
+					lizGame.world.offsetY = lizGame.world.offsetY + dt * 500
+				elseif love.keyboard.isDown("down") then
+					lizGame.world.offsetY = lizGame.world.offsetY - dt * 500
+				end
 
 		--o.map.update(dt)
 		--		for i = 1, #o.pawns do
