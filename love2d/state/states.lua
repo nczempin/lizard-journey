@@ -24,22 +24,15 @@ love.game.newStateManager = function()
 	end
 
 	local mmKeypressed = function (key, code)
-		print ("key: ",key)
-		if key == "1"then
-			print "1"
-			o.fsm:fire("startGame")
-		end
 	end
 	local mmMousepressed = function (x,y,key)
 		print ("main menu mouse: ",x,y,key)
-
 	end
+
 	mmState.actions["update"] = mmUp
 	mmState.actions["draw"] = mmDraw
 	mmState.actions["keypressed"] = mmKeypressed
 	mmState.actions["mousepressed"] = mmMousepressed
-
-
 
 
 	local gpState = {name= "gameplay"}
@@ -109,8 +102,8 @@ love.game.newStateManager = function()
 		end
 
 		--lizGame.world.map.update(dt)
-		
-		
+
+
 		--		for i = 1, #o.pawns do
 		--			o.pawns[i].update(dt)
 		--		end
@@ -164,8 +157,15 @@ love.game.newStateManager = function()
 	end
 
 	o.keypressed = function(key,code)
+		print ("key, code: ",key,code)
 		local		stateId = o.fsm:get()
 		local state = o.states[stateId]
+
+		--global keys
+		if key == "2" then
+			o.fsm:fire("startGame")
+			return
+		end
 
 		if state and state.actions then
 			if state.actions["keypressed"] then
