@@ -7,7 +7,7 @@ FIRE_STATE_BURN_ANIM2 = 3
 FIRE_STATE_BURN_ANIM3 = 4
 FIRE_STATE_BURN_ANIM4 = 5
 
-local SPRITE_SIZE = 64
+local SPRITE_SIZE = 32
 
 Fire = {}
 function Fire.newFire(x, y, graphic)
@@ -25,7 +25,7 @@ function Fire.newFire(x, y, graphic)
 	
 	fire.draw = function(x, y)
 		local quad = love.graphics.newQuad(fire.state * fire.spritesize, 2 * fire.spritesize, fire.spritesize, fire.spritesize, fire.image:getWidth(), fire.image:getHeight())
-		love.graphics.draw( fire.image, quad, (fire.x * SPRITE_SIZE + x) * fire.zoom, (fire.y * SPRITE_SIZE + y) * fire.zoom, 0, 2 * fire.zoom, 2 * fire.zoom)
+		love.graphics.draw( fire.image, quad, (fire.x * SPRITE_SIZE + x) * fire.zoom, (fire.y * SPRITE_SIZE + y) * fire.zoom, 0, fire.zoom, fire.zoom)
 	end
 	
 	fire.setZoom = function(zoom)

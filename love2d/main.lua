@@ -25,7 +25,6 @@ function love.load()
 	FONT = FONT_LARGE
 	love.sounds.initSounds()
 
-
 	lizGame = love.game.newGame()
 	lizGame.setVersion("v0.3.1")
 	lizGame.init()
