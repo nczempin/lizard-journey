@@ -163,20 +163,6 @@ function love.game.newGame()
 	o.draw = function()
 		o.stateManager.draw()
 
-		--		if o.state ==  o.stateManager.states.MAIN_MENU then
-		--			o.drawBackgroundImage()
-		--			o.menu.draw()
-		--			o.drawTitle("The Tale of Some Reptile")
-		--			-- debug
-		--			--G.setColor(255, 0, 0)
-		--			--G.rectangle("fill", W.getWidth()/2 - 20, W.getHeight()/2 - 20, 40, 40)
-		--		elseif o.state == o.stateManager.states.GAMEPLAY then
-		--			o.world.draw()
-		--		elseif o.state ==  o.stateManager.states.CREDITS then
-		--			o.drawCredits()
-		--		elseif o.state ==  o.stateManager.states.PAUSED then
-		--			o.drawPause()
-		--		end
 	end
 
 	o.setState = function(state)

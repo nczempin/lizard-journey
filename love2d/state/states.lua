@@ -91,24 +91,26 @@ love.game.newStateManager = function()
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
 
-				if love.mouse.isDown("m") then
-					lizGame.world.offsetX = (mx - lizGame.world.dragX) / lizGame.world.zoom
-					lizGame.world.offsetY = (my - lizGame.world.dragY) / lizGame.world.zoom
-				end
-		
-				if love.keyboard.isDown("left") then
-					lizGame.world.offsetX = lizGame.world.offsetX + dt * 500
-				elseif love.keyboard.isDown("right") then
-					lizGame.world.offsetX = lizGame.world.offsetX - dt * 500
-				end
-		
-				if love.keyboard.isDown("up") then
-					lizGame.world.offsetY = lizGame.world.offsetY + dt * 500
-				elseif love.keyboard.isDown("down") then
-					lizGame.world.offsetY = lizGame.world.offsetY - dt * 500
-				end
+		if love.mouse.isDown("m") then
+			lizGame.world.offsetX = (mx - lizGame.world.dragX) / lizGame.world.zoom
+			lizGame.world.offsetY = (my - lizGame.world.dragY) / lizGame.world.zoom
+		end
 
-		--o.map.update(dt)
+		if love.keyboard.isDown("left") then
+			lizGame.world.offsetX = lizGame.world.offsetX + dt * 500
+		elseif love.keyboard.isDown("right") then
+			lizGame.world.offsetX = lizGame.world.offsetX - dt * 500
+		end
+
+		if love.keyboard.isDown("up") then
+			lizGame.world.offsetY = lizGame.world.offsetY + dt * 500
+		elseif love.keyboard.isDown("down") then
+			lizGame.world.offsetY = lizGame.world.offsetY - dt * 500
+		end
+
+		--lizGame.world.map.update(dt)
+		
+		
 		--		for i = 1, #o.pawns do
 		--			o.pawns[i].update(dt)
 		--		end
@@ -120,11 +122,11 @@ love.game.newStateManager = function()
 		-- end
 		-- end
 		-- end
---		for i, v in pairs(o.fires) do
---			v.update(dt, o.pawns)
---		end
---
---		lizGame.world.hudLayer.update(dt)
+		--		for i, v in pairs(o.fires) do
+		--			v.update(dt, o.pawns)
+		--		end
+		--
+		lizGame.world.hudLayer.update(dt)
 
 	end
 	o.states.CREDITS = o.states["credits"]

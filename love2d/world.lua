@@ -138,12 +138,12 @@ function love.game.newWorld()
 		table.insert(o.pawns, pawn)
 	end
 
-	o.update = function(dt)
-
-		if  lizGame.state == lizGame.stateManager.states.GAMEPLAY then
-		lizGame.stateManager.states.GAMEPLAY.update()
-		end
-	end
+--	o.update = function(dt)
+--
+--		if  lizGame.state == lizGame.stateManager.states.GAMEPLAY then
+--		lizGame.stateManager.states.GAMEPLAY.update()
+--		end
+--	end
 	o.draw = function()
 		o.layer[1].draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 0, o.zoom * 2, o.zoom * 2)
 		o.layer[2].draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 0, o.zoom * 2, o.zoom * 2)
