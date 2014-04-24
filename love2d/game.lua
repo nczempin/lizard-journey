@@ -3,6 +3,7 @@ love.game = {}
 require "world"
 require "external/gui/gui"
 require "conf"
+require "state/main_menu"
 
 function love.game.newGame()
 	local o = {}
@@ -20,7 +21,8 @@ function love.game.newGame()
 		o.world = love.game.newWorld()
 		o.world.init()
 
-		o.setupMenu()
+		o.main_menu = love.game.newMainMenu()
+		o.main_menu.setupMenu()
 		o.setupCredits()
 
 		--o.setState(o.stateManager.states.MAIN_MENU) -- set the starting state
@@ -49,40 +51,11 @@ function love.game.newGame()
 		end
 	end
 
-	-- TODO move this method elsewhere
-	o.setupMenu = function()
-		o.menu = love.gui.newGui()
 
-		-- Buttons
-
-
-		-- A man can dream...
-		--[[
-		local buttons = {{o.playButton, "Play"}, {o.creditsButton, "Credits"}, {o.exitButton, "Exit"}}
-		local i = 0
-		for button in buttons do
-		button[1] = o.menu.newButton(5, i*(spacing + button_height), 120, padding + font_h, button[2], nil)
-		i = i + 1
-		end
-		--]]
-
-		o.buttonImage = G.newImage("res/gfx/gui-arrow.png")
-		G.setFont(FONT_LARGE)
-		local padding = 7
-		local fontH = FONT_MEDIUM:getHeight()
-		local spacing = 25
-		local buttonH = padding + fontH
-		local buttonX = W.getWidth()/2 - 140/2
-		local windowH = W.getHeight()/2
-		local nButtons = 3
-		local totalButtonH = nButtons*(spacing + buttonH)
-		o.playButton = o.menu.newButton(buttonX, windowH - totalButtonH/2 + 0*(spacing + buttonH), 140, buttonH, "Play", o.buttonImage)
-		o.playButton.setFont(FONT_LARGE)
-		o.creditsButton = o.menu.newButton(buttonX, windowH - totalButtonH/2 + 1*(spacing + buttonH), 140, buttonH, "Credits", o.buttonImage)
-		o.creditsButton.setFont(FONT_LARGE)
-		o.exitButton = o.menu.newButton(buttonX, windowH - totalButtonH/2 + 2*(spacing + buttonH), 140, buttonH, "Exit", o.buttonImage)
-		o.creditsButton.setFont(FONT_LARGE)
-
+	o.update = function(dt)
+		o.stateManager.update(dt)
+	end
+	o.prepareBackgroundImage = function()
 		-- Background image
 		local scale = function(x, min1, max1, min2, max2)
 			return min2 + ((x - min1) / (max1 - min1)) * (max2 - min2)
@@ -104,11 +77,6 @@ function love.game.newGame()
 
 		o.backgroundImage = G.newImage(imageData)
 	end
-
-	o.update = function(dt)
-		o.stateManager.update(dt)
-	end
-
 	o.drawBackgroundImage = function()
 		G.setColor(255, 255, 255)
 		G.draw(o.backgroundImage, 0, 0, 0,

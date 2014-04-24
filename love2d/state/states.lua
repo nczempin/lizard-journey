@@ -11,14 +11,14 @@ love.game.newStateManager = function()
 	mmState.actions = {}
 
 	local mmUp = function()
-		if lizGame.playButton.hit then
-			o.fsm:fire("startGame")
-		end
+--		if lizGame.playButton.hit then
+--			o.fsm:fire("startGame")
+--		end
 	end
 
 	local mmDraw = function()
 		lizGame.drawBackgroundImage()
-		lizGame.menu.draw()
+		lizGame.main_menu.draw()
 		lizGame.drawTitle("The Tale of Some Reptile")
 
 	end
