@@ -50,10 +50,9 @@ love.game.newStateManager = function()
 	gpState.actions["update"] = gpUp
 	gpState.actions["draw"] = gpDraw
 
-	local creditsState = {name = "credits"}
-	creditsState.actions = {}
 	local pausedState = {name = "paused"}
 	pausedState.actions = {}
+	local creditsState = {name = "credits"}
 
 	o.states = {main_menu=mmState,gameplay=gpState,credits=creditsState,paused=pausedState}
 
@@ -123,6 +122,23 @@ love.game.newStateManager = function()
 
 	end
 	o.states.CREDITS = o.states["credits"]
+	creditsState.actions = {}
+	o.states.CREDITS.update= function(dt)
+	end
+	local crUp = function(dt)
+		o.states.CREDITS.update(dt)
+	end
+	o.states.CREDITS.draw= function()
+		lizGame.drawCredits()
+	end
+	local crDraw = function()
+		o.states.CREDITS.draw()
+	end
+
+
+	creditsState.actions["update"] = crUp
+	creditsState.actions["draw"] = crDraw
+
 	o.states.PAUSED = o.states["paused"]
 
 
@@ -138,9 +154,10 @@ love.game.newStateManager = function()
 
 	-- Define your state transitions here
 	local myStateTransitionTable = {
-		{o.states.MAIN_MENU.name, "startGame", o.states.GAMEPLAY.name, action1},
-		{"*", "startGame", o.states.GAMEPLAY.name, function()print "exception"end},
-		{o.states.GAMEPLAY.name, "gotoMainMenu", o.states.MAIN_MENU.name},
+		{o.states.MAIN_MENU.name, "startGame", o.states.GAMEPLAY.name, nil},
+		{"*", "startGame", o.states.GAMEPLAY.name, nil},
+		{"*", "gotoCredits", o.states.CREDITS.name, nil},
+		--		{o.states.GAMEPLAY.name, "gotoMainMenu", o.states.MAIN_MENU.name},
 		{"*", "gotoMainMenu", o.states.MAIN_MENU.name},
 		{"*",      "*", "*", function() print "unknown transition" end},  -- for any state
 	}
