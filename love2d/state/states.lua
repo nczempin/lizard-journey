@@ -134,6 +134,12 @@ love.game.newStateManager = function()
 	local crDraw = function()
 		o.states.CREDITS.draw()
 	end
+	local crMousepressed = function()
+		print "firing gotoMainMenu"
+		o.fsm:fire("gotoMainMenu")
+	end
+	creditsState.actions["keypressed"] = crKeypressed
+	creditsState.actions["mousepressed"] = crMousepressed
 
 
 	creditsState.actions["update"] = crUp
