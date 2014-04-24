@@ -68,6 +68,7 @@ love.game.newStateManager = function()
 		end
 	end
 
+
 	gpState.actions["update"] = gpUp
 	gpState.actions["draw"] = gpDraw
 	gpState.actions["mousepressed"] = gpMousepressed
