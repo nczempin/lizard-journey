@@ -53,7 +53,9 @@ love.game.newStateManager = function()
 	pausedState.actions = {}
 	local creditsState = {name = "credits"}
 
-	o.states = {main_menu=mmState,gameplay=gpState,credits=creditsState,paused=pausedState}
+	local initState = {name = "init"}
+
+	o.states = {init = initState,main_menu=mmState,gameplay=gpState,credits=creditsState,paused=pausedState}
 
 
 	o.states.MAIN_MENU = o.states["main_menu"]
@@ -163,12 +165,13 @@ love.game.newStateManager = function()
 
 	-- Define your state transitions here
 	local myStateTransitionTable = {
-		{o.states.MAIN_MENU.name, "startGame", o.states.GAMEPLAY.name, nil},
-		{"*", "startGame", o.states.GAMEPLAY.name, nil},
-		{"*", "gotoCredits", o.states.CREDITS.name, nil},
-		--		{o.states.GAMEPLAY.name, "gotoMainMenu", o.states.MAIN_MENU.name},
-		{"*", "gotoMainMenu", o.states.MAIN_MENU.name},
-		{"*",      "*", "*", function() print "unknown transition" end},  -- for any state
+
+			{o.states.MAIN_MENU.name, "startGame", o.states.GAMEPLAY.name},
+			{"*", "startGame", o.states.GAMEPLAY.name},
+			{"*", "gotoCredits", o.states.CREDITS.name},
+			--		{o.states.GAMEPLAY.name, "gotoMainMenu", o.states.MAIN_MENU.name},
+			{"*", "gotoMainMenu", o.states.MAIN_MENU.name,function() love.sounds.playBgm("lizardViolinSession") end},
+			{"*",      "*", "*", function() print "unknown transition" end},  -- for any state
 	}
 
 	-- Create your instance of a finite state machine
@@ -243,7 +246,7 @@ love.game.newStateManager = function()
 		end
 	end
 
-
+	o.fsm:fire("gotoMainMenu") --TODO go to init/intro?
 
 	return o
 end

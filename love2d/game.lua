@@ -8,14 +8,9 @@ require "state/credits"
 
 function love.game.newGame()
 	local o = {}
-	--o.state = 1
 	o.world = nil
 	o.version = "0.0.0"
 
-	o.x = 30
-	o.y = 20
-	o.xVel = 0.1
-	o.yVel = -0.1
 	o.stateManager = love.game.newStateManager()
 
 	o.init = function()
@@ -28,7 +23,6 @@ function love.game.newGame()
 		o.credits = love.game.newCreditsScreen()
 		o.credits.setupCredits()
 
-		--o.setState(o.stateManager.states.MAIN_MENU) -- set the starting state
 	end
 
 
