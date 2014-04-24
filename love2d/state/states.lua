@@ -130,9 +130,9 @@ love.game.newStateManager = function()
 		--lizGame.world.map.update(dt)
 
 
-		--		for i = 1, #o.pawns do
-		--			o.pawns[i].update(dt)
-		--		end
+				for i = 1, #lizGame.world.pawns do
+					lizGame.world.pawns[i].update(dt)
+				end
 
 		-- for i = 1, o.mapWidth do
 		-- for k = 1, o.mapHeight do
