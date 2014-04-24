@@ -141,7 +141,8 @@ love.game.newStateManager = function()
 		{o.states.MAIN_MENU.name, "startGame", o.states.GAMEPLAY.name, action1},
 		{"*", "startGame", o.states.GAMEPLAY.name, function()print "exception"end},
 		{o.states.GAMEPLAY.name, "gotoMainMenu", o.states.MAIN_MENU.name},
-		{"*",      "*", nil, nil},  -- for any state
+		{"*", "gotoMainMenu", o.states.MAIN_MENU.name},
+		{"*",      "*", "*", function() print "unknown transition" end},  -- for any state
 	}
 
 	-- Create your instance of a finite state machine
@@ -164,9 +165,17 @@ love.game.newStateManager = function()
 		local state = o.states[stateId]
 
 		--global keys
-		if key == "2" then
+		if (key == "1")then
+			print "firing gotoMainMenu"
+			o.fsm:fire("gotoMainMenu")
+			return
+		elseif key == "2" then
 			print "firing startGame"
 			o.fsm:fire("startGame")
+			return
+		elseif key == "3" then
+			print "firing gotoCredits"
+			o.fsm:fire("gotoCredits")
 			return
 		end
 
