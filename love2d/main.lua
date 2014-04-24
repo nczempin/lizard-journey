@@ -43,6 +43,7 @@ function love.keypressed(key, code)
 	lizGame.stateManager.keypressed(key,code)
 end
 
+
 function love.mousepressed(x, y, key)
 	lizGame.stateManager.mousepressed(x,y,key)
 

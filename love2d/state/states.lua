@@ -52,6 +52,15 @@ love.game.newStateManager = function()
 	local gpDraw = function()
 		lizGame.world.draw()
 	end
+	local gpKeypressed = function(key, code)
+		if key == "s" then
+			print "saving..."
+			lizGame.world.map.save("test")
+		elseif key == "l" then
+			print "loading..."
+			lizGame.world.map.load("test")
+		end
+	end
 	local gpMousepressed = function (x,y,key)
 
 		if(key == "wu") then
@@ -72,6 +81,7 @@ love.game.newStateManager = function()
 	gpState.actions["update"] = gpUp
 	gpState.actions["draw"] = gpDraw
 	gpState.actions["mousepressed"] = gpMousepressed
+	gpState.actions["keypressed"] = gpKeypressed
 
 	local pausedState = {name = "paused"}
 	pausedState.actions = {}
@@ -135,13 +145,13 @@ love.game.newStateManager = function()
 			lizGame.world.pawns[i].update(dt)
 		end
 
---		for i = 1, lizGame.world.mapWidth do
---			for k = 1, lizGame.world.mapHeight do
---				if MapGenerator.getObject(lizGame.world.mapG, i, k) == MAP_OBJ_FIREPLACE then
---					lizGame.world.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
---				end
---			end
---		end
+		--		for i = 1, lizGame.world.mapWidth do
+		--			for k = 1, lizGame.world.mapHeight do
+		--				if MapGenerator.getObject(lizGame.world.mapG, i, k) == MAP_OBJ_FIREPLACE then
+		--					lizGame.world.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
+		--				end
+		--			end
+		--		end
 		for i, v in pairs(lizGame.world.fires) do
 			v.update(dt, lizGame.world.pawns)
 		end
