@@ -144,7 +144,7 @@ love.game.newStateManager = function()
 	end
 
 	o.states.CREDITS.transition = function()
-		love.sounds.playBgm(nil)
+		S.playBgm("battleIntro")
 	end
 
 	local crMousepressed = function()
@@ -227,7 +227,7 @@ love.game.newStateManager = function()
 		end
 	end
 	o.mousepressed = function(x,y,key)
-		local		stateId = o.fsm:get()
+		local	stateId = o.fsm:get()
 		local state = o.states[stateId]
 		if state and state.actions then
 			if state.actions["mousepressed"] then
