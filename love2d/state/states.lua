@@ -61,9 +61,10 @@ love.game.newStateManager = function()
 		elseif (key == "l")then
 			local map = lizGame.world.map
 			lizGame.world.setGoal(map, x,y)
-			--		elseif (key == "m")then
-			--			lizGame.world.dragX = x - lizGame.world.offsetX * lizGame.world.zoom
-			--			lizGame.world.dragY = y - lizGame.world.offsetY * lizGame.world.zoom
+		elseif (key == "m")then
+			--			print (".")
+			lizGame.world.dragX = x - lizGame.world.offsetX * lizGame.world.zoom
+			lizGame.world.dragY = y - lizGame.world.offsetY * lizGame.world.zoom
 		end
 	end
 
@@ -79,7 +80,6 @@ love.game.newStateManager = function()
 	local initState = {name = "init"}
 
 	o.states = {init = initState,main_menu=mmState,gameplay=gpState,credits=creditsState,paused=pausedState}
-
 
 	o.states.MAIN_MENU = o.states["main_menu"]
 	o.states.MAIN_MENU.transition = mmTransition

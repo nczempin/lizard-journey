@@ -13,6 +13,8 @@ function love.game.newGame()
 	o.stateManager = love.game.newStateManager()
 
 	o.init = function()
+	
+		--TODO: these are all states; they should be handled in the state manager
 		o.world = love.game.newWorld()
 		o.world.init()
 
