@@ -16,6 +16,8 @@ love.game.newStateManager = function()
 			o.fsm:fire("startGame")
 		elseif lizGame.main_menu.creditsButton.hit then
 			o.fsm:fire("gotoCredits")
+		elseif lizGame.main_menu.exitButton.hit then
+			love.event.quit() --TODO: more elegant exit transition
 		end
 	end
 
