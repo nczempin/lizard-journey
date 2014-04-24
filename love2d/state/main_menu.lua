@@ -1,5 +1,5 @@
 function love.game.newMainMenu()
-	o = {}
+	local o = {}
 	o.draw = function()
 		lizGame.drawBackgroundImage()
 		o.menu.draw()
