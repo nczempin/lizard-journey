@@ -96,21 +96,21 @@ function love.game.newGame()
 
 	end
 
-	o.setState = function(state)
-		o.state = state
-
-		--change music depending on state. TODO. put this into a separate state object
-		if o.state == o.stateManager.states.MAIN_MENU then
-			love.sounds.playBgm("lizardViolinSession")
-		elseif o.state ==  o.stateManager.states.GAMEPLAY then
-			-- ingame music is disabled for now
-			love.sounds.playBgm(nil)
-		elseif o.state ==  o.stateManager.states.CREDITS then
-			S.playBgm("battleIntro")
-		elseif o.state ==  o.stateManager.states.PAUSED then
-		--TODO pick some pause music
-		end
-	end
+--	o.setState = function(state)
+--		o.state = state
+--
+--		--change music depending on state. TODO. put this into a separate state object
+--		if o.state == o.stateManager.states.MAIN_MENU then
+--			love.sounds.playBgm("lizardViolinSession")
+--		elseif o.state ==  o.stateManager.states.GAMEPLAY then
+--			-- ingame music is disabled for now
+--			love.sounds.playBgm(nil)
+--		elseif o.state ==  o.stateManager.states.CREDITS then
+--			S.playBgm("battleIntro")
+--		elseif o.state ==  o.stateManager.states.PAUSED then
+--		--TODO pick some pause music
+--		end
+--	end
 
 	o.setVersion = function(version)
 		o.version = version
