@@ -1,7 +1,10 @@
 function love.game.newMainMenu()
 	o = {}
 	o.draw = function()
+		lizGame.drawBackgroundImage()
 		o.menu.draw()
+		lizGame.drawTitle("The Tale of Some Reptile")
+
 	end
 
 	o.setupMenu = function()
