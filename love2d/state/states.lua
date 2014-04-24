@@ -192,15 +192,15 @@ love.game.newStateManager = function()
 		local state = o.states[stateId]
 
 		--global keys
-		if (key == "1")then
+		if (key == "f1")then
 			print "firing gotoMainMenu"
 			o.fsm:fire("gotoMainMenu")
 			return
-		elseif key == "2" then
+		elseif key == "f2" then
 			print "firing startGame"
 			o.fsm:fire("startGame")
 			return
-		elseif key == "3" then
+		elseif key == "f3" then
 			print "firing gotoCredits"
 			o.fsm:fire("gotoCredits")
 			return
