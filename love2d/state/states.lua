@@ -65,6 +65,9 @@ love.game.newStateManager = function()
 	o.states.MAIN_MENU.transition = mmTransition
 
 	o.states.GAMEPLAY = o.states["gameplay"]
+	o.states.GAMEPLAY.transition = function()
+		love.sounds.playBgm(nil)
+	end
 
 	o.soundWaitTimer = 0 --TODO this needs to be gameplay-specific
 
@@ -139,6 +142,11 @@ love.game.newStateManager = function()
 	local crDraw = function()
 		o.states.CREDITS.draw()
 	end
+
+	o.states.CREDITS.transition = function()
+		love.sounds.playBgm(nil)
+	end
+
 	local crMousepressed = function()
 		print "firing gotoMainMenu"
 		o.fsm:fire("gotoMainMenu")
