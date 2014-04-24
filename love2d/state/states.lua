@@ -28,6 +28,9 @@ love.game.newStateManager = function()
 	local mmMousepressed = function (x,y,key)
 		print ("main menu mouse: ",x,y,key)
 	end
+	local mmTransition = function()
+		love.sounds.playBgm("lizardViolinSession")
+	end
 
 	mmState.actions["update"] = mmUp
 	mmState.actions["draw"] = mmDraw
@@ -59,6 +62,7 @@ love.game.newStateManager = function()
 
 
 	o.states.MAIN_MENU = o.states["main_menu"]
+	o.states.MAIN_MENU.transition = mmTransition
 
 	o.states.GAMEPLAY = o.states["gameplay"]
 
@@ -166,11 +170,11 @@ love.game.newStateManager = function()
 	-- Define your state transitions here
 	local myStateTransitionTable = {
 
-			{o.states.MAIN_MENU.name, "startGame", o.states.GAMEPLAY.name},
-			{"*", "startGame", o.states.GAMEPLAY.name},
-			{"*", "gotoCredits", o.states.CREDITS.name},
+			{o.states.MAIN_MENU.name, "startGame", o.states.GAMEPLAY.name,o.states.GAMEPLAY.transition},
+			{"*", "startGame", o.states.GAMEPLAY.name,o.states.GAMEPLAY.transition},
+			{"*", "gotoCredits", o.states.CREDITS.name,o.states.CREDITS.transition},
 			--		{o.states.GAMEPLAY.name, "gotoMainMenu", o.states.MAIN_MENU.name},
-			{"*", "gotoMainMenu", o.states.MAIN_MENU.name,function() love.sounds.playBgm("lizardViolinSession") end},
+			{"*", "gotoMainMenu", o.states.MAIN_MENU.name,o.states.MAIN_MENU.transition},
 			{"*",      "*", "*", function() print "unknown transition" end},  -- for any state
 	}
 
