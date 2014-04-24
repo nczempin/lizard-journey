@@ -13,8 +13,9 @@ love.game.newStateManager = function()
 	local mmUp = function(dt)
 		lizGame.main_menu.update(dt)
 		if lizGame.main_menu.playButton.hit then
-			--print "playbutton!"
 			o.fsm:fire("startGame")
+		elseif lizGame.main_menu.creditsButton.hit then
+			o.fsm:fire("gotoCredits")
 		end
 	end
 
