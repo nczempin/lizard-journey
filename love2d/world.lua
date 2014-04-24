@@ -23,7 +23,6 @@ function love.game.newWorld()
 	o.offsetY = 0
 
 	o.timeOfDay = 12.0
-	o.soundWaitTimer = 0
 	--TODO right now we have just a "global" goal for pawns, since we just have one pawn and the goal is set with the mouse. For multiple pawns each should have its own goal
 	o.goalX = 7
 	o.goalY = 7
@@ -139,62 +138,12 @@ function love.game.newWorld()
 		table.insert(o.pawns, pawn)
 	end
 
-	o.update = function(dt)
-		-- update time of day
-		o.timeOfDay = (o.timeOfDay + dt)%24 -- one hour per second
-
-
-		-- play ambient sounds
-		o.soundWaitTimer = o.soundWaitTimer + dt
-		if o.soundWaitTimer >= 1 then
-			o.soundWaitTimer = o.soundWaitTimer -1
-			if love.sound.ambientSound then
-				love.sound.ambientSound.soundActive = true
-				love.sound.ambientSound.playAmbient()
-			else
-				love.sound.ambientSound = getAmbientSoundGenerator()
-			end
-		end
-		-- handle scrolling and zooming
-		local mx = love.mouse.getX()
-		local my = love.mouse.getY()
-
-		if love.mouse.isDown("m") then
-			o.offsetX = (mx - o.dragX) / lizGame.world.zoom
-			o.offsetY = (my - o.dragY) / lizGame.world.zoom
-		end
-
-		if love.keyboard.isDown("left") then
-			o.offsetX = o.offsetX + dt * 500
-		elseif love.keyboard.isDown("right") then
-			o.offsetX = o.offsetX - dt * 500
-		end
-
-		if love.keyboard.isDown("up") then
-			o.offsetY = o.offsetY + dt * 500
-		elseif love.keyboard.isDown("down") then
-			o.offsetY = o.offsetY - dt * 500
-		end
-
-		--o.map.update(dt)
-		for i = 1, #o.pawns do
-			o.pawns[i].update(dt)
-		end
-
-		-- for i = 1, o.mapWidth do
-		-- for k = 1, o.mapHeight do
-		-- if MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_FIREPLACE then
-		-- o.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
-		-- end
-		-- end
-		-- end
-		for i, v in pairs(o.fires) do
-			v.update(dt, o.pawns)
-		end
-
-		o.hudLayer.update(dt)
-	end
-
+	--	o.update = function(dt)
+	--
+	--		if  lizGame.state == lizGame.stateManager.states.GAMEPLAY then
+	--		lizGame.stateManager.states.GAMEPLAY.update()
+	--		end
+	--	end
 	o.draw = function()
 		o.layer[1].draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 0, o.zoom * 2, o.zoom * 2)
 		o.layer[2].draw(o.offsetX * o.zoom, o.offsetY * o.zoom, 0, o.zoom * 2, o.zoom * 2)
@@ -273,6 +222,23 @@ function love.game.newWorld()
 		local tileY = math.floor((my - o.offsetY * o.zoom) / (o.tileset.tileHeight * o.zoom))
 
 		return tileX, tileY
+	end
+	o.drawPause = function()
+		-- Draw world as backdrop
+		G.setColor(255, 255, 255, 255)
+		o.world.draw()
+		-- Draw transparent rectangle for the 'faded' effect
+		local w = W.getWidth()
+		local h = W.getHeight()
+		G.setColor(255, 255, 255, 96)
+		G.rectangle("fill", 0, 0, w, h)
+		-- Draw centered (H&V) text
+		G.setColor(0, 0, 0)
+		local font = FONT_XLARGE
+		G.setFont(font)
+		G.printf("Paused.", 0, h/2 - font:getHeight()/2, w, "center")
+
+		G.setColor(255, 255, 255)
 	end
 
 	return o
