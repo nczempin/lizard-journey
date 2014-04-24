@@ -52,10 +52,25 @@ love.game.newStateManager = function()
 	local gpDraw = function()
 		lizGame.world.draw()
 	end
+	local gpMousepressed = function (x,y,key)
+
+		if(key == "wu") then
+			lizGame.world.zoomIn()
+		elseif(key == "wd") then
+			lizGame.world.zoomOut()
+		elseif (key == "l")then
+			local map = lizGame.world.map
+			lizGame.world.setGoal(map, x,y)
+			--		elseif (key == "m")then
+			--			lizGame.world.dragX = x - lizGame.world.offsetX * lizGame.world.zoom
+			--			lizGame.world.dragY = y - lizGame.world.offsetY * lizGame.world.zoom
+		end
+	end
 
 
 	gpState.actions["update"] = gpUp
 	gpState.actions["draw"] = gpDraw
+	gpState.actions["mousepressed"] = gpMousepressed
 
 	local pausedState = {name = "paused"}
 	pausedState.actions = {}
@@ -75,7 +90,6 @@ love.game.newStateManager = function()
 	end
 
 	o.soundWaitTimer = 0 --TODO this needs to be gameplay-specific
-
 	o.states.GAMEPLAY.update = function(dt)
 
 		-- play ambient sounds
@@ -95,6 +109,7 @@ love.game.newStateManager = function()
 		-- handle scrolling and zooming
 		local mx = love.mouse.getX()
 		local my = love.mouse.getY()
+
 
 		if love.mouse.isDown("m") then
 			lizGame.world.offsetX = (mx - lizGame.world.dragX) / lizGame.world.zoom
