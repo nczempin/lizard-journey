@@ -73,24 +73,7 @@ function love.game.newGame()
 	end
 
 
-	o.drawPause = function()
-		-- Draw world as backdrop
-		G.setColor(255, 255, 255, 255)
-		o.world.draw()
-		-- Draw transparent rectangle for the 'faded' effect
-		local w = W.getWidth()
-		local h = W.getHeight()
-		G.setColor(255, 255, 255, 96)
-		G.rectangle("fill", 0, 0, w, h)
-		-- Draw centered (H&V) text
-		G.setColor(0, 0, 0)
-		local font = FONT_XLARGE
-		G.setFont(font)
-		G.printf("Paused.", 0, h/2 - font:getHeight()/2, w, "center")
-
-		G.setColor(255, 255, 255)
-	end
-
+	
 	o.draw = function()
 		o.stateManager.draw()
 
