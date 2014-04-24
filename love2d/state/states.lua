@@ -130,20 +130,20 @@ love.game.newStateManager = function()
 		--lizGame.world.map.update(dt)
 
 
-				for i = 1, #lizGame.world.pawns do
-					lizGame.world.pawns[i].update(dt)
-				end
+		for i = 1, #lizGame.world.pawns do
+			lizGame.world.pawns[i].update(dt)
+		end
 
-		-- for i = 1, o.mapWidth do
-		-- for k = 1, o.mapHeight do
-		-- if MapGenerator.getObject(o.mapG, i, k) == MAP_OBJ_FIREPLACE then
-		-- o.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
-		-- end
-		-- end
-		-- end
-		--		for i, v in pairs(o.fires) do
-		--			v.update(dt, o.pawns)
-		--		end
+--		for i = 1, lizGame.world.mapWidth do
+--			for k = 1, lizGame.world.mapHeight do
+--				if MapGenerator.getObject(lizGame.world.mapG, i, k) == MAP_OBJ_FIREPLACE then
+--					lizGame.world.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
+--				end
+--			end
+--		end
+		for i, v in pairs(lizGame.world.fires) do
+			v.update(dt, lizGame.world.pawns)
+		end
 		--
 		lizGame.world.hudLayer.update(dt)
 
