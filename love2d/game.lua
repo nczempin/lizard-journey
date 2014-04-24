@@ -9,7 +9,6 @@ require "state/credits"
 function love.game.newGame()
 	local o = {}
 	o.world = nil
-	o.version = "0.0.0"
 
 	o.stateManager = love.game.newStateManager()
 
@@ -25,10 +24,17 @@ function love.game.newGame()
 
 	end
 
-
+	--called from main loop update
 	o.update = function(dt)
 		o.stateManager.update(dt)
 	end
+
+	--called from main loop draw
+	o.draw = function()
+		o.stateManager.draw()
+	end
+
+	-- help for consistent look and feel in menus
 	o.prepareBackgroundImage = function()
 		-- Background image
 		local scale = function(x, min1, max1, min2, max2)
@@ -65,16 +71,8 @@ function love.game.newGame()
 		G.printf(titleText, 0, W.getHeight()/4 - font:getHeight()/2, W.getWidth(), "center")
 		G.setColor(255, 255, 255)
 	end
+	-- end look and feel
 
-
-
-	o.draw = function()
-		o.stateManager.draw()
-	end
-
-	o.setVersion = function(version)
-		o.version = version
-	end
 
 	return o
 end
