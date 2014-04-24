@@ -11,9 +11,9 @@ love.game.newStateManager = function()
 	mmState.actions = {}
 
 	local mmUp = function()
---		if lizGame.playButton.hit then
---			o.fsm:fire("startGame")
---		end
+	--		if lizGame.playButton.hit then
+	--			o.fsm:fire("startGame")
+	--		end
 	end
 
 	local mmDraw = function()
@@ -42,7 +42,6 @@ love.game.newStateManager = function()
 		o.states.GAMEPLAY.update(dt)
 	end
 	local gpDraw = function()
-		--print "drawing da game"
 		lizGame.world.draw()
 	end
 
@@ -211,16 +210,6 @@ love.game.newStateManager = function()
 				state.actions.keypressed(key, code)
 			end
 		end
-
-		--		if key == "1" then
-		--			lizGame.setState(lizGame.stateManager.states.MAIN_MENU)
-		--		elseif key == "2" then
-		--			print "2"
-		--			lizGame.setState(lizGame.stateManager.states.GAMEPLAY)
-		--		elseif key == "3" then
-		--			print "3"
-		--			lizGame.setState(lizGame.stateManager.states.CREDITS)
-		--		end
 	end
 	o.mousepressed = function(x,y,key)
 		local		stateId = o.fsm:get()
@@ -253,23 +242,6 @@ love.game.newStateManager = function()
 			end
 		end
 	end
-	--		if o.state ==  o.stateManager.states.PAUSED then
-	--			return
-	--		end
-
-	--		if o.state ==  o.stateManager.states.MAIN_MENU then
-	--			if o.playButton.hit then
-	--				o.setState( o.stateManager.states.GAMEPLAY)
-	--				--S.playBgm("lizardGuitarFx")
-	--			elseif o.creditsButton.hit then
-	--				o.setState( o.stateManager.states.CREDITS)
-	--			elseif o.exitButton.hit then
-	--				love.event.quit()
-	--			end
-	--			o.menu.update(dt)
-	--		elseif o.state ==  o.stateManager.states.GAMEPLAY then
-	--			o.world.update(dt)
-	--		end
 
 
 
