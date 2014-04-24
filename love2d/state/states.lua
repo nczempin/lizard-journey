@@ -13,8 +13,8 @@ love.game.newStateManager = function()
 	local mmUp = function(dt)
 		lizGame.main_menu.update(dt)
 		if lizGame.main_menu.playButton.hit then
-			print "playbutton!"
-			--o.fsm:fire("startGame")
+			--print "playbutton!"
+			o.fsm:fire("startGame")
 		end
 	end
 
