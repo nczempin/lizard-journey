@@ -139,7 +139,9 @@ love.game.newStateManager = function()
 	-- Define your state transitions here
 	local myStateTransitionTable = {
 		{o.states.MAIN_MENU.name, "startGame", o.states.GAMEPLAY.name, action1},
-		{o.states.GAMEPLAY.name, "gotoMainMenu", o.states.MAIN_MENU.name}
+		{"*", "startGame", o.states.GAMEPLAY.name, function()print "exception"end},
+		{o.states.GAMEPLAY.name, "gotoMainMenu", o.states.MAIN_MENU.name},
+		{"*",      "*", nil, nil},  -- for any state
 	}
 
 	-- Create your instance of a finite state machine
@@ -163,6 +165,7 @@ love.game.newStateManager = function()
 
 		--global keys
 		if key == "2" then
+			print "firing startGame"
 			o.fsm:fire("startGame")
 			return
 		end
