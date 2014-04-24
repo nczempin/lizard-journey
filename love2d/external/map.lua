@@ -5,11 +5,40 @@ LOVE_LAYER_LAST_CANVAS = nil
 function love.game.newTileset(path, grid)
 	local o = {}
 
-	o.img = love.graphics.newImage(path)
+	if love.filesystem.isFile(path) then
+		o.img = love.graphics.newImage(path)
+		o.grid = grid
+		o.tileWidth = o.img:getWidth() / o.grid
+		o.tileHeight = o.img:getHeight() / o.grid
+	else
+		local files = love.filesystem.getDirectoryItems(path)
+		local count = (#files) ^ 0.5
+		for i = 1, 12 do
+			if count < 2 ^ i then
+				o.grid = 2 ^ i
+				break
+			end
+		end
+		print(o.grid)
+		local img = love.graphics.newImage(path .. "/" .. files[1])
+		o.tileWidth = img:getWidth()
+		o.tileHeight = img:getHeight()
+		local imgData = love.image.newImageData(o.tileWidth * o.grid, o.tileHeight * o.grid)
+		local n = 0
+		for i, file in ipairs(files) do
+			img = love.graphics.newImage(path .. "/" .. file)
+			for k = 1, img:getHeight() / o.tileHeight do
+				for l = 1, img:getWidth() / o.tileWidth do
+					imgData:paste(img:getData(), (n % o.grid) * o.tileWidth, math.floor(n / o.grid) * o.tileHeight, (l - 1) * o.tileHeight, (k - 1) * o.tileWidth, o.tileWidth, o.tileHeight)
+					n = n + 1
+				end
+			end
+			print(i .. ". " .. file)
+		end
+
+		o.img = love.graphics.newImage(imgData)
+	end
 	o.img:setFilter("nearest", "nearest")
-	o.grid = grid
-	o.tileWidth = o.img:getWidth() / grid
-	o.tileHeight = o.img:getHeight() / grid
 
 	return o
 end
@@ -85,6 +114,23 @@ function love.game.newMap(width, height)
 		o.layer[#o.layer + 1] = love.game.newLayer(o.width, o.height, tileset)
 
 		return o.layer[#o.layer]
+	end
+
+	o.load = function(path)
+		love.graphics.setColor(255, 255, 255)
+		for i = 1, #o.layer do
+			local img = love.graphics.newImage(path .. "_" .. i .. ".png")
+			LOVE_LAYER_LAST_CANVAS = love.graphics.getCanvas()
+			love.graphics.setCanvas(o.layer[i].canvas)
+			love.graphics.draw(img)
+			love.graphics.setCanvas(LOVE_LAYER_LAST_CANVAS)
+		end
+	end
+
+	o.save = function(path)
+		for i = 1, #o.layer do
+			o.layer[i].canvas:getImageData():encode(path .. "_" .. i .. ".png")
+		end
 	end
 
 	return o

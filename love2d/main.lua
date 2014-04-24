@@ -58,6 +58,10 @@ function love.keypressed(key, code)
 			elseif lizGame.state == states.PAUSED then
 				lizGame.setState(states.GAMEPLAY)
 			end
+		elseif key == "s" then
+			lizGame.world.map.save("test")
+		elseif key == "l" then
+			lizGame.world.map.load("test")
 		end
 	end
 end
