@@ -39,7 +39,6 @@ function love.game.newMainMenu()
 		o.creditsButton.setFont(FONT_LARGE)
 		o.exitButton = o.menu.newButton(buttonX, windowH - totalButtonH/2 + 2*(spacing + buttonH), 140, buttonH, "Exit", o.buttonImage)
 		o.creditsButton.setFont(FONT_LARGE)
-		lizGame.prepareBackgroundImage() --TODO no globals plz
 	end
 	return o
 end

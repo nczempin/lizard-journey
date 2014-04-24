@@ -129,7 +129,7 @@ love.game.newStateManager = function()
 		o.states.CREDITS.update(dt)
 	end
 	o.states.CREDITS.draw= function()
-		lizGame.drawCredits()
+		lizGame.credits.drawCredits()
 	end
 	local crDraw = function()
 		o.states.CREDITS.draw()
