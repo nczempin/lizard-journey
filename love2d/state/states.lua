@@ -138,6 +138,10 @@ love.game.newStateManager = function()
 		print "firing gotoMainMenu"
 		o.fsm:fire("gotoMainMenu")
 	end
+	local crKeypressed = function()
+		print "firing gotoMainMenu"
+		o.fsm:fire("gotoMainMenu")
+	end
 	creditsState.actions["keypressed"] = crKeypressed
 	creditsState.actions["mousepressed"] = crMousepressed
 
