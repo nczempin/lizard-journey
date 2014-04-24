@@ -10,10 +10,12 @@ love.game.newStateManager = function()
 	local mmState = {name= "main_menu"}
 	mmState.actions = {}
 
-	local mmUp = function()
-	--		if lizGame.playButton.hit then
-	--			o.fsm:fire("startGame")
-	--		end
+	local mmUp = function(dt)
+		lizGame.main_menu.update(dt)
+		if lizGame.main_menu.playButton.hit then
+			print "playbutton!"
+			--o.fsm:fire("startGame")
+		end
 	end
 
 	local mmDraw = function()
