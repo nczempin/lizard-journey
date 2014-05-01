@@ -50,6 +50,7 @@ love.game.newStateManager = function()
 	local gpState = {name= "gameplay"}
 	gpState.actions = {}
 
+	o.soundWaitTimer = 0 --TODO this needs to be gameplay-specific
 	local gpUp = function(dt)
 
 		-- play ambient sounds
@@ -95,6 +96,7 @@ love.game.newStateManager = function()
 			lizGame.world.pawns[i].update(dt)
 		end
 
+		--TODO fires
 		--		for i = 1, lizGame.world.mapWidth do
 		--			for k = 1, lizGame.world.mapHeight do
 		--				if MapGenerator.getObject(lizGame.world.mapG, i, k) == MAP_OBJ_FIREPLACE then
@@ -130,7 +132,6 @@ love.game.newStateManager = function()
 			local map = lizGame.world.map
 			lizGame.world.setGoal(map, x,y)
 		elseif (key == "m")then
-			--			print (".")
 			lizGame.world.dragX = x - lizGame.world.offsetX * lizGame.world.zoom
 			lizGame.world.dragY = y - lizGame.world.offsetY * lizGame.world.zoom
 		end
@@ -142,11 +143,12 @@ love.game.newStateManager = function()
 	gpState.actions["mousepressed"] = gpMousepressed
 	gpState.actions["keypressed"] = gpKeypressed
 
+
+
 	local pausedState = {name = "paused"}
 	pausedState.actions = {}
 
 
-	--TODO: move to credits
 	local creditsState = {name = "credits"}
 
 
@@ -163,9 +165,10 @@ love.game.newStateManager = function()
 		love.sounds.playBgm(nil)
 	end
 
-	o.soundWaitTimer = 0 --TODO this needs to be gameplay-specific
 	o.states.GAMEPLAY.update = function(dt)
 	end
+
+	--TODO: move to credits
 	o.states.CREDITS = o.states["credits"]
 	creditsState.actions = {}
 	o.states.CREDITS.update= function(dt)
@@ -199,20 +202,15 @@ love.game.newStateManager = function()
 	creditsState.actions["update"] = crUp
 	creditsState.actions["draw"] = crDraw
 
-	o.states.PAUSED = o.states["paused"]
 
+
+	--TODO	o.states.PAUSED = o.states["paused"]
+
+
+
+	--general state code; this should stay here.
 
 	o.FSM = require "external/fsm"
-
-	local function action1()
-		print("transition from mm to gp")
-		return "hurz"
-	end
-
-	local function action2() print("transition from gp to mm") end
-
-
-	-- Define your state transitions here
 	local myStateTransitionTable = {
 
 			{o.states.MAIN_MENU.name, "startGame", o.states.GAMEPLAY.name,o.states.GAMEPLAY.transition},
@@ -223,18 +221,15 @@ love.game.newStateManager = function()
 			{"*",      "*", "*", function() print "unknown transition" end},  -- for any state
 	}
 
-	-- Create your instance of a finite state machine
 	o.fsm = o.FSM.new(myStateTransitionTable)
 	local genericUpdate = function(name, dt)
 		local state = o.states[name]
 
-		--print "update action..."
 		if state and state.actions then
 			if state.actions["update"] then
 				state.actions.update(dt)
 			end
 		end
-		--		print "...update done."
 	end
 
 	o.keypressed = function(key,code)
@@ -277,7 +272,6 @@ love.game.newStateManager = function()
 		local stateId = o.fsm:get()
 		local state = o.states[stateId]
 
-		--print "update action..."
 		if state and state.actions then
 			if state.actions.update then
 				state.actions.update(dt)
@@ -299,27 +293,3 @@ love.game.newStateManager = function()
 
 	return o
 end
---	if lizGame.state == lizGame.stateManager.states.PAUSED then
---		print "paused"
---	else
---		if key == "1" then
---			lizGame.setState(lizGame.stateManager.states.MAIN_MENU)
---		elseif key == "2" then
---			print "2"
---			lizGame.setState(lizGame.stateManager.states.GAMEPLAY)
---		elseif key == "3" then
---			lizGame.setState(lizGame.stateManager.states.CREDITS)
---		end
-	--	end
-	--
-	--
-	--	-- Toggle pause, but only to/from GAME_PLAY
-	--	if lizGame.state == lizGame.stateManager.states.GAMEPLAY or lizGame.state == lizGame.stateManager.states.PAUSED then
-	--		if key == "p" then
-	--			if lizGame.state == lizGame.stateManager.states.GAMEPLAY then
-	--				lizGame.setState(lizGame.stateManager.states.PAUSED)
-	--			elseif lizGame.state == lizGame.stateManager.states.PAUSED then
-	--				lizGame.setState(lizGame.stateManager.states.GAMEPLAY)
-	--			end
-	--		end
-	--	end
