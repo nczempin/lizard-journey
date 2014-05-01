@@ -11,7 +11,6 @@ function love.game.newGame()
 	local o = {}
 	o.world = nil
 	o.menus = love.game.newMenus()
-	print (o.menus)
 	o.init = function()
 
 		--TODO: these are all states; they should be handled in the state manager
