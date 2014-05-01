@@ -1,12 +1,13 @@
-function love.game.newMainMenu()
+function love.game.newMainMenu(menus)
 	local o = {}
+	o.menus = menus
 	o.update = function(dt)
 		o.menu.update(dt)
 	end
 	o.draw = function()
-		lizGame.drawBackgroundImage()
+		o.menus.drawBackgroundImage()
 		o.menu.draw()
-		lizGame.drawTitle("The Tale of Some Reptile")
+		o.menus.drawTitle("The Tale of Some Reptile")
 
 	end
 
@@ -43,46 +44,45 @@ function love.game.newMainMenu()
 		o.exitButton = o.menu.newButton(buttonX, windowH - totalButtonH/2 + 2*(spacing + buttonH), 140, buttonH, "Exit", o.buttonImage)
 		o.creditsButton.setFont(FONT_LARGE)
 	end
-	return o
-end
 
-function love.game.newMmState(sm)
-	--TODO: move to main_menu.lua
-	local mmState = {name= "main_menu"}
-	mmState.actions = {}
+	o.newMmState = function(sm)
+		--TODO: move to main_menu.lua
+		local mmState = {name= "main_menu"}
+		mmState.actions = {}
 
-	local mmUp = function(dt)
-		lizGame.main_menu.update(dt)
-		if lizGame.main_menu.playButton.hit then
-			sm.fsm:fire("startGame")
-		elseif lizGame.main_menu.creditsButton.hit then
-			sm.fsm:fire("gotoCredits")
-		elseif lizGame.main_menu.exitButton.hit then
-			love.event.quit() --TODO: more elegant exit transition
+		local mmUp = function(dt)
+			o.update(dt)
+			if o.playButton.hit then
+				sm.fsm:fire("startGame")
+			elseif o.creditsButton.hit then
+				sm.fsm:fire("gotoCredits")
+			elseif o.exitButton.hit then
+				love.event.quit() --TODO: more elegant exit transition
+			end
 		end
-	end
 
-	local mmDraw = function()
-		lizGame.drawBackgroundImage()
-		lizGame.main_menu.draw()
-		lizGame.drawTitle("The Tale of Some Reptile")
+		local mmDraw = function()
+			o.menus.drawBackgroundImage()
+			o.draw()
+			o.menus.drawTitle("The Tale of Some Reptile")
 
-	end
+		end
 
-	local mmKeypressed = function (key, code)
-	end
-	local mmMousepressed = function (x,y,key)
-		print ("main menu mouse: ",x,y,key)
-	end
-	local mmTransition = function()
-		love.sounds.playBgm("lizardViolinSession")
-	end
+		local mmKeypressed = function (key, code)
+		end
+		local mmMousepressed = function (x,y,key)
+			print ("main menu mouse: ",x,y,key)
+		end
+		local mmTransition = function()
+			love.sounds.playBgm("lizardViolinSession")
+		end
 
-	mmState.actions["update"] = mmUp
-	mmState.actions["draw"] = mmDraw
-	mmState.actions["keypressed"] = mmKeypressed
-	mmState.actions["mousepressed"] = mmMousepressed
-	mmState.actions["transition"] = mmTransition
+		mmState.actions["update"] = mmUp
+		mmState.actions["draw"] = mmDraw
+		mmState.actions["keypressed"] = mmKeypressed
+		mmState.actions["mousepressed"] = mmMousepressed
+		mmState.actions["transition"] = mmTransition
 
-	return mmState
+		return mmState
+	end	return o
 end

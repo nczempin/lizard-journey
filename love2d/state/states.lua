@@ -6,11 +6,11 @@ if not love then
 	love.game = {}
 end
 
-love.game.newStateManager = function()
+function love.game.newStateManager(menus)
 	local o = {}
 	--states = {"main menu", "gameplay", "load", "settings", "game over", "credits", "settings/video","settings/video/advanced", "paused"}
-
-	local mmState = love.game.newMmState(o)
+	print (lizGame.menus)
+	local mmState = lizGame.menus.main_menu.newMmState(o)
 
 
 	local gpState = love.game.newGpState(o)
