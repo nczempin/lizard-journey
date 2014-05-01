@@ -3,8 +3,8 @@ love.game = {}
 require "external/gui/gui"
 require "conf"
 require "state/gameplay/world"
-require "state/main_menu"
-require "state/credits"
+require "state/menus/main_menu"
+require "state/menus/credits"
 
 function love.game.newGame()
 	local o = {}

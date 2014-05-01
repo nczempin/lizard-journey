@@ -1,5 +1,5 @@
-require "state/main_menu"
-require "state/credits"
+require "state/menus/main_menu"
+require "state/menus/credits"
 
 if not love then
 	love = {}
