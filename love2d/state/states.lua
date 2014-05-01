@@ -7,6 +7,9 @@ love.game.newStateManager = function()
 	local o = {}
 	-- GameStates:0=MainMenu, 1=inGame, 2=Load, 3=Settings, 4=Game Over, 5 = Credits
 	--states = {"main menu", "gameplay", "load", "settings", "game over", "credits", "settings/video","settings/video/advanced", "paused"}
+
+
+	--TODO: move to main_menu.lua
 	local mmState = {name= "main_menu"}
 	mmState.actions = {}
 
@@ -43,64 +46,11 @@ love.game.newStateManager = function()
 	mmState.actions["mousepressed"] = mmMousepressed
 
 
+	--TODO: move to world/gameplay
 	local gpState = {name= "gameplay"}
 	gpState.actions = {}
 
 	local gpUp = function(dt)
-		o.states.GAMEPLAY.update(dt)
-	end
-	local gpDraw = function()
-		lizGame.world.draw()
-	end
-	local gpKeypressed = function(key, code)
-		if key == "s" then
-			print "saving..."
-			lizGame.world.map.save("test")
-		elseif key == "l" then
-			print "loading..."
-			lizGame.world.map.load("test")
-		end
-	end
-	local gpMousepressed = function (x,y,key)
-
-		if(key == "wu") then
-			lizGame.world.zoomIn()
-		elseif(key == "wd") then
-			lizGame.world.zoomOut()
-		elseif (key == "l")then
-			local map = lizGame.world.map
-			lizGame.world.setGoal(map, x,y)
-		elseif (key == "m")then
-			--			print (".")
-			lizGame.world.dragX = x - lizGame.world.offsetX * lizGame.world.zoom
-			lizGame.world.dragY = y - lizGame.world.offsetY * lizGame.world.zoom
-		end
-	end
-
-
-	gpState.actions["update"] = gpUp
-	gpState.actions["draw"] = gpDraw
-	gpState.actions["mousepressed"] = gpMousepressed
-	gpState.actions["keypressed"] = gpKeypressed
-
-	local pausedState = {name = "paused"}
-	pausedState.actions = {}
-	local creditsState = {name = "credits"}
-
-	local initState = {name = "init"}
-
-	o.states = {init = initState,main_menu=mmState,gameplay=gpState,credits=creditsState,paused=pausedState}
-
-	o.states.MAIN_MENU = o.states["main_menu"]
-	o.states.MAIN_MENU.transition = mmTransition
-
-	o.states.GAMEPLAY = o.states["gameplay"]
-	o.states.GAMEPLAY.transition = function()
-		love.sounds.playBgm(nil)
-	end
-
-	o.soundWaitTimer = 0 --TODO this needs to be gameplay-specific
-	o.states.GAMEPLAY.update = function(dt)
 
 		-- play ambient sounds
 		o.soundWaitTimer = o.soundWaitTimer + dt
@@ -157,7 +107,64 @@ love.game.newStateManager = function()
 		end
 		--
 		lizGame.world.hudLayer.update(dt)
+	end
+	local gpDraw = function()
+		lizGame.world.draw()
+	end
+	local gpKeypressed = function(key, code)
+		if key == "s" then
+			print "saving..."
+			lizGame.world.map.save("test")
+		elseif key == "l" then
+			print "loading..."
+			lizGame.world.map.load("test")
+		end
+	end
+	local gpMousepressed = function (x,y,key)
 
+		if(key == "wu") then
+			lizGame.world.zoomIn()
+		elseif(key == "wd") then
+			lizGame.world.zoomOut()
+		elseif (key == "l")then
+			local map = lizGame.world.map
+			lizGame.world.setGoal(map, x,y)
+		elseif (key == "m")then
+			--			print (".")
+			lizGame.world.dragX = x - lizGame.world.offsetX * lizGame.world.zoom
+			lizGame.world.dragY = y - lizGame.world.offsetY * lizGame.world.zoom
+		end
+	end
+
+
+	gpState.actions["update"] = gpUp
+	gpState.actions["draw"] = gpDraw
+	gpState.actions["mousepressed"] = gpMousepressed
+	gpState.actions["keypressed"] = gpKeypressed
+
+	local pausedState = {name = "paused"}
+	pausedState.actions = {}
+
+
+	--TODO: move to credits
+	local creditsState = {name = "credits"}
+
+
+	--TODO: move to init
+	local initState = {name = "init"}
+
+	o.states = {init = initState,main_menu=mmState,gameplay=gpState,credits=creditsState,paused=pausedState}
+
+	o.states.MAIN_MENU = o.states["main_menu"]
+	o.states.MAIN_MENU.transition = mmTransition
+
+	o.states.GAMEPLAY = o.states["gameplay"]
+	o.states.GAMEPLAY.transition = function()
+		love.sounds.playBgm(nil)
+	end
+
+	o.soundWaitTimer = 0 --TODO this needs to be gameplay-specific
+	o.states.GAMEPLAY.update = function(dt)
 	end
 	o.states.CREDITS = o.states["credits"]
 	creditsState.actions = {}
