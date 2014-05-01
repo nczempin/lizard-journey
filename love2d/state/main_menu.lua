@@ -45,3 +45,44 @@ function love.game.newMainMenu()
 	end
 	return o
 end
+
+function love.game.newMmState(sm)
+	--TODO: move to main_menu.lua
+	local mmState = {name= "main_menu"}
+	mmState.actions = {}
+
+	local mmUp = function(dt)
+		lizGame.main_menu.update(dt)
+		if lizGame.main_menu.playButton.hit then
+			sm.fsm:fire("startGame")
+		elseif lizGame.main_menu.creditsButton.hit then
+			sm.fsm:fire("gotoCredits")
+		elseif lizGame.main_menu.exitButton.hit then
+			love.event.quit() --TODO: more elegant exit transition
+		end
+	end
+
+	local mmDraw = function()
+		lizGame.drawBackgroundImage()
+		lizGame.main_menu.draw()
+		lizGame.drawTitle("The Tale of Some Reptile")
+
+	end
+
+	local mmKeypressed = function (key, code)
+	end
+	local mmMousepressed = function (x,y,key)
+		print ("main menu mouse: ",x,y,key)
+	end
+	local mmTransition = function()
+		love.sounds.playBgm("lizardViolinSession")
+	end
+
+	mmState.actions["update"] = mmUp
+	mmState.actions["draw"] = mmDraw
+	mmState.actions["keypressed"] = mmKeypressed
+	mmState.actions["mousepressed"] = mmMousepressed
+	mmState.actions["transition"] = mmTransition
+
+	return mmState
+end

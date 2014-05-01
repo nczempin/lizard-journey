@@ -1,3 +1,5 @@
+require "state/main_menu"
+
 if not love then
 	love = {}
 	love.game = {}
@@ -8,42 +10,7 @@ love.game.newStateManager = function()
 	-- GameStates:0=MainMenu, 1=inGame, 2=Load, 3=Settings, 4=Game Over, 5 = Credits
 	--states = {"main menu", "gameplay", "load", "settings", "game over", "credits", "settings/video","settings/video/advanced", "paused"}
 
-
-	--TODO: move to main_menu.lua
-	local mmState = {name= "main_menu"}
-	mmState.actions = {}
-
-	local mmUp = function(dt)
-		lizGame.main_menu.update(dt)
-		if lizGame.main_menu.playButton.hit then
-			o.fsm:fire("startGame")
-		elseif lizGame.main_menu.creditsButton.hit then
-			o.fsm:fire("gotoCredits")
-		elseif lizGame.main_menu.exitButton.hit then
-			love.event.quit() --TODO: more elegant exit transition
-		end
-	end
-
-	local mmDraw = function()
-		lizGame.drawBackgroundImage()
-		lizGame.main_menu.draw()
-		lizGame.drawTitle("The Tale of Some Reptile")
-
-	end
-
-	local mmKeypressed = function (key, code)
-	end
-	local mmMousepressed = function (x,y,key)
-		print ("main menu mouse: ",x,y,key)
-	end
-	local mmTransition = function()
-		love.sounds.playBgm("lizardViolinSession")
-	end
-
-	mmState.actions["update"] = mmUp
-	mmState.actions["draw"] = mmDraw
-	mmState.actions["keypressed"] = mmKeypressed
-	mmState.actions["mousepressed"] = mmMousepressed
+	local mmState = love.game.newMmState(o)
 
 
 	--TODO: move to world/gameplay
@@ -158,7 +125,7 @@ love.game.newStateManager = function()
 	o.states = {init = initState,main_menu=mmState,gameplay=gpState,credits=creditsState,paused=pausedState}
 
 	o.states.MAIN_MENU = o.states["main_menu"]
-	o.states.MAIN_MENU.transition = mmTransition
+	o.states.MAIN_MENU.transition = mmState.actions["transition"]
 
 	o.states.GAMEPLAY = o.states["gameplay"]
 	o.states.GAMEPLAY.transition = function()
