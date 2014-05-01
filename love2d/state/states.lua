@@ -41,10 +41,8 @@ love.game.newStateManager = function()
 	--TODO: move to credits
 	o.states.CREDITS = o.states["credits"]
 	creditsState.actions = {}
-	o.states.CREDITS.update= function(dt)
-	end
 	local crUp = function(dt)
-		o.states.CREDITS.update(dt)
+		--o.states.CREDITS.update(dt)
 	end
 	o.states.CREDITS.draw= function()
 		lizGame.credits.drawCredits()
