@@ -1,9 +1,11 @@
 --require "tileset"
 require "external/map"
-require "pawn"
-require "mapGenerator"
 require "layer/hud"
-require('fire')
+
+
+require "state/pawn"
+require "state/mapGenerator"
+require "state/fire"
 
 function love.game.newWorld()
 	local o = {}
