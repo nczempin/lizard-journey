@@ -9,7 +9,6 @@ end
 function love.game.newStateManager(menus)
 	local o = {}
 	--states = {"main menu", "gameplay", "load", "settings", "game over", "credits", "settings/video","settings/video/advanced", "paused"}
-	print (lizGame.menus)
 	local mmState = lizGame.menus.main_menu.newMmState(o)
 
 
