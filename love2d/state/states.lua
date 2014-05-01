@@ -1,15 +1,16 @@
-require "state/main_menu"
+require "state/menus/main_menu"
+require "state/menus/credits"
 
 if not love then
 	love = {}
 	love.game = {}
 end
 
-love.game.newStateManager = function()
+function love.game.newStateManager(menus)
 	local o = {}
-		--states = {"main menu", "gameplay", "load", "settings", "game over", "credits", "settings/video","settings/video/advanced", "paused"}
-
-	local mmState = love.game.newMmState(o)
+	--states = {"main menu", "gameplay", "load", "settings", "game over", "credits", "settings/video","settings/video/advanced", "paused"}
+	print (lizGame.menus)
+	local mmState = lizGame.menus.main_menu.newMmState(o)
 
 
 	local gpState = love.game.newGpState(o)
@@ -19,13 +20,17 @@ love.game.newStateManager = function()
 	pausedState.actions = {}
 
 
-	local creditsState = {name = "credits"}
-
+	local creditsState = love.game.newCrState(o)
 
 	--TODO: move to init
 	local initState = {name = "init"}
 
 	o.states = {init = initState,main_menu=mmState,gameplay=gpState,credits=creditsState,paused=pausedState}
+
+	o.states.CREDITS = o.states["credits"]
+	o.states.CREDITS.transition = function()
+		S.playBgm("battleIntro")
+	end
 
 	o.states.MAIN_MENU = o.states["main_menu"]
 	o.states.MAIN_MENU.transition = mmState.actions["transition"]
@@ -37,38 +42,6 @@ love.game.newStateManager = function()
 
 	o.states.GAMEPLAY.update = function(dt)
 	end
-
-	--TODO: move to credits
-	o.states.CREDITS = o.states["credits"]
-	creditsState.actions = {}
-	local crUp = function(dt)
-		--o.states.CREDITS.update(dt)
-	end
-	o.states.CREDITS.draw= function()
-		lizGame.credits.drawCredits()
-	end
-	local crDraw = function()
-		o.states.CREDITS.draw()
-	end
-
-	o.states.CREDITS.transition = function()
-		S.playBgm("battleIntro")
-	end
-
-	local crMousepressed = function()
-		print "firing gotoMainMenu"
-		o.fsm:fire("gotoMainMenu")
-	end
-	local crKeypressed = function()
-		print "firing gotoMainMenu"
-		o.fsm:fire("gotoMainMenu")
-	end
-	creditsState.actions["keypressed"] = crKeypressed
-	creditsState.actions["mousepressed"] = crMousepressed
-
-
-	creditsState.actions["update"] = crUp
-	creditsState.actions["draw"] = crDraw
 
 
 

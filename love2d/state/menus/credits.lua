@@ -28,8 +28,8 @@ function love.game.newCreditsScreen()
 	end
 
 	o.drawCredits = function()
-		lizGame.drawBackgroundImage() --TODO no globals
-		lizGame.drawTitle("Credits")--TODO no globals
+		lizGame.menus.drawBackgroundImage() --TODO no globals
+		lizGame.menus.drawTitle("Credits")--TODO no globals
 
 		local hh = W.getHeight()/2
 		local w = W.getWidth()
@@ -47,4 +47,31 @@ function love.game.newCreditsScreen()
 
 
 	return o
+end
+function love.game.newCrState(sm)
+	local creditsState = {name = "credits"}
+	creditsState.actions = {}
+	local crUp = function(dt)
+	--o.states.CREDITS.update(dt)
+	end
+	local crDraw = function()
+		lizGame.menus.credits.drawCredits()
+	end
+
+
+	local crMousepressed = function()
+		print "firing gotoMainMenu"
+		sm.fsm:fire("gotoMainMenu")
+	end
+	local crKeypressed = function()
+		print "firing gotoMainMenu"
+		sm.fsm:fire("gotoMainMenu")
+	end
+	creditsState.actions["keypressed"] = crKeypressed
+	creditsState.actions["mousepressed"] = crMousepressed
+
+
+	creditsState.actions["update"] = crUp
+	creditsState.actions["draw"] = crDraw
+	return creditsState
 end
