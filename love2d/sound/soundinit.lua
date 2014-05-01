@@ -1,4 +1,4 @@
-require "sound"
+require "sound/sound"
 	-- as of yet each sound will have to be added manually once
 function love.sounds.initSounds()
 	----envSounds:----------------------------

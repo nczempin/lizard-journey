@@ -1,8 +1,8 @@
 require "game"
 require "state/states"
 require "util"
-require "sound"
-require "soundinit"
+require "sound/sound"
+require "sound/soundinit"
 
 function love.load()
 	G = love.graphics

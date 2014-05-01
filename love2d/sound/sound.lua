@@ -1,5 +1,5 @@
 require "external/TEsound"
-require "ambientsound"
+require "sound/ambientsound"
 
 LOVE_SOUND_BGMUSICVOLUME 	= 0.3
 LOVE_SOUND_SOUNDVOLUME		= 1.0
