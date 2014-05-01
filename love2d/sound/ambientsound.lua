@@ -1,4 +1,4 @@
-require "state/mapGenerator"
+require "state/gameplay/mapGenerator"
 -- world map: lizGame.world.map.*
 -- THIS IS ONLY THE SOUND PRODUCED BY THE AMBIENT (TODO the ambient consists of everything that is on the normal world map right now)
 -- for sound produced by objects (e.g. the player or a door or an enemy) look at objectsound.lua (NYI)

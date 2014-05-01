@@ -3,9 +3,9 @@ require "external/map"
 require "layer/hud"
 
 
-require "state/pawn"
-require "state/mapGenerator"
-require "state/fire"
+require "state/gameplay/pawn"
+require "state/gameplay/mapGenerator"
+require "state/gameplay/fire"
 
 function love.game.newWorld()
 	local o = {}

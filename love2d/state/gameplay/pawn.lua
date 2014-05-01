@@ -1,5 +1,5 @@
 require('math')
-require('state/mapGenerator')
+require('state/gameplay/mapGenerator')
 
 local SPRITE_SIZE = 32 --this assumes rectangular sprites --TODO this conflicts with o.spriteSize
 local EPSILON = 0.001

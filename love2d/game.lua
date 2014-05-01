@@ -2,7 +2,7 @@ love.game = {}
 
 require "external/gui/gui"
 require "conf"
-require "state/world"
+require "state/gameplay/world"
 require "state/main_menu"
 require "state/credits"
 
