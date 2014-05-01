@@ -243,3 +243,104 @@ function love.game.newWorld()
 
 	return o
 end
+
+
+function love.game.newGpState(sm)
+	local gpState = {name= "gameplay"}
+	gpState.actions = {}
+
+	sm.soundWaitTimer = 0 --TODO this needs to be gameplay-specific
+	local gpUp = function(dt)
+
+		-- play ambient sounds
+		sm.soundWaitTimer = sm.soundWaitTimer + dt
+		if sm.soundWaitTimer >= 1 then
+			sm.soundWaitTimer = sm.soundWaitTimer -1
+			if love.sound.ambientSound then
+				love.sound.ambientSound.soundActive = true
+				love.sound.ambientSound.playAmbient()
+			else
+				love.sound.ambientSound = getAmbientSoundGenerator()
+			end
+		end
+		-- update time of day
+		lizGame.world.timeOfDay = (lizGame.world.timeOfDay + dt)%24 -- one hour per second
+
+		-- handle scrolling and zooming
+		local mx = love.mouse.getX()
+		local my = love.mouse.getY()
+
+
+		if love.mouse.isDown("m") then
+			lizGame.world.offsetX = (mx - lizGame.world.dragX) / lizGame.world.zoom
+			lizGame.world.offsetY = (my - lizGame.world.dragY) / lizGame.world.zoom
+		end
+
+		if love.keyboard.isDown("left") then
+			lizGame.world.offsetX = lizGame.world.offsetX + dt * 500
+		elseif love.keyboard.isDown("right") then
+			lizGame.world.offsetX = lizGame.world.offsetX - dt * 500
+		end
+
+		if love.keyboard.isDown("up") then
+			lizGame.world.offsetY = lizGame.world.offsetY + dt * 500
+		elseif love.keyboard.isDown("down") then
+			lizGame.world.offsetY = lizGame.world.offsetY - dt * 500
+		end
+
+		--lizGame.world.map.update(dt)
+
+
+		for i = 1, #lizGame.world.pawns do
+			lizGame.world.pawns[i].update(dt)
+		end
+
+		--TODO fires
+		--		for i = 1, lizGame.world.mapWidth do
+		--			for k = 1, lizGame.world.mapHeight do
+		--				if MapGenerator.getObject(lizGame.world.mapG, i, k) == MAP_OBJ_FIREPLACE then
+		--					lizGame.world.map.setTileLayer(i, k, 2, 18 + math.floor((love.timer.getTime() * 10) % 4))
+		--				end
+		--			end
+		--		end
+		for i, v in pairs(lizGame.world.fires) do
+			v.update(dt, lizGame.world.pawns)
+		end
+		--
+		lizGame.world.hudLayer.update(dt)
+	end
+	local gpDraw = function()
+		lizGame.world.draw()
+	end
+	local gpKeypressed = function(key, code)
+		if key == "s" then
+			print "saving..."
+			lizGame.world.map.save("test")
+		elseif key == "l" then
+			print "loading..."
+			lizGame.world.map.load("test")
+		end
+	end
+	local gpMousepressed = function (x,y,key)
+
+		if(key == "wu") then
+			lizGame.world.zoomIn()
+		elseif(key == "wd") then
+			lizGame.world.zoomOut()
+		elseif (key == "l")then
+			local map = lizGame.world.map
+			lizGame.world.setGoal(map, x,y)
+		elseif (key == "m")then
+			lizGame.world.dragX = x - lizGame.world.offsetX * lizGame.world.zoom
+			lizGame.world.dragY = y - lizGame.world.offsetY * lizGame.world.zoom
+		end
+	end
+
+
+	gpState.actions["update"] = gpUp
+	gpState.actions["draw"] = gpDraw
+	gpState.actions["mousepressed"] = gpMousepressed
+	gpState.actions["keypressed"] = gpKeypressed
+	
+	return gpState
+end
