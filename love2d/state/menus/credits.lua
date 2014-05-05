@@ -8,8 +8,8 @@ function love.game.newCreditsScreen()
 	o.setupCredits = function()
 		if not o.peopleTextual then
 			o.people = {
-				"Markus Vill", "Nicolai Czempin", "Bernd Hildebrandt",
-				"Marcus Ihde", "Meral Leyla", "Aldo Briessmann", "Terence-Lee Davis", "Francisco Pinto",
+				"Markus Vill (Code)", "Nicolai Czempin (Code)", "Bernd Hildebrandt (Graphics)",
+				"Marcus Ihde (Code)", "Meral Leyla (Sound, Music)", "Aldo Briessmann (Code)", "Terence-Lee Davis (Graphics)", "Francisco Pinto (Code)",
 			}
 			table.sort(o.people) -- 2lazy
 
