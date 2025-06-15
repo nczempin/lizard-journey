@@ -14,24 +14,24 @@ function love.game.newHudLayer(world)
 
 	o.setColour = function(temperature)
 		if (temperature >= 50) then
-			G.setColor(255, 0, 0) --red
+			G.setColor(1, 0, 0) --red
 		elseif (temperature >= 43) then
-			G.setColor(255, 165, 0) --orange
+			G.setColor(1, 0.647, 0) --orange
 		elseif (temperature >=38) then
-			G.setColor(255, 215, 0) --yellow
+			G.setColor(1, 0.843, 0) --yellow
 		elseif (temperature >= 33) then
-			G.setColor(0, 255, 127) --green
+			G.setColor(0, 1, 0.498) --green
 		elseif (temperature >= 25) then
-			G.setColor(46, 139, 87) --blue/green
+			G.setColor(0.180, 0.545, 0.341) --blue/green
 		else
-			G.setColor(0, 0, 255) --blue
+			G.setColor(0, 0, 1) --blue
 		end
 
 	end
 	o.draw = function()
 		local pawn = o.world.getActivePawn()
 		G.setFont(FONT_MEDIUM)
-		G.setColor(0, 206, 209)
+		G.setColor(0, 0.808, 0.820)
 
 		line = 0
 
@@ -56,7 +56,7 @@ function love.game.newHudLayer(world)
 
 		local timeOfDay =math.floor( o.world.timeOfDay)
 		line = line + 1
-		G.setColor(0,0,0)
+		G.setColor(0, 0, 0)
 
 		G.print("Time of day: "..tostring(timeOfDay)..":00", FONT_SIZE_MEDIUM*0, FONT_SIZE_MEDIUM*line)
 
