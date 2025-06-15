@@ -1,1 +1,8 @@
 love.exe - Shortcut.lnk
+
+# Love2D source and binaries
+love-0.9.1-linux-src.tar.gz
+love-0.9.1/
+
+# Backup files
+lizard-journey-backup-*.tar.gz
