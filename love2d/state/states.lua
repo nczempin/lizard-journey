@@ -98,12 +98,22 @@ function love.game.newStateManager(menus)
 			end
 		end
 	end
-	o.mousepressed = function(x,y,key)
+	o.mousepressed = function(x,y,button)
 		local	stateId = o.fsm:get()
 		local state = o.states[stateId]
 		if state and state.actions then
 			if state.actions["mousepressed"] then
-				state.actions.mousepressed(x,y,key)
+				state.actions.mousepressed(x,y,button)
+			end
+		end
+	end
+
+	o.wheelmoved = function(x,y)
+		local	stateId = o.fsm:get()
+		local state = o.states[stateId]
+		if state and state.actions then
+			if state.actions["wheelmoved"] then
+				state.actions.wheelmoved(x,y)
 			end
 		end
 	end

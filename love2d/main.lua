@@ -44,11 +44,18 @@ function love.keypressed(key, code)
 end
 
 
-function love.mousepressed(x, y, key)
-	lizGame.stateManager.mousepressed(x,y,key)
-
+function love.mousepressed(x, y, button, isTouch)
+	-- For backward compatibility, pass button as the third parameter
+	lizGame.stateManager.mousepressed(x, y, button)
 end
 
-function love.mousereleased(x, y, key)
+function love.mousereleased(x, y, button, isTouch)
+	-- Currently not used in the game
+end
 
+function love.wheelmoved(x, y)
+	-- Handle wheel movement
+	if lizGame.stateManager.wheelmoved then
+		lizGame.stateManager.wheelmoved(x, y)
+	end
 end
