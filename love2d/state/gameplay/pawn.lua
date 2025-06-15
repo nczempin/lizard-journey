@@ -206,19 +206,19 @@ function love.game.newPawn(id, world)
 		local xx = (o.x * SPRITE_SIZE + x) * o.zoom
 		local yy = (o.y * SPRITE_SIZE + y) * o.zoom
 		if o.state == "dead" then
-			love.graphics.setColor(255,255,255)
+			love.graphics.setColor(1,1,1)
 
 			local quad = love.graphics.newQuad(4 * o.spritesize, 0 * o.spritesize, o.spritesize, o.spritesize, o.image:getWidth(), o.image:getHeight())
 			love.graphics.draw( o.image, quad, xx, yy, 0, o.zoom, o.zoom) -- the magic 2 possibly comes from the inconsistency between the sprite size constants
 		else
-			love.graphics.setColor(255,255,255)
+			love.graphics.setColor(1,1,1)
 
 			local quad = love.graphics.newQuad(o.anim[1] * o.spritesize, o.anim[2] * o.spritesize, o.spritesize, o.spritesize, o.image:getWidth(), o.image:getHeight())
 			love.graphics.draw( o.image, quad, xx, yy, 0, o.zoom, o.zoom) -- the magic 2 possibly comes from the inconsistency between the sprite size constants
 
 			--show the target of this pawn
 			--TODO: only show when this pawn is selected / being followed
-			love.graphics.setColor(255,255,0)
+			love.graphics.setColor(1,1,0)
 			love.graphics.rectangle("line", (o.world.goalX*SPRITE_SIZE+x)*o.zoom,(o.world.goalY*SPRITE_SIZE+y)*o.zoom, SPRITE_SIZE*o.zoom,SPRITE_SIZE*o.zoom)
 		end
 	end

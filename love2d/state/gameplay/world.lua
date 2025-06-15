@@ -201,14 +201,14 @@ function love.game.newWorld()
 		local my = love.mouse.getY()
 		local tileX, tileY = o.getTileFromScreen(mx, my)
 
-		G.setColor(255, 63, 0)
+		G.setColor(1, 0.247, 0)
 		G.rectangle("line",
 			tileX * (o.tileset.tileWidth * o.zoom) + (o.offsetX * o.zoom),
 			tileY * (o.tileset.tileHeight * o.zoom) + (o.offsetY * o.zoom),
 			o.tileset.tileWidth * o.zoom,
 			o.tileset.tileHeight * o.zoom
 		)
-		G.setColor(255, 255, 255)
+		G.setColor(1, 1, 1)
 	end
 
 	o.setGoal = function(map, x, y)
@@ -227,12 +227,12 @@ function love.game.newWorld()
 	end
 	o.drawPause = function()
 		-- Draw world as backdrop
-		G.setColor(255, 255, 255, 255)
+		G.setColor(1, 1, 1, 1)
 		o.world.draw()
 		-- Draw transparent rectangle for the 'faded' effect
 		local w = W.getWidth()
 		local h = W.getHeight()
-		G.setColor(255, 255, 255, 96)
+		G.setColor(1, 1, 1, 0.376)
 		G.rectangle("fill", 0, 0, w, h)
 		-- Draw centered (H&V) text
 		G.setColor(0, 0, 0)
@@ -240,7 +240,7 @@ function love.game.newWorld()
 		G.setFont(font)
 		G.printf("Paused.", 0, h/2 - font:getHeight()/2, w, "center")
 
-		G.setColor(255, 255, 255)
+		G.setColor(1, 1, 1)
 	end
 
 	return o
@@ -273,7 +273,7 @@ function love.game.newGpState(sm)
 		local my = love.mouse.getY()
 
 
-		if love.mouse.isDown("m") then
+		if love.mouse.isDown(3) then
 			lizGame.world.offsetX = (mx - lizGame.world.dragX) / lizGame.world.zoom
 			lizGame.world.offsetY = (my - lizGame.world.dragY) / lizGame.world.zoom
 		end
@@ -323,18 +323,21 @@ function love.game.newGpState(sm)
 			lizGame.world.map.load("test")
 		end
 	end
-	local gpMousepressed = function (x,y,key)
-
-		if(key == "wu") then
-			lizGame.world.zoomIn()
-		elseif(key == "wd") then
-			lizGame.world.zoomOut()
-		elseif (key == "l")then
+	local gpMousepressed = function (x,y,button)
+		if (button == 1)then -- left mouse button
 			local map = lizGame.world.map
 			lizGame.world.setGoal(map, x,y)
-		elseif (key == "m")then
+		elseif (button == 3)then -- middle mouse button
 			lizGame.world.dragX = x - lizGame.world.offsetX * lizGame.world.zoom
 			lizGame.world.dragY = y - lizGame.world.offsetY * lizGame.world.zoom
+		end
+	end
+	
+	local gpWheelmoved = function (x, y)
+		if y > 0 then -- wheel up
+			lizGame.world.zoomIn()
+		elseif y < 0 then -- wheel down
+			lizGame.world.zoomOut()
 		end
 	end
 
@@ -342,6 +345,7 @@ function love.game.newGpState(sm)
 	gpState.actions["update"] = gpUp
 	gpState.actions["draw"] = gpDraw
 	gpState.actions["mousepressed"] = gpMousepressed
+	gpState.actions["wheelmoved"] = gpWheelmoved
 	gpState.actions["keypressed"] = gpKeypressed
 	
 	return gpState
