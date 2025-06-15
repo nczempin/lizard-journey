@@ -1,6 +1,6 @@
 function love.conf(t)
 	t.identity = nil                   -- The name of the save directory (string)
-	t.version = "0.9.1"                -- The LÖVE version this game was made for (string)
+	t.version = "11.5"                 -- The LÃ–VE version this game was made for (string)
 	t.console = true                   -- Attach a console (boolean, Windows only)
 
 	t.window.title = "Lizard Journey"        -- The window title (string)
@@ -12,12 +12,12 @@ function love.conf(t)
 	t.window.minwidth = 800              -- Minimum window width if the window is resizable (number)
 	t.window.minheight = 600             -- Minimum window height if the window is resizable (number)
 	t.window.fullscreen = false        -- Enable fullscreen (boolean)
-	t.window.fullscreentype = "normal" -- Standard fullscreen or desktop fullscreen mode (string)
-	t.window.vsync = false             -- Enable vertical sync (boolean)
-	t.window.fsaa = 0                  -- The number of samples to use with multi-sampled antialiasing (number)
+	t.window.fullscreentype = "desktop" -- Standard fullscreen or desktop fullscreen mode (string)
+	t.window.vsync = 0                 -- Enable vertical sync (0=off, 1=on, -1=adaptive)
+	t.window.msaa = 0                  -- The number of samples to use with multi-sampled antialiasing (number)
 	t.window.display = 1               -- Index of the monitor to show the window in (number)
 	t.window.highdpi = false           -- Enable high-dpi mode for the window on a Retina display (boolean). Added in 0.9.1
-	t.window.srgb = false              -- Enable sRGB gamma correction when drawing to the screen (boolean). Added in 0.9.1
+	t.gammacorrect = false             -- Enable gamma-correct rendering (boolean)
 
 	t.modules.audio = true             -- Enable the audio module (boolean)
 	t.modules.event = true             -- Enable the event module (boolean)
