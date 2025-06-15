@@ -21,8 +21,10 @@ Lizard Journey is a 2D adventure game built with the LÖVE framework (Love2D) th
 ## Setup Instructions
 
 ### Prerequisites
-- [LÖVE](https://love2d.org/) framework (version 11.x recommended)
+- [LÖVE](https://love2d.org/) framework version 0.9.1
 - Basic understanding of Lua programming (for developers)
+
+**Important Note:** This game has been tested exclusively with LÖVE 0.9.1. While it may work with other versions, compatibility is not guaranteed. Migration to newer versions is planned for future development.
 
 ### Installation
 1. Clone the repository:
@@ -31,20 +33,26 @@ Lizard Journey is a 2D adventure game built with the LÖVE framework (Love2D) th
    cd lizard-journey
    ```
 
-2. Install LÖVE if you don't have it already:
-   - Windows: Download from [love2d.org](https://love2d.org/)
-   - macOS: `brew install love`
-   - Linux: `sudo apt install love` or equivalent for your distribution
+2. Install LÖVE 0.9.1:
+   - **Windows**: The repository includes a vendored copy of LÖVE 0.9.1 for Windows in `vendor/love2d-0.9.1-win64/`. No additional installation needed!
+   - **macOS/Linux**: Download LÖVE 0.9.1 from the [official releases page](https://github.com/love2d/love/releases/tag/0.9.1)
+   - Note: The game should work with LÖVE 0.9.1 binaries on all platforms, though we've only tested with the Windows version
 
 ### Running the Game
-1. Using LÖVE directly:
-   ```
-   love love2d/
-   ```
 
-2. Or on Windows, drag the `love2d` folder onto the `love.exe` executable
+#### Windows (Easy Method)
+```bash
+./run.sh  # Uses the vendored LÖVE 0.9.1 binary
+```
 
-3. Alternatively, visit the online version at: http://nczempin.github.io/lizard-journey/
+#### All Platforms (With LÖVE 0.9.1 installed)
+```bash
+love love2d/
+```
+
+#### Alternative Methods
+1. On Windows, drag the `love2d` folder onto the `love.exe` executable (version 0.9.1)
+2. Visit the online version at: http://nczempin.github.io/lizard-journey/
 
 ## Project Scope
 
