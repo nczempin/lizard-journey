@@ -57,7 +57,7 @@ function love.game.newLayer(width, height, tileset)
 	o.shader:send("size", {o.width, o.height})
 
 	o.draw = function(x, y, r, sx, sy, ...)
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 		love.graphics.setShader(o.shader)
 		o.shader:send("time", math.floor(love.timer.getTime() * 5))
 		love.graphics.draw(o.canvas, x or 0, y or 0, r or 0, (sx or 1) * 16, (sy or 1) * 16, ...)
@@ -101,7 +101,7 @@ function love.game.newMap(width, height)
 	o.height = height or 256
 
 	o.draw = function(x, y, r, sx, sy, ...)
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 		for i = 1, #o.layer do
 			love.graphics.setShader(o.layer[i].shader)
 			o.layer[i].shader:send("time", math.floor(love.timer.getTime() * 5))
@@ -117,7 +117,7 @@ function love.game.newMap(width, height)
 	end
 
 	o.load = function(path)
-		love.graphics.setColor(255, 255, 255)
+		love.graphics.setColor(1, 1, 1)
 		for i = 1, #o.layer do
 			local img = love.graphics.newImage(path .. "_" .. i .. ".png")
 			LOVE_LAYER_LAST_CANVAS = love.graphics.getCanvas()

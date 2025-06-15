@@ -188,7 +188,7 @@ function love.light.newWorld()
 
 						-- draw shine
 						love.graphics.setCanvas(o.lights[i].shine)
-						o.lights[i].shine:clear(255, 255, 255)
+						o.lights[i].shine:clear(1, 1, 1)
 						love.graphics.setBlendMode("alpha")
 						love.graphics.setStencil(polyStencil)
 						love.graphics.rectangle("fill", LOVE_LIGHT_TRANSLATE_X, LOVE_LIGHT_TRANSLATE_Y, love.graphics.getWidth(), love.graphics.getHeight())
@@ -282,7 +282,7 @@ function love.light.newWorld()
 			end
 
 			love.graphics.setShader()
-			o.pixelShadow:clear(255, 255, 255)
+			o.pixelShadow:clear(1, 1, 1)
 			love.graphics.setCanvas(o.pixelShadow)
 			love.graphics.setBlendMode("alpha")
 			love.graphics.draw(o.pixelShadow2, LOVE_LIGHT_TRANSLATE_X, LOVE_LIGHT_TRANSLATE_Y)
