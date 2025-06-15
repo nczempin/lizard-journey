@@ -34,15 +34,15 @@ function love.game.newCreditsScreen()
 		local hh = W.getHeight()/2
 		local w = W.getWidth()
 		G.setFont(o.peopleFont)
-		G.setColor(81, 81, 81)
+		G.setColor(0.318, 0.318, 0.318)
 		G.printf(o.peopleTextual, 0, o.creditsHPos, w, "center")
-		G.setColor(255, 255, 255)
+		G.setColor(1, 1, 1)
 
 		--		G.setFont(FONT_LARGE)
 		--		G.setColor(120, 118, 112)
 		--		G.printf("Click anywhere to exit.", 0, W.getHeight()*.85, w, "center")
 
-		G.setColor(255, 255, 255)
+		G.setColor(1, 1, 1)
 	end
 
 

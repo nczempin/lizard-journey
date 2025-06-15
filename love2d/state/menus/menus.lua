@@ -26,13 +26,13 @@ function love.game.newMenus()
 			local color = 255 - (dist/maxDist)*255
 			local color = color > 255 and 255 or color
 			local diff = 215 - 159
-			return 159 + diff*color/255, 159 + diff*color/255, 159 + diff*color/255, 255
+			return (159 + diff*color/255)/255, (159 + diff*color/255)/255, (159 + diff*color/255)/255, 1
 		end)
 
 		o.backgroundImage = G.newImage(imageData)
 	end
 	o.drawBackgroundImage = function()
-		G.setColor(255, 255, 255)
+		G.setColor(1, 1, 1)
 		G.draw(o.backgroundImage, 0, 0, 0,
 			W.getWidth()/o.backgroundImage:getWidth(),
 			W.getHeight()/o.backgroundImage:getHeight())
@@ -41,9 +41,9 @@ function love.game.newMenus()
 	o.drawTitle = function(titleText)
 		local font = FONT_XLARGE
 		G.setFont(font)
-		G.setColor(120, 118, 112)
+		G.setColor(0.471, 0.463, 0.439)
 		G.printf(titleText, 0, W.getHeight()/4 - font:getHeight()/2, W.getWidth(), "center")
-		G.setColor(255, 255, 255)
+		G.setColor(1, 1, 1)
 	end
 	-- end look and feel
 	return o

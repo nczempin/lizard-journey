@@ -70,8 +70,8 @@ function love.game.newMainMenu(menus)
 
 		local mmKeypressed = function (key, code)
 		end
-		local mmMousepressed = function (x,y,key)
-			print ("main menu mouse: ",x,y,key)
+		local mmMousepressed = function (x,y,button)
+			print ("main menu mouse: ",x,y,button)
 		end
 		local mmTransition = function()
 			love.sounds.playBgm("lizardViolinSession")
