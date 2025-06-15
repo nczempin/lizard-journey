@@ -29,9 +29,9 @@ function love.gui.newRadioButton(x, y, width, height, text)
 	o.img			= nil
 	o.imgX			= 0
 	o.imgY			= 0
-	o.colorNormal	= {255, 127, 0, 255}
-	o.colorHover	= {0, 127, 255, 255}
-	o.colorDisabled	= {255, 255, 255, 63}
+	o.colorNormal	= {1, 0.498, 0, 1}
+	o.colorHover	= {0, 0.498, 1, 1}
+	o.colorDisabled	= {1, 1, 1, 0.247}
 
 	--Update button
 	o.update = function(dt)
@@ -54,9 +54,9 @@ function love.gui.newRadioButton(x, y, width, height, text)
 			end
 
 			G.setBlendMode("alpha")
-			G.setColor(0, 0, 0, 31)
+			G.setColor(0, 0, 0, 0.122)
 			G.rectangle("fill", o.x, o.y, o.width, o.height)
-			G.setColor(0, 0, 0, 95)
+			G.setColor(0, 0, 0, 0.373)
 			G.setLineWidth(4)
 			G.rectangle("line", o.x, o.y, o.width, o.height)
 			G.setBlendMode("additive")
@@ -66,7 +66,7 @@ function love.gui.newRadioButton(x, y, width, height, text)
 
 			if o.img then
 				G.setBlendMode("alpha")
-				G.setColor(255, 255, 255)
+				G.setColor(1, 1, 1)
 				G.draw(o.img, o.x + o.imgX, o.y + o.imgY)
 			end
 
@@ -76,13 +76,13 @@ function love.gui.newRadioButton(x, y, width, height, text)
 				end
 
 				if o.textX and o.textY then
-					G.setColor(0, 0, 0, 95)
+					G.setColor(0, 0, 0, 0.373)
 					G.printf(o.text, o.x + o.textX + 2, o.y + o.textY + 6, o.width, "left")
 					G.setBlendMode("additive")
 					G.setColor(color[1], color[2], color[3], color[4])
 					G.printf(o.text, o.x + o.textX, o.y + o.textY + 4, o.width, "left")					
 				else
-					G.setColor(0, 0, 0, 95)
+					G.setColor(0, 0, 0, 0.373)
 					G.printf(o.text, o.x + 2, o.y + 6, o.width, "center")
 					G.setBlendMode("additive")
 					G.setColor(color[1], color[2], color[3], color[4])
@@ -225,7 +225,7 @@ function love.gui.newRadioButton(x, y, width, height, text)
 		if alpha then
 			o.colorNormal = { red, green, blue, alpha }
 		else
-			o.colorNormal = { red, green, blue, 255 }
+			o.colorNormal = { red, green, blue, 1 }
 		end
 	end
 
@@ -238,7 +238,7 @@ function love.gui.newRadioButton(x, y, width, height, text)
 		if alpha then
 			o.colorHover = { red, green, blue, alpha }
 		else
-			o.colorHover = { red, green, blue, 255 }
+			o.colorHover = { red, green, blue, 1 }
 		end
 	end
 

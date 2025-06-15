@@ -25,7 +25,7 @@ function love.gui.newGui()
 
 		o.hover = true
 
-		if love.mouse.isDown("l") then
+		if love.mouse.isDown(1) then
 			if o.down then
 				o.hit = false
 			else
@@ -51,7 +51,7 @@ function love.gui.newGui()
 
 					o.hover = false
 					o.elements[i].hover = true
-					if love.mouse.isDown("l") then
+					if love.mouse.isDown(1) then
 						if o.elements[i].down then
 							o.elements[i].hit = false
 						else
@@ -93,7 +93,7 @@ function love.gui.newGui()
 				end
 			end
 		end
-		if not love.mouse.isDown("l") and o.comboTrack then
+		if not love.mouse.isDown(1) and o.comboTrack then
 			--print (o.comboTrack, "out")
 			o.elements[o.comboTrack].deactivate()
 			o.comboTrack = nil

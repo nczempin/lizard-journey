@@ -25,9 +25,9 @@ function love.gui.newButton(x, y, width, height, text, image)
 	o.hit			= false
 	o.down			= true
 	o.img			= image
-	o.colorNormal	= {255, 127, 0, 255}
-	o.colorHover	= {128, 64, 0, 255}
-	o.colorDisabled	= {255, 255, 255, 63}
+	o.colorNormal	= {1, 0.498, 0, 1}
+	o.colorHover	= {0.502, 0.251, 0, 1}
+	o.colorDisabled	= {1, 1, 1, 0.247}
 
 	--Update button
 	o.update = function(dt)
@@ -60,12 +60,12 @@ function love.gui.newButton(x, y, width, height, text, image)
 			--G.setLineWidth(2)
 			--G.rectangle("line", o.x, o.y, o.width, o.height)
 			if o.hover and o.img then
-				G.setColor(255, 255, 255)
+				G.setColor(1, 1, 1)
 				G.draw(o.img, o.x, o.y)
 			end
 
 			if o.text then
-				G.setColor(81, 81, 81)
+				G.setColor(0.318, 0.318, 0.318)
 				if o.font then
 					G.setFont(o.font)
 				end
@@ -204,7 +204,7 @@ function love.gui.newButton(x, y, width, height, text, image)
 		if alpha then
 			o.colorNormal = { red, green, blue, alpha }
 		else
-			o.colorNormal = { red, green, blue, 255 }
+			o.colorNormal = { red, green, blue, 1 }
 		end
 	end
 
@@ -217,7 +217,7 @@ function love.gui.newButton(x, y, width, height, text, image)
 		if alpha then
 			o.colorHover = { red, green, blue, alpha }
 		else
-			o.colorHover = { red, green, blue, 255 }
+			o.colorHover = { red, green, blue, 1 }
 		end
 	end
 

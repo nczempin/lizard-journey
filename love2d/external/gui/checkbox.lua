@@ -23,9 +23,9 @@ function love.gui.newCheckbox(x, y, width, height, checked, text)
 	o.hit			= false
 	o.down			= true
 	o.checked		= checked
-	o.colorNormal	= {255, 127, 0, 255}
-	o.colorHover	= {0, 127, 255, 255}
-	o.colorDisabled	= {255, 255, 255, 63}
+	o.colorNormal	= {1, 0.498, 0, 1}
+	o.colorHover	= {0, 0.498, 1, 1}
+	o.colorDisabled	= {1, 1, 1, 0.247}
 
 	--Update button
 	o.update = function(dt)
@@ -36,11 +36,11 @@ function love.gui.newCheckbox(x, y, width, height, checked, text)
 	o.draw = function(dt)
 		if o.visible then
 			G.setBlendMode("alpha")
-			G.setColor(0, 0, 0, 31)
+			G.setColor(0, 0, 0, 0.122)
 			G.rectangle("fill", o.x + o.width - o.height, o.y, o.height, o.height)
 
 			if o.enabled then
-				G.setColor(0, 0, 0, 95)
+				G.setColor(0, 0, 0, 0.373)
 				G.printf(o.text, o.x + 2, o.y + 6, o.width, "left")
 				G.setLineWidth(4)
 				G.rectangle("line", o.x + o.width - o.height, o.y, o.height, o.height)
@@ -53,7 +53,7 @@ function love.gui.newCheckbox(x, y, width, height, checked, text)
 				end
 			else
 				G.setBlendMode("alpha")
-				G.setColor(0, 0, 0, 31)
+				G.setColor(0, 0, 0, 0.122)
 				G.rectangle("fill", o.x + o.width - o.height, o.y, o.height, o.height)
 				G.setColor(o.colorDisabled[1], o.colorDisabled[2], o.colorDisabled[3], o.colorDisabled[4])
 			end
